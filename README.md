@@ -15,6 +15,6 @@ npm run serve
 npm run build
 
 
-![image](https://github.com/Neura-Shadow/Vue/blob/main/Desktop.gif) 
-![image](https://github.com/Neura-Shadow/Vue/blob/main/mobile.gif)
+![image](https://github.com/Neura-Shadow/Vue/blob/instance/Desktop.gif) 
+![image](https://github.com/Neura-Shadow/Vue/blob/instance/mobile.gif)
 
