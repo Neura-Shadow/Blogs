@@ -19,6 +19,6 @@ npm run serve
 npm run build
 
 ### initial page
-![image][(https://i.imgur.com/BHeKTKU.gif)]
+![image](https://i.imgur.com/BHeKTKU.gif)
 ![image](https://github.com/Neura-Shadow/Vue/blob/main/mobile.gif)
 
