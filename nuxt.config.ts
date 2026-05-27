@@ -69,6 +69,13 @@ export default defineNuxtConfig({
     payloadExtraction: false
   },
 
+  // GitHub Pages is static-only. Keep admin/API routes for server deployments
+  // such as Vercel, Netlify, or Cloudflare, but do not prerender them for Pages.
+  routeRules: {
+    '/admin/**': { prerender: false },
+    '/api/**': { prerender: false }
+  },
+
   // Runtime configuration for Supabase-ready CMS
   runtimeConfig: {
     // Server-side only keys
