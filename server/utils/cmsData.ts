@@ -79,11 +79,12 @@ export const normalizeProjectPayload = (body: any) => {
 }
 
 function parseFrontmatter(content: string) {
-  const match = content.match(/^---([\s\S]*?)---/)
-  if (!match) return { attributes: {} as Record<string, string>, body: content }
+  const normalized = content.replace(/^\uFEFF/, '').replace(/^\s+/, '')
+  const match = normalized.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/)
+  if (!match) return { attributes: {} as Record<string, string>, body: normalized }
 
   const frontmatter = match[1]
-  const body = content.slice(match[0].length)
+  const body = normalized.slice(match[0].length)
   const attributes: Record<string, string> = {}
 
   frontmatter.split('\n').forEach((line) => {
