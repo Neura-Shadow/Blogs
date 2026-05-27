@@ -137,11 +137,34 @@ const activeCategoryIndex = ref(0)
 const categories = computed(() => [
   t('blog.allCategories'),
   t('blog.catArchitecture'),
-  t('blog.catRoboticsAI'),
-  t('blog.catAIResearch')
+  t('blog.catRoboticsEngineering'),
+  t('blog.catAIEngineering'),
+  t('blog.catCloudNative'),
+  t('blog.catSystemIntegration')
 ])
 
-const filterKeys = ['all', 'architecture', 'robotics', 'research']
+const filterKeys = ['all', 'architecture', 'robotics-engineering', 'ai-engineering', 'cloud-native', 'system-integration']
+
+const categoryMatchesKey = (category: string, selectedKey: string) => {
+  const normalized = category.toLowerCase()
+  if (selectedKey === 'all') return true
+  if (selectedKey === 'architecture') {
+    return normalized.includes('architecture') || normalized.includes('系統架構')
+  }
+  if (selectedKey === 'robotics-engineering') {
+    return normalized.includes('robotics') || normalized.includes('機器人')
+  }
+  if (selectedKey === 'ai-engineering') {
+    return normalized.includes('ai engineering') || normalized.includes('ai 工程')
+  }
+  if (selectedKey === 'cloud-native') {
+    return normalized.includes('cloud native') || normalized.includes('雲原生')
+  }
+  if (selectedKey === 'system-integration') {
+    return normalized.includes('system integration') || normalized.includes('系統整合')
+  }
+  return normalized.includes(selectedKey)
+}
 
 // Fallback template articles matching the visual mockups
 const fallbackPosts = computed<BlogPost[]>(() => {
@@ -152,35 +175,35 @@ const fallbackPosts = computed<BlogPost[]>(() => {
         ? '利用事件驅動架構設計高擴展性微服務'
         : 'Designing Scalable Microservices with Event-Driven Architecture',
       description: locale.value === 'zh-TW'
-        ? '從構建高吞吐量電子商務平台以及將無人機遙測數據流與微服務架構同步中獲得的架構設計經驗。'
-        : 'Lessons learned from building a high-throughput e-commerce platform and synchronizing telemetry datastreams with microservice architectures.',
+        ? '一篇工程筆記，整理雲原生後端系統中的服務邊界、事件流、冪等消費者與可觀測性設計。'
+        : 'An engineering note on service boundaries, event streams, idempotent consumers, and observability for cloud-native backend systems.',
       date: '2024-05-10',
       category: locale.value === 'zh-TW' ? '系統架構' : 'Architecture',
-      readingTime: '6'
+      readingTime: '10'
     },
     {
       slug: 'gwm-uav-navigation-sparse-rewards',
       title: locale.value === 'zh-TW'
-        ? 'GWM-UAV 導航系統：從學術研究到真實場域部署'
-        : 'GWM-UAV Navigation: From Research to Real-world Deployment',
+        ? 'GWM-UAV 導航系統的工程管線筆記'
+        : 'GWM-UAV Navigation as an Engineering Pipeline',
       description: locale.value === 'zh-TW'
-        ? '圖波前記憶（GWM）與深度強化學習（DRL）如何改善無人載具在未知與稀疏獎勵環境中的尋路與避障。'
-        : 'How graph wavefront memory and deep reinforcement learning (DRL) improve UAV navigation and obstacle avoidance in complex, sparse-reward environments.',
+        ? '一篇工程 walkthrough，整理 UAV 導航管線如何結合稀疏獎勵學習、圖記憶、模擬環境與安全檢查。'
+        : 'An engineering walkthrough for UAV navigation pipelines that combine sparse-reward learning, graph memory, simulation, and safety checks.',
       date: '2024-04-22',
-      category: locale.value === 'zh-TW' ? '機器人 / AI' : 'Robotics / AI',
-      readingTime: '8'
+      category: locale.value === 'zh-TW' ? '機器人工程' : 'Robotics Engineering',
+      readingTime: '11'
     },
     {
       slug: 'diffusion-transformer-video-anomaly-detection',
       title: locale.value === 'zh-TW'
-        ? '基於 Diffusion Transformer 的視訊異常偵測'
+        ? '基於 Diffusion Transformer 的視訊異常偵測工程筆記'
         : 'Diffusion Transformer for Video Anomaly Detection',
       description: locale.value === 'zh-TW'
-        ? '探索用於無監督視訊異常偵測的擴散模型，重點關注動態重建閾值與時空特徵表徵。'
-        : 'Exploring diffusion models for unsupervised video anomaly detection, focusing on dynamic reconstruction thresholds and spatial-temporal representations.',
+        ? '一篇 AI engineering 筆記，整理視訊異常偵測管線、時序表徵、anomaly score 與部署邊界設計。'
+        : 'An AI engineering note on video anomaly detection pipelines, temporal representations, anomaly scoring, and deployment boundaries.',
       date: '2024-03-30',
-      category: locale.value === 'zh-TW' ? 'AI / 學術研究' : 'AI / Research',
-      readingTime: '7'
+      category: locale.value === 'zh-TW' ? 'AI 工程' : 'AI Engineering',
+      readingTime: '12'
     }
   ]
 })
@@ -198,8 +221,7 @@ const filteredArticles = computed(() => {
   return displayPosts.value.filter(post => {
     // Category match
     const selectedKey = filterKeys[activeCategoryIndex.value]
-    const categoryMatches = selectedKey === 'all' ||
-      post.category.toLowerCase().includes(selectedKey)
+    const categoryMatches = categoryMatchesKey(post.category, selectedKey)
 
     // Search query match
     const query = searchQuery.value.toLowerCase().trim()

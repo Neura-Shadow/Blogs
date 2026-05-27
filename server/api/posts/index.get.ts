@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
 
   if (!client) {
     const posts = getMockPosts()
-    return admin ? posts : posts.filter((post) => post.status === 'published')
+    return posts
   }
 
   let request = client

@@ -15,9 +15,9 @@
             <div class="flex items-center gap-2.5 text-xs text-neutral-400 dark:text-neutral-500 mb-3 font-mono">
               <time>{{ formatDate(postDate) }}</time>
               <span>/</span>
-              <span class="text-brand-accent font-semibold">{{ post.category || 'Writing' }}</span>
+              <span class="text-brand-accent font-semibold">{{ category }}</span>
               <span>/</span>
-              <span>5 {{ t('blog.readTime') }}</span>
+              <span>{{ readingTime }} {{ t('blog.readTime') }}</span>
             </div>
 
             <h1 class="text-3xl sm:text-4xl font-display font-extrabold tracking-tight text-[#1F1E1B] dark:text-white leading-tight">
@@ -53,7 +53,7 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { ArrowLeft, BookOpen } from 'lucide-vue-next'
 import { useI18n } from '~/composables/useI18n'
-import { pickLocalizedPostField, renderBasicMarkdown, type CmsPost } from '~/utils/cmsMappers'
+import { pickLocalizedPostField, postToBlogListItem, renderBasicMarkdown, type CmsPost } from '~/utils/cmsMappers'
 
 const route = useRoute()
 const { locale, t } = useI18n()
@@ -69,6 +69,19 @@ const excerpt = computed(() => post.value ? pickLocalizedPostField(post.value, l
 const content = computed(() => post.value ? pickLocalizedPostField(post.value, locale.value, 'content') : '')
 const contentHtml = computed(() => renderBasicMarkdown(content.value))
 const postDate = computed(() => post.value?.published_at || post.value?.created_at || post.value?.updated_at || new Date().toISOString())
+const category = computed(() => post.value ? postToBlogListItem(post.value, locale.value).category : 'Writing')
+const readingTime = computed(() => {
+  const value = post.value?.reading_time
+  if (typeof value === 'number') return String(value)
+  if (typeof value === 'string') return value.match(/\d+/)?.[0] || '5'
+  const words = content.value
+    .replace(/```[\s\S]*?```/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+
+  return String(Math.max(1, Math.ceil(words.length / 220)))
+})
 
 useHead({
   title: title.value || 'Blog Post',
@@ -85,7 +98,7 @@ const formatDate = (dateStr: string) => {
 
 <style>
 .prose h1 {
-  @apply text-2xl font-bold text-[#1F1E1B] dark:text-white mt-8 mb-4 font-display;
+  @apply text-2xl font-bold text-[#1F1E1B] dark:text-white mt-8 mb-4 font-display bg-transparent;
 }
 .prose h2 {
   @apply text-xl font-bold text-[#1F1E1B] dark:text-white mt-8 mb-4 font-display;
@@ -98,5 +111,44 @@ const formatDate = (dateStr: string) => {
 }
 .prose code {
   @apply font-mono text-xs px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-brand-accent;
+}
+.prose pre {
+  @apply my-6 overflow-x-auto rounded-lg border border-light-border dark:border-dark-border bg-neutral-950 p-4 text-left shadow-sm;
+}
+.prose pre code {
+  @apply border-0 bg-transparent p-0 text-xs text-neutral-100;
+}
+.prose blockquote {
+  @apply my-6 border-l-4 border-brand-accent/60 bg-brand-accent/5 px-4 py-3 text-neutral-700 dark:text-neutral-300 rounded-r-lg;
+}
+.prose blockquote p {
+  @apply mb-0;
+}
+.prose ul {
+  @apply my-4 list-disc pl-5 text-sm sm:text-base text-neutral-600 dark:text-neutral-400 space-y-2;
+}
+.prose ol {
+  @apply my-4 list-decimal pl-5 text-sm sm:text-base text-neutral-600 dark:text-neutral-400 space-y-2;
+}
+.prose li {
+  @apply leading-relaxed;
+}
+.prose a {
+  @apply font-semibold text-brand-accent hover:text-brand-accentHover underline underline-offset-4;
+}
+.article-table-wrap {
+  @apply my-6 overflow-x-auto rounded-lg border border-light-border dark:border-dark-border;
+}
+.article-table-wrap table {
+  @apply min-w-full border-collapse text-left text-sm;
+}
+.article-table-wrap th {
+  @apply bg-light-elevated dark:bg-neutral-900 px-4 py-3 font-semibold text-neutral-800 dark:text-neutral-100 border-b border-light-border dark:border-dark-border;
+}
+.article-table-wrap td {
+  @apply px-4 py-3 align-top text-neutral-600 dark:text-neutral-400 border-b border-light-border dark:border-dark-border;
+}
+.article-table-wrap tr:last-child td {
+  @apply border-b-0;
 }
 </style>

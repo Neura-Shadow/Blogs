@@ -4,7 +4,7 @@
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
         <h2 class="text-3xl font-display font-bold tracking-tight text-[#1F1E1B]">CMS Dashboard</h2>
-        <p class="text-[#6B665F] mt-1 text-base">Overview of your academic research portfolio & blog posts status.</p>
+        <p class="text-[#6B665F] mt-1 text-base">Overview of your engineering portfolio, CMS content, and backend status.</p>
       </div>
       <div class="flex items-center gap-3">
         <NuxtLink

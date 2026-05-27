@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
 
   if (!client) {
     const post = getMockPost(idOrSlug)
-    if (!post || (!admin && post.status !== 'published')) {
+    if (!post) {
       throw createError({ statusCode: 404, statusMessage: `Post not found: ${idOrSlug}` })
     }
     return post

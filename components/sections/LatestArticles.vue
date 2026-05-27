@@ -36,10 +36,21 @@
         >
           <!-- Banner Image or Decorative Code Accent -->
           <div class="h-44 w-full bg-light-elevated dark:bg-neutral-900 border-b border-light-border dark:border-dark-border relative flex items-center justify-center overflow-hidden">
+            <img
+              v-if="post.cover"
+              :src="post.cover"
+              :alt="post.title"
+              class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+            />
+            <div
+              v-if="post.cover"
+              class="absolute inset-0 bg-gradient-to-t from-neutral-950/55 via-neutral-950/10 to-transparent"
+            />
             <!-- Tech representation -->
-            <div class="absolute inset-0 bg-gradient-to-tr from-brand-accent/10 to-brand-linear/10 opacity-60" />
-            <div class="absolute inset-0 bg-[radial-gradient(#8080800d_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-40" />
-            <Terminal class="w-12 h-12 text-neutral-400 dark:text-neutral-700 transition-transform group-hover:scale-110" />
+            <div v-if="!post.cover" class="absolute inset-0 bg-gradient-to-tr from-brand-accent/10 to-brand-linear/10 opacity-60" />
+            <div v-if="!post.cover" class="absolute inset-0 bg-[radial-gradient(#8080800d_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-40" />
+            <Terminal v-if="!post.cover" class="w-12 h-12 text-neutral-400 dark:text-neutral-700 transition-transform group-hover:scale-110" />
           </div>
 
           <!-- Content -->
@@ -114,6 +125,7 @@ interface BlogPost {
   date: string
   category: string
   readingTime: string
+  cover?: string | null
 }
 
 // Fallback template articles matching the visual mockups
@@ -125,35 +137,38 @@ const fallbackPosts = computed<BlogPost[]>(() => {
         ? '利用事件驅動架構設計高擴展性微服務'
         : 'Designing Scalable Microservices with Event-Driven Architecture',
       description: locale.value === 'zh-TW'
-        ? '從構建高吞吐量電子商務平台以及將無人機遙測數據流與微服務架構同步中獲得的架構設計經驗。'
-        : 'Lessons learned from building a high-throughput e-commerce platform and synchronizing telemetry datastreams with microservice architectures.',
+        ? '一篇工程筆記，整理雲原生後端系統中的服務邊界、事件流、冪等消費者與可觀測性設計。'
+        : 'An engineering note on service boundaries, event streams, idempotent consumers, and observability for cloud-native backend systems.',
       date: '2024-05-10',
       category: locale.value === 'zh-TW' ? '系統架構' : 'Architecture',
-      readingTime: '6'
+      readingTime: '10',
+      cover: '/images/blog/coding.jpg'
     },
     {
       slug: 'gwm-uav-navigation-sparse-rewards',
       title: locale.value === 'zh-TW'
-        ? 'GWM-UAV 導航系統：從學術研究到真實場域部署'
-        : 'GWM-UAV Navigation: From Research to Real-world Deployment',
+        ? 'GWM-UAV 導航系統的工程管線筆記'
+        : 'GWM-UAV Navigation as an Engineering Pipeline',
       description: locale.value === 'zh-TW'
-        ? '圖波前記憶（GWM）與深度強化學習（DRL）如何改善無人載具在未知與稀疏獎勵環境中的尋路與避障。'
-        : 'How graph wavefront memory and deep reinforcement learning (DRL) improve UAV navigation and obstacle avoidance in complex, sparse-reward environments.',
+        ? '一篇工程 walkthrough，整理 UAV 導航管線如何結合稀疏獎勵學習、圖記憶、模擬環境與安全檢查。'
+        : 'An engineering walkthrough for UAV navigation pipelines that combine sparse-reward learning, graph memory, simulation, and safety checks.',
       date: '2024-04-22',
-      category: locale.value === 'zh-TW' ? '機器人 / AI' : 'Robotics / AI',
-      readingTime: '8'
+      category: locale.value === 'zh-TW' ? '機器人工程' : 'Robotics Engineering',
+      readingTime: '11',
+      cover: '/images/blog/algo.jpg'
     },
     {
       slug: 'diffusion-transformer-video-anomaly-detection',
       title: locale.value === 'zh-TW'
-        ? '基於 Diffusion Transformer 的視訊異常偵測'
+        ? '基於 Diffusion Transformer 的視訊異常偵測工程筆記'
         : 'Diffusion Transformer for Video Anomaly Detection',
       description: locale.value === 'zh-TW'
-        ? '探索用於無監督視訊異常偵測的擴散模型，重點關注動態重建閾值與時空特徵表徵。'
-        : 'Exploring diffusion models for unsupervised video anomaly detection, focusing on dynamic reconstruction thresholds and spatial-temporal representations.',
+        ? '一篇 AI engineering 筆記，整理視訊異常偵測管線、時序表徵、anomaly score 與部署邊界設計。'
+        : 'An AI engineering note on video anomaly detection pipelines, temporal representations, anomaly scoring, and deployment boundaries.',
       date: '2024-03-30',
-      category: locale.value === 'zh-TW' ? 'AI / 學術研究' : 'AI / Research',
-      readingTime: '7'
+      category: locale.value === 'zh-TW' ? 'AI 工程' : 'AI Engineering',
+      readingTime: '12',
+      cover: '/images/blog/chatgpt.jpg'
     }
   ]
 })

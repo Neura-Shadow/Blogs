@@ -15,7 +15,12 @@ export const removeUndefined = <T extends Record<string, any>>(input: T) => {
 const toStringArray = (value: any) => {
   if (Array.isArray(value)) return value.map(String).filter(Boolean)
   if (typeof value === 'string') {
-    return value.split(',').map((item) => item.trim()).filter(Boolean)
+    return value
+      .replace(/^\[/, '')
+      .replace(/\]$/, '')
+      .split(',')
+      .map((item) => item.trim().replace(/^['"]|['"]$/g, ''))
+      .filter(Boolean)
   }
   return []
 }
@@ -78,21 +83,29 @@ export const normalizeProjectPayload = (body: any) => {
   })
 }
 
+function parseFrontmatterValue(value: string) {
+  const trimmed = value.trim()
+  if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+    return toStringArray(trimmed)
+  }
+  return trimmed.replace(/^['"]|['"]$/g, '')
+}
+
 function parseFrontmatter(content: string) {
   const normalized = content.replace(/^\uFEFF/, '').replace(/^\s+/, '')
   const match = normalized.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/)
-  if (!match) return { attributes: {} as Record<string, string>, body: normalized }
+  if (!match) return { attributes: {} as Record<string, any>, body: normalized }
 
   const frontmatter = match[1]
   const body = normalized.slice(match[0].length)
-  const attributes: Record<string, string> = {}
+  const attributes: Record<string, any> = {}
 
   frontmatter.split('\n').forEach((line) => {
     const idx = line.indexOf(':')
     if (idx !== -1) {
       const key = line.slice(0, idx).trim()
       const val = line.slice(idx + 1).trim()
-      attributes[key] = val.replace(/^['"]|['"]$/g, '')
+      attributes[key] = parseFrontmatterValue(val)
     }
   })
 
@@ -109,25 +122,29 @@ export const getMockPosts = () => {
       const filePath = path.join(blogDir, file)
       const content = fs.readFileSync(filePath, 'utf-8')
       const { attributes, body } = parseFrontmatter(content)
-      const slug = file.replace(/\.md$/, '')
+      const slug = attributes.slug || file.replace(/\.md$/, '')
+      const status = attributes.status || (attributes.draft === 'true' ? 'draft' : 'published')
+      const createdAt = attributes.date ? new Date(attributes.date).toISOString() : new Date().toISOString()
+      const updatedAt = attributes.updated ? new Date(attributes.updated).toISOString() : createdAt
 
       return {
         id: `mock-uuid-${index}-${slug}`,
         slug,
         title_en: attributes.title || 'Untitled Post',
-        title_zh: attributes.title || '未命名文章',
+        title_zh: attributes.title_zh || attributes.title || '未命名文章',
         excerpt_en: attributes.description || '',
-        excerpt_zh: attributes.description || '',
+        excerpt_zh: attributes.description_zh || attributes.description || '',
         content_en: body.trim(),
         content_zh: body.trim(),
-        cover_url: attributes.image || '/images/blog/coding.jpg',
+        cover_url: attributes.cover || attributes.image || '/images/blog/coding.jpg',
         category: attributes.category || 'Development',
-        tags: attributes.tags ? attributes.tags.split(',').map((tag) => tag.trim()) : [],
-        status: attributes.draft === 'true' ? 'draft' : 'published',
+        tags: toStringArray(attributes.tags),
+        status,
         language: attributes.language || 'bilingual',
-        published_at: attributes.date ? new Date(attributes.date).toISOString() : new Date().toISOString(),
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
+        reading_time: attributes.readingTime || attributes.reading_time || null,
+        published_at: createdAt,
+        created_at: createdAt,
+        updated_at: updatedAt,
         _isMock: true
       }
     })

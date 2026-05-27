@@ -16,6 +16,7 @@ export interface CmsPost {
   tags?: string[] | null
   status?: 'draft' | 'published' | string
   language?: 'en' | 'zh-TW' | 'bilingual' | string
+  reading_time?: string | number | null
   published_at?: string | null
   created_at?: string | null
   updated_at?: string | null
@@ -38,6 +39,46 @@ const fallbackString = (primary?: string | null, fallback?: string | null, defau
   return primary || fallback || defaultValue
 }
 
+const localizedCategory = (category: string | null | undefined, locale: LocaleCode) => {
+  const normalized = (category || 'Writing').toLowerCase()
+
+  if (locale !== 'zh-TW') {
+    if (normalized === 'ai / research' || normalized === 'ai research') return 'AI Engineering'
+    if (normalized === 'robotics / ai') return 'Robotics Engineering'
+    return category || 'Writing'
+  }
+
+  if (normalized.includes('architecture')) return '系統架構'
+  if (normalized.includes('robotics')) return '機器人工程'
+  if (normalized.includes('ai engineering') || normalized.includes('ai research') || normalized.includes('research')) return 'AI 工程'
+  if (normalized.includes('cloud native')) return '雲原生'
+  if (normalized.includes('system integration')) return '系統整合'
+  if (normalized === 'ai') return 'AI 工程'
+
+  return category || 'Writing'
+}
+
+const estimateReadingTime = (content?: string | null) => {
+  if (!content) return '5'
+  const words = content
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+
+  return String(Math.max(1, Math.ceil(words.length / 220)))
+}
+
+const normalizeReadingTime = (value?: string | number | null, content?: string | null) => {
+  if (typeof value === 'number' && Number.isFinite(value)) return String(value)
+  if (typeof value === 'string') {
+    const match = value.match(/\d+/)
+    return match?.[0] || '5'
+  }
+  return estimateReadingTime(content)
+}
+
 export const pickLocalizedPostField = (
   post: CmsPost,
   locale: LocaleCode,
@@ -51,14 +92,16 @@ export const pickLocalizedPostField = (
 }
 
 export const postToBlogListItem = (post: CmsPost, locale: LocaleCode): BlogListItem => {
+  const content = pickLocalizedPostField(post, locale, 'content')
+
   return {
     _path: post._path,
     slug: post.slug,
     title: pickLocalizedPostField(post, locale, 'title') || 'Untitled Post',
     description: pickLocalizedPostField(post, locale, 'excerpt'),
     date: post.published_at || post.created_at || post.updated_at || new Date().toISOString(),
-    category: post.category || 'Writing',
-    readingTime: '5',
+    category: localizedCategory(post.category, locale),
+    readingTime: normalizeReadingTime(post.reading_time, content),
     cover: post.cover_url
   }
 }
@@ -115,23 +158,184 @@ export const dbProjectToProject = (row: any): Project => {
   }
 }
 
-export const renderBasicMarkdown = (markdown: string) => {
-  if (!markdown) return ''
-
-  return markdown
+const escapeHtml = (value: string) => {
+  return value
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+    .replace(/"/g, '&quot;')
+}
+
+const renderInlineMarkdown = (value: string) => {
+  return escapeHtml(value)
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/`([^`]+)`/g, '<code>$1</code>')
-    .replace(/\n{2,}/g, '</p><p>')
-    .replace(/\n/g, '<br />')
-    .replace(/^/, '<p>')
-    .replace(/$/, '</p>')
-    .replace(/<p><h([1-3])>/g, '<h$1>')
-    .replace(/<\/h([1-3])><\/p>/g, '</h$1>')
+}
+
+const isTableSeparator = (line: string) => {
+  return /^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line)
+}
+
+const splitTableRow = (line: string) => {
+  return line
+    .trim()
+    .replace(/^\|/, '')
+    .replace(/\|$/, '')
+    .split('|')
+    .map(cell => cell.trim())
+}
+
+const renderTable = (rows: string[]) => {
+  const [head, , ...body] = rows
+  const headers = splitTableRow(head)
+  const bodyRows = body.map(splitTableRow)
+
+  const thead = `<thead><tr>${headers.map(cell => `<th>${renderInlineMarkdown(cell)}</th>`).join('')}</tr></thead>`
+  const tbody = `<tbody>${bodyRows
+    .map(row => `<tr>${row.map(cell => `<td>${renderInlineMarkdown(cell)}</td>`).join('')}</tr>`)
+    .join('')}</tbody>`
+
+  return `<div class="article-table-wrap"><table>${thead}${tbody}</table></div>`
+}
+
+export const renderBasicMarkdown = (markdown: string) => {
+  if (!markdown) return ''
+
+  const lines = markdown.replace(/\r\n/g, '\n').split('\n')
+  const html: string[] = []
+  let paragraph: string[] = []
+  let listItems: string[] = []
+  let listType: 'ul' | 'ol' | null = null
+  let quoteLines: string[] = []
+  let codeLines: string[] = []
+  let codeLang = ''
+  let inCode = false
+  let tableRows: string[] = []
+
+  const flushParagraph = () => {
+    if (!paragraph.length) return
+    html.push(`<p>${renderInlineMarkdown(paragraph.join(' '))}</p>`)
+    paragraph = []
+  }
+
+  const flushList = () => {
+    if (!listItems.length || !listType) return
+    html.push(`<${listType}>${listItems.map(item => `<li>${renderInlineMarkdown(item)}</li>`).join('')}</${listType}>`)
+    listItems = []
+    listType = null
+  }
+
+  const flushQuote = () => {
+    if (!quoteLines.length) return
+    html.push(`<blockquote>${quoteLines.map(line => renderInlineMarkdown(line)).join('<br />')}</blockquote>`)
+    quoteLines = []
+  }
+
+  const flushTable = () => {
+    if (!tableRows.length) return
+    if (tableRows.length >= 2 && isTableSeparator(tableRows[1])) {
+      html.push(renderTable(tableRows))
+    } else {
+      tableRows.forEach(row => paragraph.push(row))
+    }
+    tableRows = []
+  }
+
+  const flushBlocks = () => {
+    flushParagraph()
+    flushList()
+    flushQuote()
+    flushTable()
+  }
+
+  for (let i = 0; i < lines.length; i += 1) {
+    const line = lines[i]
+    const trimmed = line.trim()
+
+    if (trimmed.startsWith('```')) {
+      if (inCode) {
+        html.push(`<pre><code class="language-${escapeHtml(codeLang)}">${escapeHtml(codeLines.join('\n'))}</code></pre>`)
+        codeLines = []
+        codeLang = ''
+        inCode = false
+      } else {
+        flushBlocks()
+        inCode = true
+        codeLang = trimmed.replace(/^```/, '').trim()
+      }
+      continue
+    }
+
+    if (inCode) {
+      codeLines.push(line)
+      continue
+    }
+
+    if (!trimmed) {
+      flushBlocks()
+      continue
+    }
+
+    if (trimmed.startsWith('<!--') && trimmed.endsWith('-->')) {
+      flushBlocks()
+      html.push(trimmed)
+      continue
+    }
+
+    if (trimmed.includes('|') && i + 1 < lines.length && (tableRows.length || isTableSeparator(lines[i + 1]))) {
+      flushParagraph()
+      flushList()
+      flushQuote()
+      tableRows.push(line)
+      continue
+    }
+
+    if (tableRows.length && trimmed.includes('|')) {
+      tableRows.push(line)
+      continue
+    }
+
+    if (tableRows.length) flushTable()
+
+    const heading = trimmed.match(/^(#{1,3})\s+(.+)$/)
+    if (heading) {
+      flushBlocks()
+      const level = heading[1].length
+      html.push(`<h${level}>${renderInlineMarkdown(heading[2])}</h${level}>`)
+      continue
+    }
+
+    if (trimmed.startsWith('>')) {
+      flushParagraph()
+      flushList()
+      const quoteText = trimmed.replace(/^>\s?/, '')
+      quoteLines.push(quoteText)
+      continue
+    }
+
+    const unordered = trimmed.match(/^[-*]\s+(.+)$/)
+    const ordered = trimmed.match(/^\d+\.\s+(.+)$/)
+    if (unordered || ordered) {
+      flushParagraph()
+      flushQuote()
+      const nextType = unordered ? 'ul' : 'ol'
+      if (listType && listType !== nextType) flushList()
+      listType = nextType
+      listItems.push((unordered || ordered)?.[1] || '')
+      continue
+    }
+
+    flushList()
+    flushQuote()
+    paragraph.push(line)
+  }
+
+  if (inCode) {
+    html.push(`<pre><code class="language-${escapeHtml(codeLang)}">${escapeHtml(codeLines.join('\n'))}</code></pre>`)
+  }
+  flushBlocks()
+
+  return html.join('\n')
 }
