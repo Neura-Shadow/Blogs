@@ -69,7 +69,7 @@
             :aria-label="post.title"
           >
             <img
-              :src="post.cover"
+              :src="coverSrc(post.cover)"
               :alt="post.title"
               class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               loading="lazy"
@@ -127,6 +127,7 @@ import { BLOG_COVER_PLACEHOLDER, normalizeBlogCover, postToBlogListItem, type Cm
 import SectionHeading from '~/components/ui/SectionHeading.vue'
 
 const { locale, t } = useI18n()
+const { publicAssetPath } = usePublicAssetPath()
 
 // Custom interface for local representation
 interface BlogPost {
@@ -241,8 +242,13 @@ const displayPosts = computed(() => {
 
 const onImageError = (event: Event) => {
   const image = event.target as HTMLImageElement
-  if (image.src.endsWith(BLOG_COVER_PLACEHOLDER)) return
-  image.src = BLOG_COVER_PLACEHOLDER
+  const fallback = publicAssetPath(BLOG_COVER_PLACEHOLDER)
+  if (image.src.endsWith(fallback)) return
+  image.src = fallback
+}
+
+const coverSrc = (cover?: string | null) => {
+  return publicAssetPath(cover || BLOG_COVER_PLACEHOLDER)
 }
 
 const filteredArticles = computed(() => {

@@ -83,6 +83,7 @@ import { BLOG_COVER_PLACEHOLDER, normalizeBlogCover, pickLocalizedPostField, pos
 
 const route = useRoute()
 const { locale, t } = useI18n()
+const { publicAssetPath } = usePublicAssetPath()
 const slug = computed(() => String(route.params.slug || ''))
 
 const fetchArticleBySlug = async (value: string) => {
@@ -111,7 +112,7 @@ const title = computed(() => post.value ? pickLocalizedPostField(post.value, loc
 const excerpt = computed(() => post.value ? pickLocalizedPostField(post.value, locale.value, 'excerpt') : '')
 const content = computed(() => post.value ? pickLocalizedPostField(post.value, locale.value, 'content') : '')
 const contentHtml = computed(() => renderBasicMarkdown(content.value))
-const cover = computed(() => normalizeBlogCover(post.value?.cover_url))
+const cover = computed(() => publicAssetPath(normalizeBlogCover(post.value?.cover_url)))
 const postDate = computed(() => post.value?.published_at || post.value?.created_at || post.value?.updated_at || new Date().toISOString())
 const category = computed(() => post.value ? postToBlogListItem(post.value, locale.value).category : 'Writing')
 const readingTime = computed(() => {
@@ -129,8 +130,9 @@ const readingTime = computed(() => {
 
 const onImageError = (event: Event) => {
   const image = event.target as HTMLImageElement
-  if (image.src.endsWith(BLOG_COVER_PLACEHOLDER)) return
-  image.src = BLOG_COVER_PLACEHOLDER
+  const fallback = publicAssetPath(BLOG_COVER_PLACEHOLDER)
+  if (image.src.endsWith(fallback)) return
+  image.src = fallback
 }
 
 useHead({

@@ -37,7 +37,7 @@
           <!-- Banner Image -->
           <div class="h-44 w-full bg-light-elevated dark:bg-neutral-900 border-b border-light-border dark:border-dark-border relative flex items-center justify-center overflow-hidden">
             <img
-              :src="post.cover"
+              :src="coverSrc(post.cover)"
               :alt="post.title"
               class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               loading="lazy"
@@ -110,6 +110,7 @@ import SectionHeading from '~/components/ui/SectionHeading.vue'
 import { BLOG_COVER_PLACEHOLDER, normalizeBlogCover, postToBlogListItem, type CmsPost } from '~/utils/cmsMappers'
 
 const { locale, t } = useI18n()
+const { publicAssetPath } = usePublicAssetPath()
 
 // Custom interface for blog template posts
 interface BlogPost {
@@ -182,8 +183,13 @@ const displayPosts = computed(() => {
 
 const onImageError = (event: Event) => {
   const image = event.target as HTMLImageElement
-  if (image.src.endsWith(BLOG_COVER_PLACEHOLDER)) return
-  image.src = BLOG_COVER_PLACEHOLDER
+  const fallback = publicAssetPath(BLOG_COVER_PLACEHOLDER)
+  if (image.src.endsWith(fallback)) return
+  image.src = fallback
+}
+
+const coverSrc = (cover?: string | null) => {
+  return publicAssetPath(cover || BLOG_COVER_PLACEHOLDER)
 }
 
 const formatDate = (dateStr: string) => {
