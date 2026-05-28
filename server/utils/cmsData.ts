@@ -2,6 +2,8 @@
 import path from 'path'
 import { projectsData } from '~/data/projects'
 
+const BLOG_COVER_PLACEHOLDER = '/images/blog/placeholder.jpg'
+
 export const isUuid = (value: string) => {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value)
 }
@@ -136,7 +138,7 @@ export const getMockPosts = () => {
         excerpt_zh: attributes.description_zh || attributes.description || '',
         content_en: body.trim(),
         content_zh: body.trim(),
-        cover_url: attributes.cover || attributes.image || '/images/blog/coding.jpg',
+        cover_url: attributes.cover || attributes.image || BLOG_COVER_PLACEHOLDER,
         category: attributes.category || 'Development',
         tags: toStringArray(attributes.tags),
         status,

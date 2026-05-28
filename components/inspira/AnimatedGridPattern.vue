@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, useId } from 'vue'
 
 const props = withDefaults(defineProps<{
   width?: number
@@ -53,7 +53,7 @@ const props = withDefaults(defineProps<{
   numSquares: 15
 })
 
-const patternId = 'grid-pattern-' + Math.random().toString(36).substring(2, 9)
+const patternId = `grid-pattern-${useId()}`
 const squares = ref<{ x: number; y: number; delay: number; duration: number }[]>([])
 
 onMounted(() => {

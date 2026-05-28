@@ -1,5 +1,21 @@
 ﻿<template>
-  <div v-if="post" class="py-12 md:py-20 bg-light-bg dark:bg-dark-bg transition-colors duration-300">
+  <div v-if="pending" class="py-12 md:py-20 bg-light-bg dark:bg-dark-bg transition-colors duration-300">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="max-w-3xl animate-pulse">
+        <div class="h-4 w-32 rounded bg-neutral-200 dark:bg-neutral-800 mb-10" />
+        <div class="h-4 w-72 rounded bg-neutral-200 dark:bg-neutral-800 mb-4" />
+        <div class="h-12 w-full max-w-2xl rounded bg-neutral-200 dark:bg-neutral-800 mb-5" />
+        <div class="h-5 w-full max-w-xl rounded bg-neutral-200 dark:bg-neutral-800 mb-10" />
+        <div class="space-y-4">
+          <div class="h-4 w-full rounded bg-neutral-200 dark:bg-neutral-800" />
+          <div class="h-4 w-11/12 rounded bg-neutral-200 dark:bg-neutral-800" />
+          <div class="h-4 w-4/5 rounded bg-neutral-200 dark:bg-neutral-800" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div v-else-if="post" class="py-12 md:py-20 bg-light-bg dark:bg-dark-bg transition-colors duration-300">
     <div class="max-w-5xl mx-auto px-4">
       <NuxtLink
         to="/blog"
@@ -27,6 +43,16 @@
             <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-4 leading-relaxed italic">
               {{ excerpt }}
             </p>
+
+            <div class="mt-6 overflow-hidden rounded-xl border border-light-border dark:border-dark-border bg-light-elevated dark:bg-neutral-900">
+              <img
+                :src="cover"
+                :alt="title"
+                class="h-56 w-full object-cover sm:h-72"
+                loading="eager"
+                @error="onImageError"
+              />
+            </div>
           </header>
 
           <div class="prose prose-neutral dark:prose-invert max-w-none prose-sm sm:prose-base leading-relaxed" v-html="contentHtml"></div>
@@ -53,21 +79,39 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { ArrowLeft, BookOpen } from 'lucide-vue-next'
 import { useI18n } from '~/composables/useI18n'
-import { pickLocalizedPostField, postToBlogListItem, renderBasicMarkdown, type CmsPost } from '~/utils/cmsMappers'
+import { BLOG_COVER_PLACEHOLDER, normalizeBlogCover, pickLocalizedPostField, postToBlogListItem, renderBasicMarkdown, type CmsPost } from '~/utils/cmsMappers'
 
 const route = useRoute()
 const { locale, t } = useI18n()
-const slug = computed(() => route.params.slug as string)
+const slug = computed(() => String(route.params.slug || ''))
 
-const { data: post } = await useAsyncData<CmsPost | null>(
-  `blog-post-${slug.value}`,
-  () => $fetch(`/api/posts/${slug.value}`)
+const fetchArticleBySlug = async (value: string) => {
+  if (!value) return null
+
+  try {
+    return await $fetch<CmsPost>(`/api/posts/${value}`)
+  } catch (err: any) {
+    if (err?.statusCode === 404 || err?.status === 404) return null
+    throw err
+  }
+}
+
+const { data: post, pending } = await useAsyncData<CmsPost | null>(
+  () => `blog-article-${slug.value}`,
+  () => fetchArticleBySlug(slug.value),
+  {
+    watch: [slug],
+    server: true,
+    lazy: false,
+    default: () => null
+  }
 )
 
 const title = computed(() => post.value ? pickLocalizedPostField(post.value, locale.value, 'title') : '')
 const excerpt = computed(() => post.value ? pickLocalizedPostField(post.value, locale.value, 'excerpt') : '')
 const content = computed(() => post.value ? pickLocalizedPostField(post.value, locale.value, 'content') : '')
 const contentHtml = computed(() => renderBasicMarkdown(content.value))
+const cover = computed(() => normalizeBlogCover(post.value?.cover_url))
 const postDate = computed(() => post.value?.published_at || post.value?.created_at || post.value?.updated_at || new Date().toISOString())
 const category = computed(() => post.value ? postToBlogListItem(post.value, locale.value).category : 'Writing')
 const readingTime = computed(() => {
@@ -82,6 +126,12 @@ const readingTime = computed(() => {
 
   return String(Math.max(1, Math.ceil(words.length / 220)))
 })
+
+const onImageError = (event: Event) => {
+  const image = event.target as HTMLImageElement
+  if (image.src.endsWith(BLOG_COVER_PLACEHOLDER)) return
+  image.src = BLOG_COVER_PLACEHOLDER
+}
 
 useHead({
   title: title.value || 'Blog Post',

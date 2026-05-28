@@ -72,6 +72,8 @@
     readFull: '閱讀全文',
     backToArticles: '返回文章列表',
     onThisPage: '文章目錄導覽',
+    notFound: '未找到該文章',
+    notFoundDesc: '您所請求的文章不存在或尚未開放。',
     draftDisclaimer: '草稿文件說明：這是一篇可編輯的技術文章範本。您可以直接在專案目錄修改 content/blog/'
   },
   about: {

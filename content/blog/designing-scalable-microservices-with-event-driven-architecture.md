@@ -11,7 +11,7 @@ tags: ["Architecture", "Cloud Native", "Microservices", "Event Streams", "Observ
 readingTime: "10"
 status: draft
 language: bilingual
-cover: "/images/blog/coding.jpg"
+cover: "/images/blog/microservices-event-driven-architecture.png"
 ---
 
 # Designing Scalable Microservices with Event-Driven Architecture

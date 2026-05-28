@@ -1,26 +1,26 @@
 ---
-title: "GWM-UAV Navigation as an Engineering Pipeline"
-title_zh: "GWM-UAV 導航系統的工程管線筆記"
+title: "GWM-UAV Navigation as a Research Engineering Note"
+title_zh: "GWM-UAV 導航研究工程筆記"
 slug: "gwm-uav-navigation-sparse-rewards"
-description: "An engineering walkthrough for UAV navigation pipelines that combine sparse-reward learning, graph memory, simulation, and safety checks."
-description_zh: "一篇工程 walkthrough，整理 UAV 導航管線如何結合稀疏獎勵學習、圖記憶、模擬環境與安全檢查。"
+description: "An applied AI research note on sparse-reward UAV navigation, graph memory, simulation, and engineering constraints."
+description_zh: "一篇關於稀疏獎勵無人機導航、圖記憶、模擬環境與工程限制的應用 AI 研究筆記。"
 date: "2024-04-22"
 updated: "2026-05-28"
-category: "Robotics Engineering"
-tags: ["Robotics Engineering", "UAV", "Navigation", "Graph Memory", "DRL"]
+category: "Robotics Research"
+tags: ["Robotics Research", "UAV", "Navigation", "Graph Memory", "DRL", "Applied AI"]
 readingTime: "11"
 status: draft
 language: bilingual
-cover: "/images/blog/algo.jpg"
+cover: "/images/blog/gwm-uav-navigation-research-engineering.png"
 ---
 
-# GWM-UAV Navigation as an Engineering Pipeline
+# GWM-UAV Navigation as a Research Engineering Note
 
-> A UAV navigation system is easier to reason about when sparse-reward learning is treated as one stage in a larger sensing, memory, planning, and safety pipeline.
+> A sparse-reward UAV navigation idea becomes easier to evaluate when it is framed as a research engineering pipeline with explicit memory, simulation, safety, and logging boundaries.
 
 ## Overview
 
-This article reframes the GWM-UAV idea as an engineering note. The goal is not to present final research results. The goal is to describe the system pieces needed before a learning-based navigation policy becomes debuggable.
+This article reframes the GWM-UAV idea as a research engineering note. The goal is not to present final research results. The goal is to describe the system pieces needed before a learning-based navigation policy becomes debuggable.
 
 Sparse-reward DRL can be useful for navigation, but the policy is only one component. A practical system also needs state construction, graph memory, simulator control, obstacle checks, trajectory logging, and deployment boundaries.
 
@@ -169,14 +169,14 @@ This makes it easier to swap the policy, replay logs, and run hardware-in-the-lo
 
 The strongest engineering lesson is that learning-based robotics needs boring interfaces. A policy can be experimental, but the surrounding pipeline should make failures observable and recoverable.
 
-For portfolio readability, the article should show how the navigation idea becomes a system: inputs, memory, inference, safety, logs, and integration points.
+For portfolio readability, this note shows how the navigation idea becomes a system: inputs, memory, inference, safety, logs, and integration points.
 
 ## Next Steps
 
 The next pass should add a simple simulator scenario, a graph-state visualization, and a trace format that can be inspected after each failed run.
 
 <!-- TODO: add architecture diagram -->
-<!-- TODO: add benchmark only if real data is available -->
+<!-- TODO: add implementation detail -->
 
 ## Notes
 

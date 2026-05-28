@@ -72,6 +72,8 @@
     readFull: 'Read full article',
     backToArticles: 'Back to articles',
     onThisPage: 'On this page',
+    notFound: 'Article Not Found',
+    notFoundDesc: 'The requested article could not be found or is not available yet.',
     draftDisclaimer: 'Draft Document: This is a templated article placeholder. You can edit this file in your workspace under content/blog/'
   },
   about: {

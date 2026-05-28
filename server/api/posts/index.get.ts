@@ -30,5 +30,11 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  return data || []
+  const posts = data || []
+
+  if (posts.length === 0) {
+    return getMockPosts()
+  }
+
+  return posts
 })

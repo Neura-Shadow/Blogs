@@ -29,6 +29,9 @@ export default defineEventHandler(async (event) => {
   const { data, error } = await request.single()
 
   if (error) {
+    const fallbackPost = error.code === 'PGRST116' ? getMockPost(idOrSlug) : null
+    if (fallbackPost) return fallbackPost
+
     throw createError({
       statusCode: error.code === 'PGRST116' ? 404 : 503,
       statusMessage: error.code === 'PGRST116'

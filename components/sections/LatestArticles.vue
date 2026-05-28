@@ -34,23 +34,18 @@
           :key="post._path || post.slug"
           class="flex flex-col h-full rounded-xl border border-light-border dark:border-dark-border bg-white dark:bg-dark-surface/40 overflow-hidden hover:border-brand-accent/40 dark:hover:border-brand-accent/30 transition-all duration-300 hover:shadow-md group"
         >
-          <!-- Banner Image or Decorative Code Accent -->
+          <!-- Banner Image -->
           <div class="h-44 w-full bg-light-elevated dark:bg-neutral-900 border-b border-light-border dark:border-dark-border relative flex items-center justify-center overflow-hidden">
             <img
-              v-if="post.cover"
               :src="post.cover"
               :alt="post.title"
               class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               loading="lazy"
+              @error="onImageError"
             />
             <div
-              v-if="post.cover"
               class="absolute inset-0 bg-gradient-to-t from-neutral-950/55 via-neutral-950/10 to-transparent"
             />
-            <!-- Tech representation -->
-            <div v-if="!post.cover" class="absolute inset-0 bg-gradient-to-tr from-brand-accent/10 to-brand-linear/10 opacity-60" />
-            <div v-if="!post.cover" class="absolute inset-0 bg-[radial-gradient(#8080800d_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-40" />
-            <Terminal v-if="!post.cover" class="w-12 h-12 text-neutral-400 dark:text-neutral-700 transition-transform group-hover:scale-110" />
           </div>
 
           <!-- Content -->
@@ -109,10 +104,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { PenTool, ArrowRight, Terminal } from 'lucide-vue-next'
+import { PenTool, ArrowRight } from 'lucide-vue-next'
 import { useI18n } from '~/composables/useI18n'
 import SectionHeading from '~/components/ui/SectionHeading.vue'
-import { postToBlogListItem, type CmsPost } from '~/utils/cmsMappers'
+import { BLOG_COVER_PLACEHOLDER, normalizeBlogCover, postToBlogListItem, type CmsPost } from '~/utils/cmsMappers'
 
 const { locale, t } = useI18n()
 
@@ -125,7 +120,7 @@ interface BlogPost {
   date: string
   category: string
   readingTime: string
-  cover?: string | null
+  cover: string
 }
 
 // Fallback template articles matching the visual mockups
@@ -142,20 +137,20 @@ const fallbackPosts = computed<BlogPost[]>(() => {
       date: '2024-05-10',
       category: locale.value === 'zh-TW' ? '系統架構' : 'Architecture',
       readingTime: '10',
-      cover: '/images/blog/coding.jpg'
+      cover: '/images/blog/microservices-event-driven-architecture.png'
     },
     {
       slug: 'gwm-uav-navigation-sparse-rewards',
       title: locale.value === 'zh-TW'
-        ? 'GWM-UAV 導航系統的工程管線筆記'
-        : 'GWM-UAV Navigation as an Engineering Pipeline',
+        ? 'GWM-UAV 導航研究工程筆記'
+        : 'GWM-UAV Navigation as a Research Engineering Note',
       description: locale.value === 'zh-TW'
-        ? '一篇工程 walkthrough，整理 UAV 導航管線如何結合稀疏獎勵學習、圖記憶、模擬環境與安全檢查。'
-        : 'An engineering walkthrough for UAV navigation pipelines that combine sparse-reward learning, graph memory, simulation, and safety checks.',
+        ? '一篇關於稀疏獎勵無人機導航、圖記憶、模擬環境與工程限制的應用 AI 研究筆記。'
+        : 'An applied AI research note on sparse-reward UAV navigation, graph memory, simulation, and engineering constraints.',
       date: '2024-04-22',
-      category: locale.value === 'zh-TW' ? '機器人工程' : 'Robotics Engineering',
+      category: locale.value === 'zh-TW' ? '機器人研究' : 'Robotics Research',
       readingTime: '11',
-      cover: '/images/blog/algo.jpg'
+      cover: '/images/blog/gwm-uav-navigation-research-engineering.png'
     },
     {
       slug: 'diffusion-transformer-video-anomaly-detection',
@@ -168,7 +163,7 @@ const fallbackPosts = computed<BlogPost[]>(() => {
       date: '2024-03-30',
       category: locale.value === 'zh-TW' ? 'AI 工程' : 'AI Engineering',
       readingTime: '12',
-      cover: '/images/blog/chatgpt.jpg'
+      cover: '/images/blog/diffusion-transformer-video-anomaly-detection.png'
     }
   ]
 })
@@ -177,10 +172,19 @@ const { data: apiPosts } = await useAsyncData<CmsPost[]>('latest-blog-posts', ()
 
 const displayPosts = computed(() => {
   if (apiPosts.value && apiPosts.value.length > 0) {
-    return apiPosts.value.slice(0, 3).map(post => postToBlogListItem(post, locale.value))
+    return apiPosts.value.slice(0, 3).map(post => ({
+      ...postToBlogListItem(post, locale.value),
+      cover: normalizeBlogCover(post.cover_url)
+    }))
   }
   return fallbackPosts.value
 })
+
+const onImageError = (event: Event) => {
+  const image = event.target as HTMLImageElement
+  if (image.src.endsWith(BLOG_COVER_PLACEHOLDER)) return
+  image.src = BLOG_COVER_PLACEHOLDER
+}
 
 const formatDate = (dateStr: string) => {
   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' }

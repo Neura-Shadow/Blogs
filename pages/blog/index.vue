@@ -62,6 +62,21 @@
             </span>
           </div>
 
+          <!-- Cover Image -->
+          <NuxtLink
+            :to="post._path || `/blog/${post.slug}`"
+            class="block h-44 md:h-32 md:w-44 shrink-0 overflow-hidden rounded-lg border border-light-border dark:border-dark-border bg-light-elevated dark:bg-neutral-900"
+            :aria-label="post.title"
+          >
+            <img
+              :src="post.cover"
+              :alt="post.title"
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+              @error="onImageError"
+            />
+          </NuxtLink>
+
           <!-- Main Details -->
           <div class="flex-grow text-left">
             <h3 class="text-lg font-bold text-neutral-900 dark:text-white group-hover:text-brand-accent transition-colors duration-200 leading-tight">
@@ -108,7 +123,7 @@
 import { ref, computed } from 'vue'
 import { PenTool, Search, ArrowRight, BookOpen } from 'lucide-vue-next'
 import { useI18n } from '~/composables/useI18n'
-import { postToBlogListItem, type CmsPost } from '~/utils/cmsMappers'
+import { BLOG_COVER_PLACEHOLDER, normalizeBlogCover, postToBlogListItem, type CmsPost } from '~/utils/cmsMappers'
 import SectionHeading from '~/components/ui/SectionHeading.vue'
 
 const { locale, t } = useI18n()
@@ -122,6 +137,7 @@ interface BlogPost {
   date: string
   category: string
   readingTime: string
+  cover: string
 }
 
 useHead({
@@ -179,19 +195,21 @@ const fallbackPosts = computed<BlogPost[]>(() => {
         : 'An engineering note on service boundaries, event streams, idempotent consumers, and observability for cloud-native backend systems.',
       date: '2024-05-10',
       category: locale.value === 'zh-TW' ? '系統架構' : 'Architecture',
-      readingTime: '10'
+      readingTime: '10',
+      cover: '/images/blog/microservices-event-driven-architecture.png'
     },
     {
       slug: 'gwm-uav-navigation-sparse-rewards',
       title: locale.value === 'zh-TW'
-        ? 'GWM-UAV 導航系統的工程管線筆記'
-        : 'GWM-UAV Navigation as an Engineering Pipeline',
+        ? 'GWM-UAV 導航研究工程筆記'
+        : 'GWM-UAV Navigation as a Research Engineering Note',
       description: locale.value === 'zh-TW'
-        ? '一篇工程 walkthrough，整理 UAV 導航管線如何結合稀疏獎勵學習、圖記憶、模擬環境與安全檢查。'
-        : 'An engineering walkthrough for UAV navigation pipelines that combine sparse-reward learning, graph memory, simulation, and safety checks.',
+        ? '一篇關於稀疏獎勵無人機導航、圖記憶、模擬環境與工程限制的應用 AI 研究筆記。'
+        : 'An applied AI research note on sparse-reward UAV navigation, graph memory, simulation, and engineering constraints.',
       date: '2024-04-22',
-      category: locale.value === 'zh-TW' ? '機器人工程' : 'Robotics Engineering',
-      readingTime: '11'
+      category: locale.value === 'zh-TW' ? '機器人研究' : 'Robotics Research',
+      readingTime: '11',
+      cover: '/images/blog/gwm-uav-navigation-research-engineering.png'
     },
     {
       slug: 'diffusion-transformer-video-anomaly-detection',
@@ -203,7 +221,8 @@ const fallbackPosts = computed<BlogPost[]>(() => {
         : 'An AI engineering note on video anomaly detection pipelines, temporal representations, anomaly scoring, and deployment boundaries.',
       date: '2024-03-30',
       category: locale.value === 'zh-TW' ? 'AI 工程' : 'AI Engineering',
-      readingTime: '12'
+      readingTime: '12',
+      cover: '/images/blog/diffusion-transformer-video-anomaly-detection.png'
     }
   ]
 })
@@ -212,10 +231,19 @@ const { data: apiPosts } = await useAsyncData<CmsPost[]>('blog-list-posts', () =
 
 const displayPosts = computed(() => {
   if (apiPosts.value && apiPosts.value.length > 0) {
-    return apiPosts.value.map(post => postToBlogListItem(post, locale.value))
+    return apiPosts.value.map(post => ({
+      ...postToBlogListItem(post, locale.value),
+      cover: normalizeBlogCover(post.cover_url)
+    }))
   }
   return fallbackPosts.value
 })
+
+const onImageError = (event: Event) => {
+  const image = event.target as HTMLImageElement
+  if (image.src.endsWith(BLOG_COVER_PLACEHOLDER)) return
+  image.src = BLOG_COVER_PLACEHOLDER
+}
 
 const filteredArticles = computed(() => {
   return displayPosts.value.filter(post => {

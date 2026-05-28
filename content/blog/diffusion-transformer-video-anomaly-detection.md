@@ -11,7 +11,7 @@ tags: ["AI Engineering", "Computer Vision", "Video Pipeline", "Diffusion Transfo
 readingTime: "12"
 status: draft
 language: bilingual
-cover: "/images/blog/chatgpt.jpg"
+cover: "/images/blog/diffusion-transformer-video-anomaly-detection.png"
 ---
 
 # Diffusion Transformer for Video Anomaly Detection

@@ -35,8 +35,15 @@ export interface BlogListItem {
   cover?: string | null
 }
 
+export const BLOG_COVER_PLACEHOLDER = '/images/blog/placeholder.jpg'
+
 const fallbackString = (primary?: string | null, fallback?: string | null, defaultValue = '') => {
   return primary || fallback || defaultValue
+}
+
+export const normalizeBlogCover = (cover?: string | null) => {
+  const trimmed = cover?.trim()
+  return trimmed || BLOG_COVER_PLACEHOLDER
 }
 
 const localizedCategory = (category: string | null | undefined, locale: LocaleCode) => {
@@ -49,6 +56,7 @@ const localizedCategory = (category: string | null | undefined, locale: LocaleCo
   }
 
   if (normalized.includes('architecture')) return '系統架構'
+  if (normalized.includes('robotics research')) return '機器人研究'
   if (normalized.includes('robotics')) return '機器人工程'
   if (normalized.includes('ai engineering') || normalized.includes('ai research') || normalized.includes('research')) return 'AI 工程'
   if (normalized.includes('cloud native')) return '雲原生'
@@ -102,7 +110,7 @@ export const postToBlogListItem = (post: CmsPost, locale: LocaleCode): BlogListI
     date: post.published_at || post.created_at || post.updated_at || new Date().toISOString(),
     category: localizedCategory(post.category, locale),
     readingTime: normalizeReadingTime(post.reading_time, content),
-    cover: post.cover_url
+    cover: normalizeBlogCover(post.cover_url)
   }
 }
 
