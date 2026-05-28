@@ -4,7 +4,7 @@ title_zh: "GWM-UAV 導航研究工程筆記"
 slug: "gwm-uav-navigation-sparse-rewards"
 description: "An applied AI research note on sparse-reward UAV navigation, graph memory, simulation, and engineering constraints."
 description_zh: "一篇關於稀疏獎勵無人機導航、圖記憶、模擬環境與工程限制的應用 AI 研究筆記。"
-date: "2024-04-22"
+date: "2026-04-22"
 updated: "2026-05-28"
 category: "Robotics Research"
 tags: ["Robotics Research", "UAV", "Navigation", "Graph Memory", "DRL", "Applied AI"]

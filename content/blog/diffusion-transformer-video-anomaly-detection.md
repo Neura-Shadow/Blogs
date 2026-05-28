@@ -4,7 +4,7 @@ title_zh: "基於 Diffusion Transformer 的視訊異常偵測工程筆記"
 slug: "diffusion-transformer-video-anomaly-detection"
 description: "An AI engineering note on video anomaly detection pipelines, temporal representations, anomaly scoring, and deployment boundaries."
 description_zh: "一篇 AI engineering 筆記，整理視訊異常偵測管線、時序表徵、anomaly score 與部署邊界設計。"
-date: "2024-03-30"
+date: "2025-03-30"
 updated: "2026-05-28"
 category: "AI Engineering"
 tags: ["AI Engineering", "Computer Vision", "Video Pipeline", "Diffusion Transformer", "Anomaly Detection"]

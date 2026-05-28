@@ -11,7 +11,7 @@ export const profileData: Profile = {
     en: 'Focused on cloud architecture and high-concurrency systems, with extensive experience in Golang backend, Nuxt.js full-stack development, Kubernetes, Docker, and CI/CD pipelines. Possesses deep capabilities in AI research and system deployment. Actively contributed to and led large-scale research projects funded by the National Science and Technology Council (NSTC), including "Cybersecurity Experimental Field Integration" and "Development and Application of Heterogeneous UAV/USV/UGV Swarm Collaborative Systems". Deeply interested in computer vision, Vision-Language Navigation (VLN), multi-modal AI, and Deep Reinforcement Learning (DRL) for UAV navigation, with research findings submitted to IEEE Transactions on Multimedia. Dedicated to translating cutting-edge AI research into production-grade, highly available, and maintainable software systems.',
     'zh-TW': '專注於雲端架構與高併發系統，熟悉 Golang 後端、Nuxt.js 全端開發、Kubernetes、Docker 與 CI/CD 自動化流程。具備 AI 研究與系統落地能力，參與並主導國科會大型專案，包括「複合式資安研究與類真實實驗場域」以及「陸海空群組無人載具異質協同系統技術之研發與應用」。同時深耕影像處理、VLN、多模態 AI、DRL 與 UAV navigation，研究成果已投稿於 IEEE Transactions on Multimedia。目標是將前瞻 AI 演算法轉化為高可用、可部署、可維運的生產級系統。'
   },
-  email: 'lutsunghsin@gmail.com', // TODO: user can customize this if needed
+  email: 'zongxinlu43@gmail.com',
   phone: null, // TODO: user can customize this if needed
   location: 'Taiwan',
   website: 'https://github.com/Neura-Shadow',

@@ -148,7 +148,7 @@ const fallbackPosts = computed<BlogPost[]>(() => {
       description: locale.value === 'zh-TW'
         ? '一篇關於稀疏獎勵無人機導航、圖記憶、模擬環境與工程限制的應用 AI 研究筆記。'
         : 'An applied AI research note on sparse-reward UAV navigation, graph memory, simulation, and engineering constraints.',
-      date: '2024-04-22',
+      date: '2026-04-22',
       category: locale.value === 'zh-TW' ? '機器人研究' : 'Robotics Research',
       readingTime: '11',
       cover: '/images/blog/gwm-uav-navigation-research-engineering.png'
@@ -161,7 +161,7 @@ const fallbackPosts = computed<BlogPost[]>(() => {
       description: locale.value === 'zh-TW'
         ? '一篇 AI engineering 筆記，整理視訊異常偵測管線、時序表徵、anomaly score 與部署邊界設計。'
         : 'An AI engineering note on video anomaly detection pipelines, temporal representations, anomaly scoring, and deployment boundaries.',
-      date: '2024-03-30',
+      date: '2025-03-30',
       category: locale.value === 'zh-TW' ? 'AI 工程' : 'AI Engineering',
       readingTime: '12',
       cover: '/images/blog/diffusion-transformer-video-anomaly-detection.png'
