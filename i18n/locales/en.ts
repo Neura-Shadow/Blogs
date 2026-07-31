@@ -11,27 +11,30 @@
     name: "Lu Tsung-Hsin",
     chineseName: "呂宗昕",
     tagline: "Cloud Native Backend Engineer · Full-stack Developer · AI Research Engineer · UAV Swarm System Architect",
-    description: "I build scalable cloud-native systems, real-time applications, and intelligent UAV solutions — bridging research and engineering to create impactful products.",
+    description: "I work on Go backend systems, Nuxt full-stack applications, and guarded AI and robotics research frameworks.",
     viewProjects: 'View Projects',
     downloadResume: 'Download Resume',
     stats: {
-      experience: 'Years Experience',
-      projects: 'Projects Completed',
+      experience: 'Backend Systems',
+      projects: 'Full-stack Portfolio',
       research: 'IEEE TMM Submission',
-      openSource: 'Global Open Source'
+      openSource: 'Public Repositories'
     }
   },
   projects: {
     title: 'Featured Projects',
-    description: 'Selected engineering breakthroughs bridging advanced artificial intelligence with production systems.',
+    description: 'Selected backend, full-stack, research, and prototype work with repository-backed scope and status.',
     viewAll: 'View all projects',
     searchPlaceholder: 'Search projects by tag or name...',
     allCategories: 'All',
-    categoryAI: 'AI Research',
+    categoryBackend: 'Backend Systems',
+    categoryRobotics: 'Robotics Research',
     categoryUAV: 'UAV Systems',
+    categoryAI: 'AI Research',
     categoryCloud: 'Cloud Native',
     categoryFullStack: 'Full-stack',
     categoryVision: 'Computer Vision',
+    categoryLegacy: 'Legacy / Archive',
     backToProjects: 'Back to projects',
     matrixTitle: 'Project Matrix',
     role: 'Role',
@@ -42,9 +45,9 @@
     liveDemo: 'Live Demo',
     researchPaper: 'Research Paper',
     overview: 'Project Overview',
-    highlights: 'Key Achievements',
+    highlights: 'Implemented Scope',
     challenges: 'Technical Challenges',
-    results: 'Results & Impact',
+    results: 'Current Outcomes',
     notFound: 'Project Not Found',
     notFoundDesc: 'The requested project URL does not match any current portfolio archives.',
     returnToProjects: 'Return to projects'
@@ -55,7 +58,7 @@
   },
   research: {
     title: 'Research & Academic Highlights',
-    description: 'Bridging theoretical breakthroughs in artificial intelligence with production system architectures, focusing on video modeling and robotic swarm navigation.',
+    description: 'Research and engineering work in video modeling, robotic navigation, simulation, and system integration, with evidence boundaries stated explicitly.',
     statusSubmitted: 'Submitted / Under Review'
   },
   blog: {

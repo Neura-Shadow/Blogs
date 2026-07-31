@@ -43,7 +43,27 @@ const fallbackString = (primary?: string | null, fallback?: string | null, defau
 
 export const normalizeBlogCover = (cover?: string | null) => {
   const trimmed = cover?.trim()
-  return trimmed || BLOG_COVER_PLACEHOLDER
+  if (!trimmed) return BLOG_COVER_PLACEHOLDER
+  return normalizeAssetUrl(trimmed) || BLOG_COVER_PLACEHOLDER
+}
+
+const normalizeHttpUrl = (value?: string | null) => {
+  const trimmed = value?.trim()
+  if (!trimmed) return null
+
+  try {
+    const parsed = new URL(trimmed)
+    return parsed.protocol === 'https:' || parsed.protocol === 'http:' ? parsed.toString() : null
+  } catch {
+    return null
+  }
+}
+
+export const normalizeAssetUrl = (value?: string | null) => {
+  const trimmed = value?.trim()
+  if (!trimmed) return null
+  if (/^\/[A-Za-z0-9][A-Za-z0-9/_().-]*$/.test(trimmed)) return trimmed
+  return normalizeHttpUrl(trimmed)
 }
 
 const localizedCategory = (category: string | null | undefined, locale: LocaleCode) => {
@@ -145,12 +165,12 @@ export const dbProjectToProject = (row: any): Project => {
     tags: row.tags || [],
     stack: row.stack || [],
     links: {
-      repo: row.repo_url || null,
-      demo: row.demo_url || null,
-      paper: row.paper_url || null
+      repo: normalizeHttpUrl(row.repo_url),
+      demo: normalizeHttpUrl(row.demo_url),
+      paper: normalizeHttpUrl(row.paper_url)
     },
     featured: !!row.featured,
-    cover: row.cover_url || null,
+    cover: normalizeAssetUrl(row.cover_url),
     highlights: {
       en: row.highlights_en || [],
       'zh-TW': row.highlights_zh?.length ? row.highlights_zh : (row.highlights_en || [])
@@ -176,7 +196,12 @@ const escapeHtml = (value: string) => {
 
 const renderInlineMarkdown = (value: string) => {
   return escapeHtml(value)
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_match, label, url) => {
+      const safeUrl = normalizeHttpUrl(url) || (url.startsWith('/') ? normalizeAssetUrl(url) : null)
+      return safeUrl
+        ? `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${label}</a>`
+        : label
+    })
     .replace(/`([^`]+)`/g, '<code>$1</code>')
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
@@ -288,7 +313,8 @@ export const renderBasicMarkdown = (markdown: string) => {
 
     if (trimmed.startsWith('<!--') && trimmed.endsWith('-->')) {
       flushBlocks()
-      html.push(trimmed)
+      // Comments are editorial markers only. Never pass comment-shaped input
+      // through to v-html because a crafted line can break out into active HTML.
       continue
     }
 

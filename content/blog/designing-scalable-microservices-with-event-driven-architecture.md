@@ -192,3 +192,8 @@ The next version should include a small runnable reference implementation with a
 ## Notes
 
 This note intentionally avoids throughput or latency claims. Benchmarks should only be added from a reproducible implementation and real measurement logs.
+
+Related repository-backed examples:
+
+- [Scalable E-Commerce Platform](/projects/scalable-ecommerce-platform) for transactional ordering and outbox foundations.
+- [Scalable Railway Ticketing Platform](/projects/scalable-railway-ticketing-platform) for inventory ownership, admission, and shard-fencing boundaries.

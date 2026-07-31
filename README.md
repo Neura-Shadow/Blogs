@@ -14,6 +14,7 @@ The application keeps a safe local Mock Mode for development and a Supabase Prod
 - Warm light premium portfolio UI with responsive layouts.
 - English and Traditional Chinese language switch.
 - Project showcase with featured work, tags, stack metadata, and detail pages.
+- Repository-backed project taxonomy, local covers, and explicit evidence/limitation text.
 - Engineering blog articles with cover images, categories, reading time, and article pages.
 - Markdown and Nuxt Content fallback for static blog content.
 - Supabase-ready Admin CMS for posts, projects, and media assets.
@@ -26,6 +27,17 @@ The application keeps a safe local Mock Mode for development and a Supabase Prod
 - 3D tilt cards, animated backgrounds, and Inspira-style UI components.
 - SEO metadata configured through Nuxt app head.
 - i18n fallback behavior for bilingual content fields.
+- Dry-run-first Supabase project synchronization with explicit apply confirmation and no automatic deletion.
+
+## Featured Projects
+
+| Project | Current portfolio scope | Evidence boundary |
+| --- | --- | --- |
+| Scalable Railway Ticketing Platform | Go, PostgreSQL, Redis, metrics, workers, segment inventory, waiting-room admission, fencing, and fixed physical shards | Single-region pilot; no national-scale capacity, autoscaling, multi-region, payment, zero-downtime, or production-SLO claim |
+| GWM-UAV Navigation | Mock-first guarded research framework with graph world models, replay/readiness, planning, and optional simulator boundaries | No real-flight, certified-safety, production-UTM, or benchmark claim |
+| Scalable E-Commerce Platform | Single-region Go `v1.0.0` backend with transactional ordering, Redis, JWT, migrations, outbox/consumer foundations, observability, and CI gates | Downstream payment/email/fulfillment/analytics handlers and production capacity are not claimed |
+
+Private work is represented only through sanitized summaries with repository links set to `null`. Legacy prototypes are labeled separately from current systems.
 
 ## Tech Stack
 
@@ -130,6 +142,7 @@ The application keeps a safe local Mock Mode for development and a Supabase Prod
 ├── public/
 │   └── images/
 │       ├── blog/
+│       ├── projects/
 │       └── screenshots/
 ├── server/
 │   ├── api/
@@ -172,6 +185,7 @@ Copy `.env.example` to `.env` and fill in your own Supabase values when you want
 ```bash
 NUXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
 NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-or-anon-key
+NUXT_CMS_MODE=auto
 SUPABASE_SECRET_KEY=your-service-role-or-secret-key
 NUXT_ADMIN_EMAILS=admin@example.com
 ```
@@ -179,6 +193,7 @@ NUXT_ADMIN_EMAILS=admin@example.com
 Security notes:
 
 - `NUXT_PUBLIC_SUPABASE_URL` and `NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` are client-safe public config values.
+- `NUXT_CMS_MODE=mock` is an optional server-side local/test override; deployed environments should use `auto`.
 - `SUPABASE_SECRET_KEY` is server-only and must never be exposed to browser code.
 - `NUXT_ADMIN_EMAILS` is a private comma-separated allowlist used by server API authorization.
 - If Supabase env vars are missing, the app stays in Mock Mode instead of crashing.
@@ -233,6 +248,14 @@ Project content follows the same pattern:
 - Production Mode: projects are read through `/api/projects`.
 - Mock Mode: projects fall back to `data/projects.ts`.
 
+Compare the reviewed local project records with Supabase in read-only dry-run mode:
+
+```bash
+npm run sync:projects
+```
+
+Production writes require a server-only key plus explicit apply confirmation. Remote-only rows are reported and never deleted automatically. See `docs/github-project-sync.md` for the exact contract.
+
 The Markdown-to-Supabase migration guide is available at:
 
 ```text
@@ -245,6 +268,7 @@ Current engineering articles:
 
 - `designing-scalable-microservices-with-event-driven-architecture.md`
 - `gwm-uav-navigation-sparse-rewards.md`
+- `scalable-railway-ticketing-platform.md`
 - `diffusion-transformer-video-anomaly-detection.md`
 
 The articles are written as engineering notes, system design walkthroughs, and research-to-system reflections. IEEE TMM references must use:
@@ -272,6 +296,8 @@ For a live CMS deployment, configure the Supabase env vars in the hosting provid
 Additional project docs:
 
 - `docs/content-strategy.md`
+- `docs/github-portfolio-sync-report.md`
+- `docs/github-project-sync.md`
 - `docs/markdown-to-supabase-migration.md`
 - `docs/migration-notes.md`
 - `docs/supabase-phase3-plan.md`
@@ -284,6 +310,8 @@ Implemented:
 - Bilingual UI
 - Warm light portfolio design
 - Engineering blog article structure
+- Repository-backed GitHub project inventory and claim audit
+- Guarded Supabase project sync tooling
 - Blog cover images
 - Three.js hero and profile components
 - Supabase-ready Admin CMS

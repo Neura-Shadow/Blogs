@@ -26,6 +26,10 @@
         <p v-if="project.subtitle" class="mt-2 text-base sm:text-lg text-neutral-500 dark:text-neutral-400">
           {{ project.subtitle[locale] }}
         </p>
+
+        <div v-if="project.cover" class="mt-8 overflow-hidden rounded-xl border border-light-border dark:border-dark-border bg-light-elevated dark:bg-dark-elevated aspect-[16/9]">
+          <img :src="project.cover" :alt="`${project.title[locale]} architecture cover`" class="h-full w-full object-cover" />
+        </div>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">

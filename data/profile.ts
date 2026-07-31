@@ -8,8 +8,8 @@ export const profileData: Profile = {
     'zh-TW': '雲原生後端工程師 · 全端開發者 · AI 研究工程師 · 無人機群組系統架構師'
   },
   summary: {
-    en: 'Focused on cloud architecture and high-concurrency systems, with extensive experience in Golang backend, Nuxt.js full-stack development, Kubernetes, Docker, and CI/CD pipelines. Possesses deep capabilities in AI research and system deployment. Actively contributed to and led large-scale research projects funded by the National Science and Technology Council (NSTC), including "Cybersecurity Experimental Field Integration" and "Development and Application of Heterogeneous UAV/USV/UGV Swarm Collaborative Systems". Deeply interested in computer vision, Vision-Language Navigation (VLN), multi-modal AI, and Deep Reinforcement Learning (DRL) for UAV navigation, with research findings submitted to IEEE Transactions on Multimedia. Dedicated to translating cutting-edge AI research into production-grade, highly available, and maintainable software systems.',
-    'zh-TW': '專注於雲端架構與高併發系統，熟悉 Golang 後端、Nuxt.js 全端開發、Kubernetes、Docker 與 CI/CD 自動化流程。具備 AI 研究與系統落地能力，參與並主導國科會大型專案，包括「複合式資安研究與類真實實驗場域」以及「陸海空群組無人載具異質協同系統技術之研發與應用」。同時深耕影像處理、VLN、多模態 AI、DRL 與 UAV navigation，研究成果已投稿於 IEEE Transactions on Multimedia。目標是將前瞻 AI 演算法轉化為高可用、可部署、可維運的生產級系統。'
+    en: 'I work across Go backend systems, Nuxt full-stack development, containerized delivery, and AI/robotics research engineering. My public repositories include single-region distributed-system prototypes, guarded simulation frameworks, and portfolio tooling; private research work is summarized without exposing source or operational details. Research submitted to IEEE Transactions on Multimedia.',
+    'zh-TW': '我的工作涵蓋 Go 後端系統、Nuxt 全端開發、容器化交付，以及 AI／機器人研究工程。公開 repositories 包含單區分散式系統原型、具防護邊界的模擬研究框架與作品集工具；私人研究僅提供不揭露原始碼與操作細節的摘要。研究成果投稿於 IEEE Transactions on Multimedia。'
   },
   email: 'zongxinlu43@gmail.com',
   phone: null, // TODO: user can customize this if needed
@@ -114,16 +114,16 @@ export const profileData: Profile = {
           name: 'MQTT',
           level: 'Expert',
           description: {
-            en: 'Low-latency pub/sub messaging broker implementation for UAV swarm telemetry.',
-            'zh-TW': '無人載具遙測低延遲發布/訂閱協議。'
+            en: 'Pub/sub messaging integration for UAV swarm telemetry.',
+            'zh-TW': '無人載具遙測發布／訂閱訊息整合。'
           }
         },
         {
           name: 'WebRTC',
           level: 'Advanced',
           description: {
-            en: 'Real-time ultra-low latency video streaming and telemetry communication channels.',
-            'zh-TW': '無人載具超低延遲即時視訊/控制串流。'
+            en: 'Browser-oriented video streaming and telemetry communication channels.',
+            'zh-TW': '瀏覽器端視訊串流與遙測通訊 channel。'
           }
         },
         {
@@ -265,7 +265,7 @@ export const profileData: Profile = {
       },
       description: {
         en: 'Research findings on computer vision, multi-modal alignment, and spatio-temporal representations submitted to IEEE Transactions on Multimedia.',
-        'zh-TW': '關於電腦視覺、多模態對齊與時空特徵表徵的研究成果已投稿於多媒體領域頂尖期刊 IEEE Transactions on Multimedia。'
+        'zh-TW': '關於電腦視覺、多模態對齊與時空特徵表徵的研究成果投稿於 IEEE Transactions on Multimedia。'
       },
       link: null, // TODO: add IEEE paper link if available
       tags: ['Computer Vision', 'Multi-modal Processing', 'Academic Submission']
@@ -276,8 +276,8 @@ export const profileData: Profile = {
         'zh-TW': '陸海空群組無人載具異質協同系統技術之研發與應用 (國科會大型計畫)'
       },
       description: {
-        en: 'Served as the main system architect. Developed collaborative swarm layouts coordinating aerial, surface, and ground vehicles with low-latency telemetry paths.',
-        'zh-TW': '擔任主要架構負責人，開發包含無人機、無人船、無人車的協同控制系統，實踐低延遲遙測資料流與跨領域決策鏈。'
+        en: 'System-integration work coordinated operator UI and telemetry boundaries for aerial, surface, and ground vehicles; confidential implementation details are not included here.',
+        'zh-TW': '系統整合工作涵蓋空中、水面與地面載具的 operator UI 與 telemetry boundary；此處不揭露機密實作細節。'
       },
       link: null,
       tags: ['UAV Swarm', 'MAVLink-MQTT', 'WebRTC', 'Kubernetes']

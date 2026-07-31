@@ -11,27 +11,30 @@
     name: '呂宗昕',
     chineseName: 'Lu Tsung-Hsin',
     tagline: '雲原生後端工程師 · 全端開發者 · AI 研究工程師 · 無人機群組系統架構師',
-    description: '我專注於開發高可擴展性的雲原生系統、實時控制應用以及無人機協同避障方案 — 致力於將前沿研究演算法轉化為生產級的高可用系統。',
+    description: '我的工作涵蓋 Go 後端系統、Nuxt 全端應用，以及具明確防護與驗證邊界的 AI／機器人研究框架。',
     viewProjects: '瀏覽作品集',
     downloadResume: '下載履歷檔案',
     stats: {
-      experience: '年開發經驗',
-      projects: '個專案作品',
+      experience: '後端系統',
+      projects: '全端作品集',
       research: 'IEEE TMM 投稿',
-      openSource: '全球開源專案'
+      openSource: '公開 repositories'
     }
   },
   projects: {
     title: '精選專案作品',
-    description: '結合前沿人工智慧與雲端系統架構的科技成果展示。',
+    description: '依 repository 證據整理的後端、全端、研究與原型作品，並標示目前範圍與狀態。',
     viewAll: '瀏覽所有專案',
     searchPlaceholder: '輸入標籤或名稱搜尋專案...',
     allCategories: '全部',
-    categoryAI: 'AI 演算法研究',
+    categoryBackend: '後端系統',
+    categoryRobotics: '機器人研究',
     categoryUAV: '無人載具系統',
+    categoryAI: 'AI 演算法研究',
     categoryCloud: '雲原生 backend',
     categoryFullStack: '全端開發',
     categoryVision: '電腦視覺',
+    categoryLegacy: '舊作 / 封存',
     backToProjects: '返回專案列表',
     matrixTitle: '專案矩陣細節',
     role: '擔任角色',
@@ -42,9 +45,9 @@
     liveDemo: '線上演示連結',
     researchPaper: '學術論文連結',
     overview: '專案概述',
-    highlights: '核心成果與亮點',
+    highlights: '已實作範圍',
     challenges: '面對的技術挑戰',
-    results: '系統成效與影響',
+    results: '目前成果',
     notFound: '未找到該專案',
     notFoundDesc: '您所請求的專案路徑不存在於目前的作品集庫中。',
     returnToProjects: '返回專案歸檔頁'
@@ -55,7 +58,7 @@
   },
   research: {
     title: '研究與學術成果',
-    description: '專注於結合人工智慧前沿演算法與落地架構，研究方向包括視訊異常偵測與無人機群自主導航。',
+    description: '研究與工程方向包含視訊建模、機器人導航、simulation 與系統整合，並明確區分各類 evidence boundary。',
     statusSubmitted: '投稿中 / 審查中'
   },
   blog: {

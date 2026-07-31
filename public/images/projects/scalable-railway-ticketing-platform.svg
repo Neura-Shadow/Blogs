@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Scalable Railway Ticketing Platform architecture cover</title>
+  <desc id="desc">A neutral architecture diagram showing clients, a Go API, Redis admission and cache services, workers, and authoritative PostgreSQL storage.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7f4ee"/>
+      <stop offset="1" stop-color="#e8eee9"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#163d35" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="675" rx="36" fill="url(#background)"/>
+  <g opacity="0.18" stroke="#698078" stroke-width="1">
+    <path d="M0 96H1200M0 192H1200M0 288H1200M0 384H1200M0 480H1200M0 576H1200"/>
+    <path d="M120 0V675M240 0V675M360 0V675M480 0V675M600 0V675M720 0V675M840 0V675M960 0V675M1080 0V675"/>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="72" y="84" fill="#173f36" font-size="20" font-weight="700" letter-spacing="3">BACKEND SYSTEMS / CLOUD NATIVE</text>
+    <text x="72" y="136" fill="#1f2825" font-size="42" font-weight="700">Scalable Railway Ticketing Platform</text>
+    <text x="72" y="172" fill="#60706a" font-size="20">Single-region booking backend with bounded sharding pilots</text>
+  </g>
+  <g fill="none" stroke="#6d827a" stroke-width="4" stroke-linecap="round">
+    <path d="M232 324H332"/>
+    <path d="M548 324H652"/>
+    <path d="M868 324H968"/>
+    <path d="M440 392V474"/>
+    <path d="M760 392V474"/>
+  </g>
+  <g fill="#6d827a">
+    <path d="m332 324-16-9v18z"/>
+    <path d="m652 324-16-9v18z"/>
+    <path d="m968 324-16-9v18z"/>
+    <path d="m440 474-9-16h18z"/>
+    <path d="m760 474-9-16h18z"/>
+  </g>
+  <g filter="url(#shadow)" font-family="Arial, Helvetica, sans-serif">
+    <g>
+      <rect x="72" y="258" width="160" height="132" rx="22" fill="#ffffff" stroke="#d4ddd8"/>
+      <text x="152" y="316" text-anchor="middle" fill="#1f2825" font-size="22" font-weight="700">Clients</text>
+      <text x="152" y="348" text-anchor="middle" fill="#67746f" font-size="16">REST / JWT</text>
+    </g>
+    <g>
+      <rect x="332" y="242" width="216" height="164" rx="24" fill="#173f36"/>
+      <text x="440" y="310" text-anchor="middle" fill="#ffffff" font-size="25" font-weight="700">Go API</text>
+      <text x="440" y="344" text-anchor="middle" fill="#c6ddd5" font-size="16">Booking transactions</text>
+      <text x="440" y="370" text-anchor="middle" fill="#c6ddd5" font-size="16">Idempotency / fencing</text>
+    </g>
+    <g>
+      <rect x="652" y="242" width="216" height="164" rx="24" fill="#ffffff" stroke="#d4ddd8"/>
+      <text x="760" y="298" text-anchor="middle" fill="#1f2825" font-size="24" font-weight="700">Redis</text>
+      <text x="760" y="334" text-anchor="middle" fill="#67746f" font-size="16">Waiting room</text>
+      <text x="760" y="360" text-anchor="middle" fill="#67746f" font-size="16">Versioned read caches</text>
+    </g>
+    <g>
+      <rect x="968" y="258" width="160" height="132" rx="22" fill="#ffffff" stroke="#d4ddd8"/>
+      <text x="1048" y="316" text-anchor="middle" fill="#1f2825" font-size="22" font-weight="700">Metrics</text>
+      <text x="1048" y="348" text-anchor="middle" fill="#67746f" font-size="16">Prometheus</text>
+    </g>
+    <g>
+      <rect x="332" y="474" width="216" height="112" rx="22" fill="#ffffff" stroke="#d4ddd8"/>
+      <text x="440" y="522" text-anchor="middle" fill="#1f2825" font-size="22" font-weight="700">Workers</text>
+      <text x="440" y="554" text-anchor="middle" fill="#67746f" font-size="16">Expiry / outbox / admission</text>
+    </g>
+    <g>
+      <rect x="652" y="474" width="216" height="112" rx="22" fill="#b56845"/>
+      <text x="760" y="522" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="700">PostgreSQL</text>
+      <text x="760" y="554" text-anchor="middle" fill="#f4ded3" font-size="16">Authoritative booking state</text>
+    </g>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#60706a">
+    <text x="72" y="630">Route-segment inventory · transactional outbox · single-writer fencing · bounded physical pilot</text>
+  </g>
+</svg>

@@ -1,183 +1,89 @@
 ---
-title: "GWM-UAV Navigation as a Research Engineering Note"
-title_zh: "GWM-UAV 導航研究工程筆記"
+title: "GWM-UAV Navigation: A Guarded Research Framework"
+title_zh: "GWM-UAV 導航：具防護邊界的研究框架"
 slug: "gwm-uav-navigation-sparse-rewards"
-description: "An applied AI research note on sparse-reward UAV navigation, graph memory, simulation, and engineering constraints."
-description_zh: "一篇關於稀疏獎勵無人機導航、圖記憶、模擬環境與工程限制的應用 AI 研究筆記。"
+description: "A repository-backed engineering note on graph world models, guarded planning, replay, and the boundary between simulation evidence and real flight."
+description_zh: "依 repository 證據整理 graph world model、guarded planning、replay，以及 simulation evidence 與 real flight 邊界的工程筆記。"
 date: "2026-04-22"
-updated: "2026-05-28"
+updated: "2026-08-01"
 category: "Robotics Research"
-tags: ["Robotics Research", "UAV", "Navigation", "Graph Memory", "DRL", "Applied AI"]
-readingTime: "11"
+tags: ["Robotics Research", "UAV", "Graph World Model", "Guarded Planning", "Replay", "Simulation"]
+readingTime: "9"
 status: draft
 language: bilingual
 cover: "/images/blog/gwm-uav-navigation-research-engineering.png"
 ---
 
-# GWM-UAV Navigation as a Research Engineering Note
+# GWM-UAV Navigation: A Guarded Research Framework
 
-> A sparse-reward UAV navigation idea becomes easier to evaluate when it is framed as a research engineering pipeline with explicit memory, simulation, safety, and logging boundaries.
+> The repository is best understood as a mock-first research framework: it makes planning, safety, replay, and optional simulator boundaries inspectable without presenting them as real-flight evidence.
 
-## Overview
+## Repository-backed scope
 
-This article reframes the GWM-UAV idea as a research engineering note. The goal is not to present final research results. The goal is to describe the system pieces needed before a learning-based navigation policy becomes debuggable.
+The public [project page](/projects/gwm-uav-navigation-sparse-rewards) represents the current repository rather than an aspirational deployed system. Its implemented scope includes graph-world-model abstractions, future-rollout planning, Real2Sim2Real-oriented interfaces, ROS 2 and OpenUSD integration boundaries, multi-agent coordination modules, replay tooling, and guarded optional simulator paths.
 
-Sparse-reward DRL can be useful for navigation, but the policy is only one component. A practical system also needs state construction, graph memory, simulator control, obstacle checks, trajectory logging, and deployment boundaries.
+Normal verification does not require optional robotics runtimes. That makes the core logic easier to exercise in a repeatable development environment, but it also limits what those checks prove.
 
-## Engineering Context
-
-UAV navigation has to combine perception, mapping, planning, and control. In simulation, the agent may observe a clean occupancy grid or relative goal vector. In real operation, the system also has localization drift, noisy sensors, wind, battery limits, and actuator constraints.
-
-Sparse rewards make the training loop difficult because a successful signal may appear only after the agent reaches a goal. Reward shaping can help, but it can also teach the wrong behavior if the shaping term becomes easier to optimize than the actual mission.
-
-The engineering question is: how can the system provide useful memory and safety structure without hiding the real task behind artificial rewards?
-
-## Architecture / Pipeline
+## Architecture boundary
 
 ```text
-Simulator / UAV Sensors
-        |
-        v
-State Builder
-  - pose estimate
-  - local obstacle map
-  - goal relation
-        |
-        v
-Graph Wavefront Memory
-  - nodes / frontiers
-  - edge risk
-  - visitation state
-        |
-        v
-Policy Inference
-  - DRL policy
-  - action proposal
-        |
-        v
-Safety Filter
-  - collision guard
-  - velocity limits
-  - emergency fallback
-        |
-        v
-Control Command + Trajectory Log
+Observation / Recorded Scenario
+            |
+            v
+Graph World Model
+  - nodes and relations
+  - state and uncertainty
+  - candidate futures
+            |
+            v
+Planner / C2 Extension
+  - readiness checks
+  - route proposals
+  - replayable decisions
+            |
+            v
+Guard Layer
+  - preconditions
+  - bounded commands
+  - explicit blocked outcomes
+            |
+            v
+Mock Runtime or Optional Simulator Adapter
 ```
 
-The graph memory gives the policy structured context. The safety filter keeps policy output from being treated as an unquestioned command.
+The guard layer is part of the design, not a performance optimization. A blocked outcome records why execution did not proceed; it is not silently converted into a successful route or flight result.
 
-## Implementation Notes
+## Why mock-first matters
 
-### State Builder
+A robotics framework needs deterministic places to inspect state transitions before optional simulators, hardware, and networks are involved. The repository therefore keeps the default path independent from external runtimes and treats simulator adapters as conditional integrations.
 
-The state builder should merge low-level signals into a stable policy input:
+This supports three useful engineering activities:
 
-| Input group | Example fields | Engineering purpose |
-| --- | --- | --- |
-| Vehicle state | pose, velocity, heading, acceleration | Avoid unstable action changes. |
-| Goal relation | relative distance, bearing, altitude gap | Keep the task direction explicit. |
-| Local map | occupancy grid, nearest obstacle, free-space mask | Support obstacle-aware movement. |
-| Memory state | visited nodes, frontier score, edge risk | Avoid treating each frame as isolated. |
-| Runtime guard | battery, timeout, emergency state | Keep deployment constraints visible. |
+- exercising planning and coordination logic with controlled fixtures;
+- replaying decisions and termination reasons;
+- distinguishing a verified software path from an unavailable or incomplete runtime path.
 
-### Graph Wavefront Memory
+## Evidence boundaries
 
-The graph can store local navigation structure instead of asking the policy to infer everything from raw observations.
+Repository tests and verification documents support claims about implemented modules and guarded software behavior. They do not establish:
 
-```python
-def update_wavefront(graph, goal_node, blocked_nodes, decay=0.95):
-    values = {node: 0.0 for node in graph.nodes}
-    values[goal_node] = 1.0
+- real UAV or hardware flight;
+- production UTM integration;
+- certified safety behavior;
+- field reliability or operational readiness;
+- superiority over classical or learned planners;
+- capacity, latency, accuracy, or route-completion benchmarks.
 
-    for _ in range(graph.max_hops):
-        next_values = values.copy()
-        for node in graph.nodes:
-            if node in blocked_nodes:
-                next_values[node] = -1.0
-                continue
+Optional simulator checks are reported separately from the default suite. A simulated timeout, unavailable runtime, or blocked readiness gate remains a limitation rather than benchmark evidence.
 
-            neighbors = graph.neighbors(node)
-            if neighbors:
-                next_values[node] = max(values[node], decay * max(values[n] for n in neighbors))
+## Engineering lessons
 
-        values = next_values
+The most reusable lesson is to design experimental planning code around explicit contracts. Inputs, proposed actions, guard decisions, replay records, and adapter outcomes should remain separately observable. That separation makes it possible to improve the planner without weakening safety gates or rewriting every simulator integration.
 
-    return values
-```
+## 中文摘要
 
-This pseudocode is intentionally simple. A real implementation still needs node construction, edge weighting, update frequency, and serialization for logging.
+此專案目前是 mock-first、具 guard boundary 的研究框架。公開 evidence 支持 graph world model、planning、readiness、replay、ROS 2／OpenUSD abstraction 與 optional simulator adapter 等 software scope，但不代表 real flight、production UTM、certified safety 或任何 capacity／latency／accuracy benchmark。遇到 runtime unavailable、timeout 或 blocked gate 時，紀錄應維持為限制，不轉寫為 route completion 或 deployment evidence。
 
-### Safety Filter
+## Status
 
-The policy should propose an action. The system should decide whether the action is safe enough to execute.
-
-```text
-if action violates velocity limit:
-    clamp action
-if predicted path intersects obstacle:
-    replace with hover / replan command
-if localization confidence is low:
-    enter safe mode
-```
-
-This keeps the learning component inside a controlled integration boundary.
-
-## Design Decisions
-
-- Keep reward shaping minimal and auditable.
-- Store graph state in logs so failed episodes can be replayed.
-- Separate policy inference from low-level control.
-- Treat collision avoidance as a runtime safety concern, not only a training objective.
-- Design simulator scenarios before tuning model parameters.
-
-## Trade-offs
-
-Graph memory adds structure, but it also adds implementation complexity. If graph construction is noisy, the policy may learn to trust unstable signals.
-
-Reward shaping improves learning speed in many setups, but it can bias the policy toward shortcuts. The safer engineering posture is to log shaped reward components separately and avoid using one blended score as the only signal.
-
-Simulation gives repeatability, but simulation can also hide sensor and control problems. Any future real-world integration should start with constrained tests and explicit safety fallback behavior.
-
-## Failure Modes & Debugging
-
-Useful debugging questions:
-
-- Did the UAV fail because the policy chose a bad action, or because the state builder produced bad input?
-- Did graph memory mark a blocked node as reachable?
-- Did reward shaping encourage movement toward the goal through unsafe space?
-- Did the safety filter reject actions too often?
-- Did the simulator scenario differ from the deployment environment?
-
-Trajectory logs should include state snapshots, graph values, action proposals, safety-filter decisions, and termination reasons.
-
-<!-- TODO: add implementation detail -->
-
-## Deployment / Integration Notes
-
-For a real UAV stack, I would keep policy inference behind a bounded interface:
-
-```text
-NavigationState -> PolicyAction -> SafetyCheckedCommand
-```
-
-This makes it easier to swap the policy, replay logs, and run hardware-in-the-loop tests without rewriting the rest of the system.
-
-<!-- TODO: add configuration example -->
-<!-- TODO: add deployment note -->
-
-## Lessons Learned
-
-The strongest engineering lesson is that learning-based robotics needs boring interfaces. A policy can be experimental, but the surrounding pipeline should make failures observable and recoverable.
-
-For portfolio readability, this note shows how the navigation idea becomes a system: inputs, memory, inference, safety, logs, and integration points.
-
-## Next Steps
-
-The next pass should add a simple simulator scenario, a graph-state visualization, and a trace format that can be inspected after each failed run.
-
-<!-- TODO: add architecture diagram -->
-<!-- TODO: add implementation detail -->
-
-## Notes
-
-This note does not claim final navigation performance, deployment readiness, or superiority over classical planners. Those claims would need real implementation logs and measured comparisons.
+This article is a repository-backed draft. It intentionally separates implemented software scope from simulation availability and real-world validation.

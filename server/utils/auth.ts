@@ -32,8 +32,9 @@ export const checkAdminAuth = async (event: H3Event): Promise<CheckedAdmin> => {
   const token = authHeader.replace(/^Bearer\s+/, '')
   const runtime = getSupabaseRuntimeState()
 
-  // Mock token validation is allowed only when Supabase is not fully configured.
-  if (!runtime.isProductionMode && token === 'mock-jwt-token-local-dev') {
+  // Never combine the static local token with a configured service client.
+  const mockAuthAllowed = runtime.isForcedMock || !runtime.hasServerConfig
+  if (mockAuthAllowed && token === 'mock-jwt-token-local-dev') {
     return {
       email: 'admin@local.dev',
       role: 'mock-admin',

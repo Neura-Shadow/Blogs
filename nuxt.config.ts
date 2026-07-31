@@ -79,6 +79,7 @@ export default defineNuxtConfig({
   // Runtime configuration for Supabase-ready CMS
   runtimeConfig: {
     // Server-side only keys
+    cmsMode: process.env.NUXT_CMS_MODE || 'auto',
     supabaseSecretKey: process.env.SUPABASE_SECRET_KEY || '',
     adminEmails: process.env.NUXT_ADMIN_EMAILS || '',
 

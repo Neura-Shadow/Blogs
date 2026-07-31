@@ -7,15 +7,17 @@ export const getSupabaseRuntimeState = () => {
   const supabaseUrl = config.public.supabaseUrl
   const supabasePublishableKey = config.public.supabasePublishableKey
   const supabaseSecretKey = config.supabaseSecretKey
+  const isForcedMock = config.cmsMode === 'mock'
 
   const hasPublicConfig = !!(supabaseUrl && supabasePublishableKey)
   const hasServerConfig = !!(supabaseUrl && supabaseSecretKey)
-  const isProductionMode = hasPublicConfig && hasServerConfig
+  const isProductionMode = !isForcedMock && hasPublicConfig && hasServerConfig
 
   return {
     supabaseUrl,
     supabasePublishableKey,
     supabaseSecretKey,
+    isForcedMock,
     hasPublicConfig,
     hasServerConfig,
     isProductionMode,
@@ -30,11 +32,13 @@ export const getSupabaseRuntimeState = () => {
 export const getSupabaseClient = () => {
   if (supabaseClient) return supabaseClient
 
-  const { supabaseUrl, supabaseSecretKey, hasServerConfig } = getSupabaseRuntimeState()
+  const { supabaseUrl, supabaseSecretKey, hasServerConfig, isForcedMock } = getSupabaseRuntimeState()
 
-  if (!hasServerConfig) {
+  if (isForcedMock || !hasServerConfig) {
     console.warn(
-      '[Supabase Server SDK Warning]: Missing NUXT_PUBLIC_SUPABASE_URL or SUPABASE_SECRET_KEY in server environment. CMS routes will fall back to Mock Mode.'
+      isForcedMock
+        ? '[Supabase Server SDK]: NUXT_CMS_MODE=mock; CMS routes are using Mock Mode.'
+        : '[Supabase Server SDK Warning]: Missing NUXT_PUBLIC_SUPABASE_URL or SUPABASE_SECRET_KEY in server environment. CMS routes will fall back to Mock Mode.'
     )
     return null
   }

@@ -62,7 +62,7 @@
 
             <!-- Subtle background branding link/logo indicator at the bottom -->
             <div class="mt-8 pt-6 border-t border-light-border dark:border-dark-border/20 flex items-center justify-between text-xs text-neutral-400">
-              <span class="font-mono">Production Grade System</span>
+              <span class="font-mono">Engineering Practice</span>
               <div class="w-2 h-2 rounded-full bg-brand-accent/60 animate-pulse" />
             </div>
           </div>

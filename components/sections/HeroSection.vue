@@ -159,10 +159,10 @@ import ParticlesBackground from '~/components/inspira/ParticlesBackground.vue'
 const { locale, t } = useI18n()
 
 const stats = [
-  { value: '5+', key: 'hero.stats.experience' },
-  { value: '20+', key: 'hero.stats.projects' },
+  { value: 'Go', key: 'hero.stats.experience' },
+  { value: 'Nuxt', key: 'hero.stats.projects' },
   { value: 'IEEE', key: 'hero.stats.research' },
-  { value: 'Global', key: 'hero.stats.openSource' }
+  { value: 'GitHub', key: 'hero.stats.openSource' }
 ]
 </script>
 

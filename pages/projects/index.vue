@@ -18,7 +18,7 @@
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pb-6 border-b border-light-border dark:border-dark-border">
 
         <!-- Filter Tabs -->
-        <div class="flex items-center gap-1.5 overflow-x-auto pb-2 md:pb-0 scrollbar-none -mx-4 px-4 md:mx-0 md:px-0">
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-2 md:pb-0 scrollbar-none -mx-4 px-4 md:mx-0 md:px-0 md:flex-1 md:flex-wrap md:overflow-visible">
           <button
             v-for="(catName, idx) in categories"
             :key="idx"
@@ -96,14 +96,17 @@ const activeCategoryIndex = ref(0)
 
 const categories = computed(() => [
   t('projects.allCategories'),
-  t('projects.categoryAI'),
+  t('projects.categoryBackend'),
+  t('projects.categoryRobotics'),
   t('projects.categoryUAV'),
-  t('projects.categoryCloud'),
   t('projects.categoryFullStack'),
-  t('projects.categoryVision')
+  t('projects.categoryAI'),
+  t('projects.categoryCloud'),
+  t('projects.categoryVision'),
+  t('projects.categoryLegacy')
 ])
 
-const filterKeys = ['all', 'ai', 'uav', 'cloud', 'full-stack', 'vision']
+const filterKeys = ['all', 'backend systems', 'robotics research', 'uav systems', 'full-stack', 'ai research', 'cloud native', 'computer vision', 'legacy / archive']
 
 const { data: apiProjects } = await useAsyncData<any[]>('projects-list', () => $fetch('/api/projects'))
 
@@ -115,8 +118,8 @@ const filteredProjects = computed(() => {
   return projects.value.filter(project => {
     // Category match
     const selectedKey = filterKeys[activeCategoryIndex.value]
-    const categoryMatches = selectedKey === 'all' ||
-      project.category.toLowerCase().includes(selectedKey)
+    const searchableCategories = [project.category, ...project.tags].join(' ').toLowerCase()
+    const categoryMatches = selectedKey === 'all' || searchableCategories.includes(selectedKey)
 
     // Search query match
     const query = searchQuery.value.toLowerCase().trim()
