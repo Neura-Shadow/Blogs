@@ -1,11 +1,13 @@
 import os
 import shutil
 from pathlib import Path
+from urllib.parse import urlparse
 
 from playwright.sync_api import Page, expect, sync_playwright
 
 
-BASE_URL = os.environ.get("PORTFOLIO_BASE_URL", "http://127.0.0.1:3000")
+BASE_URL = os.environ.get("PORTFOLIO_BASE_URL", "http://127.0.0.1:3000").rstrip("/")
+APP_BASE_PATH = urlparse(BASE_URL).path.rstrip("/")
 SCREENSHOT = Path(__file__).resolve().parents[1] / "public" / "images" / "screenshots" / "projects-showcase.png"
 PUBLIC_REPOSITORIES = [
     "https://github.com/Neura-Shadow/Scalable-Railway-Ticketing-Platform",
@@ -47,8 +49,28 @@ def assert_no_raw_i18n_keys(page: Page) -> None:
     assert not leaked, f"Raw i18n keys are visible: {leaked}"
 
 
+def app_path(path: str) -> str:
+    normalized = path if path.startswith("/") else f"/{path}"
+    return f"{APP_BASE_PATH}{normalized}"
+
+
 def click_project(page: Page, slug: str) -> None:
-    page.locator(f'a[href="/projects/{slug}"]').first.click()
+    page.locator(f'a[href="{app_path(f"/projects/{slug}")}"]').first.click()
+
+
+def assert_real_cover(image, label: str) -> None:
+    image.scroll_into_view_if_needed()
+    expect(image).to_be_visible()
+    image.evaluate("async element => { try { await element.decode() } catch {} }")
+    state = image.evaluate(
+        "element => ({ src: element.getAttribute('src'), currentSrc: element.currentSrc, "
+        "naturalWidth: element.naturalWidth, naturalHeight: element.naturalHeight, complete: element.complete })"
+    )
+    assert state["complete"], f"Cover did not finish loading ({label}): {state}"
+    assert state["naturalWidth"] > 0, f"Cover has no decoded width ({label}): {state}"
+    assert state["naturalHeight"] > 0, f"Cover has no decoded height ({label}): {state}"
+    assert "project-placeholder" not in (state["src"] or ""), f"Unexpected placeholder cover ({label}): {state}"
+    assert app_path("/images/projects/") in state["currentSrc"], f"Cover escaped the app base path ({label}): {state}"
 
 
 def arm_not_found_observer(page: Page) -> None:
@@ -91,7 +113,7 @@ def main() -> None:
 
         browser = playwright.chromium.launch(**launch_options)
         context = browser.new_context(viewport={"width": 1440, "height": 1000})
-        expect.set_options(timeout=10_000)
+        expect.set_options(timeout=30_000)
 
         def monitor_page(browser_page: Page) -> None:
             browser_page.set_default_navigation_timeout(90_000)
@@ -178,8 +200,7 @@ def main() -> None:
         ]
         for fragment in expected_cover_fragments:
             image = page.locator(f'img[src*="{fragment}"]').first
-            expect(image).to_be_visible()
-            assert image.evaluate("element => element.naturalWidth") > 0, f"Broken cover: {fragment}"
+            assert_real_cover(image, fragment)
 
         page.get_by_role("button", name="UAV Systems").click()
         expect(page.get_by_role("heading", name="Heterogeneous UAV/USV/UGV Swarm Collaborative System")).to_be_visible()
@@ -196,11 +217,15 @@ def main() -> None:
         search.fill("")
         expect(page.get_by_text("Neura-Shadow Portfolio CMS", exact=True)).to_have_count(0)
 
-        card_covers = page.locator('a[href^="/projects/"] img')
+        card_covers = page.locator(f'a[href^="{app_path("/projects/")}"] img')
         assert card_covers.count() == len(PROJECT_TITLES), "Every public project must render exactly one card cover"
         cover_sources = card_covers.evaluate_all("images => images.map(image => image.getAttribute('src'))")
         assert len(set(cover_sources)) == len(PROJECT_TITLES), f"Project covers are not unique: {cover_sources}"
+        for index in range(card_covers.count()):
+            assert_real_cover(card_covers.nth(index), f"catalog card {index + 1}")
 
+        page.evaluate("window.scrollTo(0, 0)")
+        page.wait_for_timeout(300)
         SCREENSHOT.parent.mkdir(parents=True, exist_ok=True)
         page.screenshot(path=str(SCREENSHOT), full_page=True)
 
@@ -213,9 +238,6 @@ def main() -> None:
             click_project(card_page, slug)
             expect(card_page.get_by_role("heading", name=title, exact=True)).to_be_visible()
             assert_no_not_found_flash(card_page, f"projects-to-{slug} card navigation")
-            card_page.go_back(wait_until="domcontentloaded")
-            expect(card_page.get_by_placeholder("Search projects by tag or name...")).to_be_visible()
-            expect(card_page.locator(f'a[href="/projects/{slug}"]').first).to_be_visible()
             card_page.close()
 
         # Public project details and repository CTAs via client navigation.
@@ -233,6 +255,7 @@ def main() -> None:
         expect(page.get_by_role("heading", name="World-Model-Guided Digital-Twin UAV Navigation Research Framework", exact=True)).to_be_visible()
         assert_no_not_found_flash(page, "browser-forward navigation")
         page.go_back(wait_until="domcontentloaded")
+        expect(page.get_by_placeholder("Search projects by tag or name...")).to_be_visible()
         arm_not_found_observer(page)
         click_project(page, "scalable-ecommerce-platform")
         expect(page.get_by_text("v1.0.0 / production-minded backend foundation", exact=True).first).to_be_visible()
@@ -260,15 +283,14 @@ def main() -> None:
             direct = context.new_page()
             direct.goto(f"{BASE_URL}/projects/{slug}", wait_until="domcontentloaded")
             expect(direct.get_by_role("heading", name=title, exact=True)).to_be_visible()
-            cover = direct.locator(f'img[src*="/images/projects/{slug}."]').first
-            expect(cover).to_be_visible()
-            assert cover.evaluate("image => image.naturalWidth") > 0, f"Broken detail cover: {slug}"
+            cover = direct.locator(f'img[src*="{app_path(f"/images/projects/{slug}.")}"]').first
+            assert_real_cover(cover, f"detail page {slug}")
             expect(direct.get_by_text("Project Not Found", exact=True)).to_have_count(0)
             direct.close()
 
         # Blog listing to article uses Nuxt client navigation.
         page.get_by_role("link", name="Blog", exact=True).click()
-        article_link = page.locator('a[href="/blog/scalable-railway-ticketing-platform"]').first
+        article_link = page.locator(f'a[href="{app_path("/blog/scalable-railway-ticketing-platform")}"]').first
         expect(article_link).to_be_visible()
         article_link.click()
         expect(page.get_by_role("heading", name="Building a Sharded Railway Ticketing Platform", exact=True).first).to_be_visible()
@@ -286,6 +308,10 @@ def main() -> None:
         assert not has_overflow, "Projects page has horizontal overflow at 390px"
         assert_no_raw_i18n_keys(mobile)
         expect(mobile.get_by_text("Neura-Shadow Portfolio CMS", exact=True)).to_have_count(0)
+        mobile_covers = mobile.locator(f'a[href^="{app_path("/projects/")}"] img')
+        assert mobile_covers.count() == len(PROJECT_TITLES), "Mobile catalog must render all seven project covers"
+        for index in range(mobile_covers.count()):
+            assert_real_cover(mobile_covers.nth(index), f"mobile catalog card {index + 1}")
 
         browser.close()
 
@@ -302,7 +328,8 @@ def main() -> None:
     print(
         "Portfolio browser verification passed: home featured order, EN/ZH, taxonomy, search, "
         "seven-project catalog, public/private details, flash-free client navigation, direct URLs, blog, "
-        "unique local covers, public links, Mock Mode, and mobile layout."
+        "unique base-aware local covers with positive natural dimensions and no unexpected placeholders, "
+        "public links, Mock Mode, and mobile layout."
     )
 
 

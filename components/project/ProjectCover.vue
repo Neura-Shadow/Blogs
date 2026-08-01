@@ -1,12 +1,12 @@
 <template>
   <div
-    class="aspect-[16/9] overflow-hidden rounded-xl border border-light-border bg-[#F3EEE5] dark:border-dark-border dark:bg-dark-elevated"
+    class="relative aspect-[16/9] overflow-hidden rounded-xl border border-light-border bg-[#F3EEE5] dark:border-dark-border dark:bg-dark-elevated"
     :class="containerClass"
   >
     <img
       :src="resolvedCover"
       :alt="alt"
-      class="pointer-events-none h-full w-full object-cover transition-transform duration-500"
+      class="pointer-events-none absolute inset-0 h-full w-full object-cover transition-transform duration-500"
       :class="imageClass"
       :loading="eager ? 'eager' : 'lazy'"
       decoding="async"
@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { normalizeProjectCover, PROJECT_COVER_PLACEHOLDER } from '~/composables/useProjects'
+import { normalizeProjectCoverPath, PROJECT_COVER_PLACEHOLDER } from '~/composables/useProjects'
 
 const props = withDefaults(defineProps<{
   src?: string | null
@@ -32,19 +32,25 @@ const props = withDefaults(defineProps<{
   imageClass: ''
 })
 
-const resolvedCover = ref(PROJECT_COVER_PLACEHOLDER)
+const { publicAssetPath } = usePublicAssetPath()
+const fallbackCover = () => publicAssetPath(PROJECT_COVER_PLACEHOLDER, PROJECT_COVER_PLACEHOLDER)
+const resolvedCover = ref(fallbackCover())
 
 watch(
   () => props.src,
   (value) => {
-    resolvedCover.value = normalizeProjectCover(value) || PROJECT_COVER_PLACEHOLDER
+    resolvedCover.value = publicAssetPath(
+      normalizeProjectCoverPath(value),
+      PROJECT_COVER_PLACEHOLDER
+    )
   },
   { immediate: true }
 )
 
 function handleCoverError() {
-  if (resolvedCover.value !== PROJECT_COVER_PLACEHOLDER) {
-    resolvedCover.value = PROJECT_COVER_PLACEHOLDER
+  const fallback = fallbackCover()
+  if (resolvedCover.value !== fallback) {
+    resolvedCover.value = fallback
   }
 }
 </script>

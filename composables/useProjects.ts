@@ -6,6 +6,7 @@ export type ProjectDataSource = 'auto' | 'local' | 'supabase'
 export type ProjectLocale = 'en' | 'zh-TW'
 
 export const PROJECT_COVER_PLACEHOLDER = '/images/projects/project-placeholder.webp'
+const PROJECT_COVER_RE = /^\/images\/projects\/[A-Za-z0-9][A-Za-z0-9_().-]*\.(?:avif|jpe?g|png|svg|webp)$/i
 
 const excludedProjectSlugs = new Set(['blogs'])
 const excludedPortfolioRepos = new Set([
@@ -17,11 +18,33 @@ export function normalizeProjectSlug(value: unknown) {
   return String(value ?? '').trim().toLowerCase()
 }
 
+export function normalizeProjectCoverPath(value: unknown, fallback = PROJECT_COVER_PLACEHOLDER) {
+  const raw = String(value ?? '').trim()
+  if (!raw) return fallback
+
+  const normalized = raw.replaceAll('\\', '/')
+  if (
+    /^file:/i.test(normalized)
+    || /^[A-Za-z]:\//.test(normalized)
+    || normalized.includes('src-legacy/')
+    || normalized.includes('assets/ProjectCard/')
+    || normalized.startsWith('/public/')
+    || normalized.startsWith('public/')
+    || /^(?:https?:)?\/\//i.test(normalized)
+  ) {
+    return fallback
+  }
+
+  const rootRelative = normalized.startsWith('images/projects/')
+    ? `/${normalized}`
+    : normalized
+
+  return PROJECT_COVER_RE.test(rootRelative) ? rootRelative : fallback
+}
+
 export function normalizeProjectCover(value: unknown) {
-  const cover = String(value ?? '').trim()
-  return /^\/images\/projects\/[A-Za-z0-9][A-Za-z0-9/_().-]*\.(?:avif|jpe?g|png|svg|webp)$/i.test(cover)
-    ? cover
-    : null
+  const normalized = normalizeProjectCoverPath(value, '')
+  return normalized || null
 }
 
 function isExcludedProject(project: Project) {
