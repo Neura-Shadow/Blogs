@@ -39,6 +39,7 @@ jobs:
         env:
           NITRO_PRESET: static
           NUXT_APP_BASE_URL: /Blogs/
+          NUXT_PUBLIC_PROJECT_DATA_SOURCE: local
           NUXT_PUBLIC_SUPABASE_URL: ${{ vars.NUXT_PUBLIC_SUPABASE_URL }}
           NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
 
