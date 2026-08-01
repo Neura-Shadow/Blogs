@@ -48,6 +48,9 @@
     highlights: 'Implemented Scope',
     challenges: 'Technical Challenges',
     results: 'Current Outcomes',
+    loadError: 'Unable to Load Project',
+    loadErrorDesc: 'The project request could not be completed. The local catalog remains available when the remote source is unavailable.',
+    tryAgain: 'Try again',
     notFound: 'Project Not Found',
     notFoundDesc: 'The requested project URL does not match any current portfolio archives.',
     returnToProjects: 'Return to projects'

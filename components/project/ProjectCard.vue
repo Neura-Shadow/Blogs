@@ -1,15 +1,16 @@
 ﻿<template>
   <ThreeDTiltCard :max-tilt="8" class="h-full" :class="themeClasses">
-    <NuxtLink :to="`/projects/${project.slug}`" class="block h-full p-6 sm:p-8 flex flex-col justify-between group text-left">
+    <NuxtLink
+      :to="{ name: 'projects-slug', params: { slug: project.slug } }"
+      class="group flex h-full flex-col justify-between p-6 text-left sm:p-8"
+    >
       <div>
-        <div v-if="project.cover" class="mb-6 overflow-hidden rounded-xl border border-light-border dark:border-dark-border bg-light-elevated dark:bg-dark-elevated aspect-[16/9]">
-          <img
-            :src="project.cover"
-            :alt="`${project.title[locale]} architecture cover`"
-            loading="lazy"
-            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-          />
-        </div>
+        <ProjectCover
+          :src="project.cover"
+          :alt="project.title[locale]"
+          container-class="mb-6"
+          image-class="group-hover:scale-[1.02]"
+        />
 
         <!-- Top row: Number and Link Indicator -->
         <div class="flex items-center justify-between mb-6">
@@ -60,6 +61,7 @@ import { computed } from 'vue'
 import { ArrowUpRight } from 'lucide-vue-next'
 import type { Project } from '~/types/project'
 import { useI18n } from '~/composables/useI18n'
+import ProjectCover from '~/components/project/ProjectCover.vue'
 import ThreeDTiltCard from '~/components/ui/ThreeDTiltCard.vue'
 import TechBadge from '~/components/ui/TechBadge.vue'
 

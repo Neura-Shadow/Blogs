@@ -243,10 +243,20 @@ Blog content currently supports two data paths:
 - Production Mode: published posts are read through `/api/posts`.
 - Mock Mode: blog content falls back to Markdown/Nuxt Content and local mock mapping.
 
-Project content follows the same pattern:
+Project content uses `NUXT_PUBLIC_PROJECT_DATA_SOURCE=auto` by default:
 
-- Production Mode: projects are read through `/api/projects`.
-- Mock Mode: projects fall back to `data/projects.ts`.
+- `local`: use only the reviewed `data/projects.ts` catalog.
+- `supabase`: query `/api/projects` first, then fall back by the same explicit slug.
+- `auto`: use the remote source when available, while preserving the complete local catalog when Supabase is unavailable, empty, unsynchronized, permission-denied, or missing a slug.
+
+Import the reviewed legacy project covers and validate the complete public catalog:
+
+```bash
+npm run import:project-covers
+npm run verify:projects
+```
+
+The importer preserves `src-legacy/assets/ProjectCard`, uses explicit filename aliases rather than directory ordering, and writes normalized project-specific files under `public/images/projects`. See `docs/project-cover-import-report.md` for the exact source mapping.
 
 Compare the reviewed local project records with Supabase in read-only dry-run mode:
 

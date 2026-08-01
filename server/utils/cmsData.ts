@@ -198,3 +198,35 @@ export const getMockProject = (idOrSlug: string) => {
   const slugMatch = idOrSlug.replace(/^mock-proj-uuid-\d+-/, '')
   return getMockProjects().find((project) => project.slug === slugMatch || project.slug === idOrSlug)
 }
+
+export const mergePublicProjectRow = (localProject: any, remoteProject?: any) => {
+  if (!remoteProject) return localProject
+
+  const remoteValues = Object.fromEntries(
+    Object.entries(remoteProject).filter(([, value]) => value !== null && value !== undefined && value !== '')
+  )
+  const merged = {
+    ...localProject,
+    ...remoteValues,
+    id: remoteProject.id || localProject.id,
+    slug: localProject.slug,
+    title_en: localProject.title_en,
+    title_zh: localProject.title_zh,
+    cover_url: remoteProject.cover_url || localProject.cover_url
+  }
+
+  if ((localProject.tags || []).includes('Private-Sanitized')) {
+    merged.repo_url = null
+    merged.demo_url = null
+    merged.paper_url = null
+  }
+
+  return merged
+}
+
+export const mergePublicProjectRows = (remoteProjects: any[]) => {
+  const remoteBySlug = new Map(remoteProjects.map(project => [String(project.slug), project]))
+  return getMockProjects().map(localProject => (
+    mergePublicProjectRow(localProject, remoteBySlug.get(localProject.slug))
+  ))
+}

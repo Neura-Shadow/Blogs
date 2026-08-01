@@ -4,6 +4,10 @@ import { createClient } from '@supabase/supabase-js'
 import { projectsData } from '../data/projects.ts'
 
 const APPLY_CONFIRMATION = 'SYNC_PROJECTS'
+const excludedPortfolioRepos = new Set([
+  'Neura-Shadow/Blogs',
+  'Neura-Shadow/Neura-Shadow'
+])
 const PROJECT_COLUMNS = [
   'slug',
   'title_en',
@@ -58,7 +62,12 @@ function loadDotEnv() {
 }
 
 function localRows(): ProjectRow[] {
-  return projectsData.map((project, sortOrder) => ({
+  return projectsData
+    .filter((project) => {
+      const repository = project.links.repo?.replace(/^https:\/\/github\.com\//, '') || ''
+      return !excludedPortfolioRepos.has(repository)
+    })
+    .map((project, sortOrder) => ({
     slug: project.slug,
     title_en: project.title.en,
     title_zh: project.title['zh-TW'],
@@ -87,7 +96,7 @@ function localRows(): ProjectRow[] {
     challenges_zh: project.challenges?.['zh-TW'] || [],
     results_en: project.results?.en || [],
     results_zh: project.results?.['zh-TW'] || []
-  }))
+    }))
 }
 
 function assertPrivateLinksAreNull(rows: ProjectRow[]) {

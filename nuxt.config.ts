@@ -86,7 +86,8 @@ export default defineNuxtConfig({
     // Public keys exposed to the client
     public: {
       supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL || '',
-      supabasePublishableKey: process.env.NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || ''
+      supabasePublishableKey: process.env.NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || '',
+      projectDataSource: process.env.NUXT_PUBLIC_PROJECT_DATA_SOURCE || 'auto'
     }
   },
 

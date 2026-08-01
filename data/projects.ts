@@ -35,7 +35,7 @@ export const projectsData: Project[] = [
       repo: 'https://github.com/Neura-Shadow/Scalable-Railway-Ticketing-Platform',
       paper: null
     },
-    cover: '/images/projects/scalable-railway-ticketing-platform.svg',
+    cover: '/images/projects/scalable-railway-ticketing-platform.webp',
     highlights: {
       en: [
         'Allocates physical seats by route-segment overlap with atomic all-or-nothing multi-passenger updates.',
@@ -108,7 +108,7 @@ export const projectsData: Project[] = [
       repo: 'https://github.com/Neura-Shadow/GWM-UAV-Navigation-Sparse-Rewards',
       paper: null
     },
-    cover: '/images/blog/gwm-uav-navigation-research-engineering.png',
+    cover: '/images/projects/gwm-uav-navigation-sparse-rewards.webp',
     highlights: {
       en: [
         'Keeps normal development mock-first while isolating optional ROS2, simulator, SITL, and command paths behind explicit runtime gates.',
@@ -181,7 +181,7 @@ export const projectsData: Project[] = [
       repo: 'https://github.com/Neura-Shadow/Scalable-E-Commerce-Platform',
       paper: null
     },
-    cover: '/images/projects/scalable-ecommerce-platform.svg',
+    cover: '/images/projects/scalable-ecommerce-platform.webp',
     highlights: {
       en: [
         'Places orders inside a transaction-scoped unit of work with conditional inventory deduction and durable request fingerprints.',
@@ -254,6 +254,7 @@ export const projectsData: Project[] = [
       repo: null,
       paper: null
     },
+    cover: '/images/projects/heterogeneous-uav-swarm-system.webp',
     highlights: {
       en: [
         'Defines integration boundaries across heterogeneous vehicle telemetry and operator workflows.',
@@ -283,12 +284,12 @@ export const projectsData: Project[] = [
   {
     slug: 'thesis-code',
     title: {
-      en: 'Master Thesis Code - Video Anomaly Detection',
-      'zh-TW': '碩士研究代碼 - 視訊異常偵測'
+      en: 'Diffusion Transformer Video Anomaly Detection',
+      'zh-TW': '基於 Diffusion Transformer 的視訊異常偵測'
     },
     subtitle: {
-      en: 'Sanitized summary of private computer-vision research code',
-      'zh-TW': 'Private 電腦視覺研究代碼的去敏摘要'
+      en: 'Private research codebase for video anomaly detection and spatio-temporal representation learning',
+      'zh-TW': '視訊異常偵測與時空表徵學習之私人研究程式碼摘要'
     },
     category: 'AI Research',
     role: {
@@ -314,6 +315,7 @@ export const projectsData: Project[] = [
       repo: null,
       paper: null
     },
+    cover: '/images/projects/thesis-code.webp',
     highlights: {
       en: [
         'Explores temporal representation and anomaly-scoring pipelines for video sequences.',
@@ -374,7 +376,7 @@ export const projectsData: Project[] = [
       repo: 'https://github.com/Neura-Shadow/Analysis_website',
       paper: null
     },
-    cover: '/images/projects/analysis-website-archive.svg',
+    cover: '/images/projects/analysis-website.webp',
     highlights: {
       en: ['Preserved as a transparent historical artifact rather than represented as a current full-stack system.'],
       'zh-TW': ['以透明的歷史 artifact 保留，不再描述為現行 full-stack system。']
@@ -423,7 +425,7 @@ export const projectsData: Project[] = [
       repo: 'https://github.com/Neura-Shadow/Face_Detect_Realtime',
       paper: null
     },
-    cover: '/images/projects/face-detect-realtime.svg',
+    cover: '/images/projects/face-detect-realtime.webp',
     highlights: {
       en: ['Combines local webcam capture and face encodings with Firebase-backed profile lookup and image storage.'],
       'zh-TW': ['結合本機 webcam capture、face encoding、Firebase profile lookup 與 image storage。']
@@ -435,61 +437,6 @@ export const projectsData: Project[] = [
     results: {
       en: ['Retained as a legacy learning prototype without performance or deployment claims.'],
       'zh-TW': ['保留為 legacy 學習 prototype，不包含效能或部署宣稱。']
-    },
-    featured: false
-  },
-  {
-    slug: 'blogs',
-    title: {
-      en: 'Neura-Shadow Portfolio CMS',
-      'zh-TW': 'Neura-Shadow 作品集 CMS'
-    },
-    subtitle: {
-      en: 'Bilingual Nuxt 3 portfolio, engineering blog, and Supabase-ready CMS',
-      'zh-TW': '雙語 Nuxt 3 作品集、工程 Blog 與 Supabase-ready CMS'
-    },
-    category: 'Full-stack',
-    role: {
-      en: 'Full-stack Developer',
-      'zh-TW': '全端開發者'
-    },
-    status: {
-      en: 'Active portfolio application',
-      'zh-TW': '持續維護中的作品集應用'
-    },
-    description: {
-      en: 'This Nuxt 3 application combines a bilingual project portfolio, Markdown engineering notes, local fallback data, and a server-side Supabase CMS path for posts, projects, and media.',
-      'zh-TW': '此 Nuxt 3 應用整合雙語 project portfolio、Markdown 工程筆記、本機 fallback data，以及 posts、projects 與 media 的 server-side Supabase CMS 路徑。'
-    },
-    longDescription: {
-      en: 'The current repository has replaced the earlier Vue 2-only framing. It uses Vue 3, TypeScript, Tailwind CSS, Nuxt Content, server API routes, Supabase Auth and PostgreSQL paths, and Mock Mode fallback when required environment configuration is missing. The public static site and the server-capable CMS deployment remain distinct deployment modes.',
-      'zh-TW': '目前 repository 已取代舊有僅描述 Vue 2 的定位。專案採 Vue 3、TypeScript、Tailwind CSS、Nuxt Content、server API route、Supabase Auth / PostgreSQL 路徑，並在必要環境設定缺失時使用 Mock Mode fallback。公開靜態站與可執行 CMS 的 server deployment 仍是不同模式。'
-    },
-    tags: ['Full-stack', 'Cloud Native', 'Portfolio', 'CMS', 'Bilingual'],
-    stack: ['Nuxt 3', 'Vue 3', 'TypeScript', 'Tailwind CSS', 'Supabase', 'PostgreSQL', 'Nuxt Content'],
-    links: {
-      demo: null,
-      repo: 'https://github.com/Neura-Shadow/Blogs',
-      paper: null
-    },
-    cover: '/images/screenshots/home-hero.png',
-    highlights: {
-      en: [
-        'Uses one typed project model across local fallback data, CMS mapping, cards, detail pages, and server routes.',
-        'Keeps public Supabase configuration separate from the server-only service credential path.'
-      ],
-      'zh-TW': [
-        '以同一套 typed project model 串接 local fallback、CMS mapping、card、detail page 與 server route。',
-        '將 public Supabase config 與 server-only service credential 路徑分離。'
-      ]
-    },
-    challenges: {
-      en: ['Keeping static fallback content and remote CMS rows synchronized without exposing private links or service credentials.'],
-      'zh-TW': ['同步 static fallback 與 remote CMS row，同時避免暴露 private link 或 service credential。']
-    },
-    results: {
-      en: ['Provides a buildable local Mock Mode and a separately configured server-side CMS mode.'],
-      'zh-TW': ['提供可 build 的 local Mock Mode，以及需獨立設定的 server-side CMS mode。']
     },
     featured: false
   }

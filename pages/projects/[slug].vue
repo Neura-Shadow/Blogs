@@ -1,5 +1,16 @@
 ﻿<template>
-  <div v-if="project" class="py-12 md:py-20 bg-light-bg dark:bg-dark-bg transition-colors duration-300">
+  <div v-if="isLoading" class="min-h-[60dvh] bg-light-bg px-4 py-16 dark:bg-dark-bg" aria-live="polite">
+    <div class="mx-auto max-w-6xl animate-pulse space-y-8">
+      <div class="h-4 w-32 rounded bg-neutral-200 dark:bg-neutral-800" />
+      <div class="rounded-2xl border border-light-border bg-light-surface p-8 dark:border-dark-border dark:bg-dark-surface/40 sm:p-10">
+        <div class="h-5 w-40 rounded bg-neutral-200 dark:bg-neutral-800" />
+        <div class="mt-5 h-12 max-w-3xl rounded bg-neutral-200 dark:bg-neutral-800" />
+        <div class="mt-8 aspect-[16/9] rounded-xl bg-[#F3EEE5] dark:bg-dark-elevated" />
+      </div>
+    </div>
+  </div>
+
+  <div v-else-if="project" class="py-12 md:py-20 bg-light-bg dark:bg-dark-bg transition-colors duration-300">
     <div class="max-w-6xl mx-auto px-4">
       <NuxtLink
         to="/projects"
@@ -27,9 +38,7 @@
           {{ project.subtitle[locale] }}
         </p>
 
-        <div v-if="project.cover" class="mt-8 overflow-hidden rounded-xl border border-light-border dark:border-dark-border bg-light-elevated dark:bg-dark-elevated aspect-[16/9]">
-          <img :src="project.cover" :alt="`${project.title[locale]} architecture cover`" class="h-full w-full object-cover" />
-        </div>
+        <ProjectCover :src="project.cover" :alt="project.title[locale]" eager container-class="mt-8" />
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -125,7 +134,16 @@
     </div>
   </div>
 
-  <div v-else class="py-24 text-center bg-light-bg dark:bg-dark-bg transition-colors duration-300">
+  <div v-else-if="error" class="min-h-[60dvh] bg-light-bg px-4 py-24 text-center dark:bg-dark-bg" role="alert">
+    <AlertCircle class="mx-auto mb-4 h-16 w-16 text-rose-500" />
+    <h1 class="text-xl font-bold text-neutral-800 dark:text-neutral-200">{{ t('projects.loadError') }}</h1>
+    <p class="mx-auto mt-2 max-w-md text-sm text-neutral-500">{{ t('projects.loadErrorDesc') }}</p>
+    <button class="mt-6 rounded-lg bg-brand-accent px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-accentHover" @click="refresh()">
+      {{ t('projects.tryAgain') }}
+    </button>
+  </div>
+
+  <div v-else-if="isNotFound" class="py-24 text-center bg-light-bg dark:bg-dark-bg transition-colors duration-300">
     <FolderOpen class="w-16 h-16 text-neutral-300 dark:text-neutral-800 mx-auto mb-4" />
     <h1 class="text-xl font-bold text-neutral-800 dark:text-neutral-200">{{ t('projects.notFound') }}</h1>
     <p class="text-sm text-neutral-500 mt-1 mb-8">{{ t('projects.notFoundDesc') }}</p>
@@ -141,23 +159,35 @@ import { useRoute } from 'vue-router'
 import { ArrowLeft, ArrowUpRight, Github, Globe, BookOpen, CheckCircle2, AlertCircle, Activity, FolderOpen } from 'lucide-vue-next'
 import { useI18n } from '~/composables/useI18n'
 import TechBadge from '~/components/ui/TechBadge.vue'
-import { dbProjectToProject } from '~/utils/cmsMappers'
+import ProjectCover from '~/components/project/ProjectCover.vue'
+import { fetchProjectBySlug } from '~/composables/useProjects'
 
 const route = useRoute()
 const { locale, t } = useI18n()
-const slug = computed(() => route.params.slug as string)
+const slug = computed(() => String(route.params.slug ?? '').trim())
+const asyncKey = computed(() => `project-detail:${slug.value}`)
 
-const { data: projectRow } = await useAsyncData<any | null>(
-  `project-${slug.value}`,
-  () => $fetch(`/api/projects/${slug.value}`)
+const { data: project, status, error, refresh } = await useAsyncData(
+  asyncKey,
+  () => fetchProjectBySlug(slug.value),
+  {
+    watch: [slug],
+    server: true,
+    lazy: false,
+    immediate: true,
+    dedupe: 'cancel',
+    default: () => null
+  }
 )
 
-const project = computed(() => projectRow.value ? dbProjectToProject(projectRow.value) : null)
+const isLoading = computed(() => status.value === 'idle' || status.value === 'pending')
+const isNotFound = computed(() => status.value === 'success' && !project.value)
 
-useHead({
-  title: project.value ? project.value.title[locale.value] : 'Project Details',
-  meta: [
-    { name: 'description', content: project.value ? project.value.description[locale.value] : 'Read about project details and systems architecture.' }
-  ]
-})
+useHead(() => ({
+  title: project.value?.title[locale.value] || 'Project Details',
+  meta: [{
+    name: 'description',
+    content: project.value?.description[locale.value] || 'Read about project details and systems architecture.'
+  }]
+}))
 </script>

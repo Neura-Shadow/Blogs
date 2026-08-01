@@ -6,7 +6,9 @@
     "build": "nuxt build",
     "dev": "nuxt dev --open",
     "generate": "nuxt generate",
+    "import:project-covers": "jiti scripts/import-project-covers.ts",
     "sync:projects": "jiti scripts/sync-projects-to-supabase.ts",
+    "verify:projects": "jiti scripts/verify-project-catalog.ts",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },

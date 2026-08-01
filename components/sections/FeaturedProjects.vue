@@ -33,7 +33,10 @@
       </div>
 
       <!-- Projects Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div v-if="isLoading" class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" aria-live="polite">
+        <div v-for="index in 3" :key="index" class="aspect-[4/3] animate-pulse rounded-2xl bg-white/70 dark:bg-dark-surface" />
+      </div>
+      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
           v-for="(project, idx) in featuredProjects"
           :key="project.slug"
@@ -67,13 +70,19 @@ import { Star, ArrowRight } from 'lucide-vue-next'
 import { useI18n } from '~/composables/useI18n'
 import ProjectCard from '~/components/project/ProjectCard.vue'
 import SpotlightCard from '~/components/ui/SpotlightCard.vue'
-import { dbProjectToProject } from '~/utils/cmsMappers'
+import { fetchProjects } from '~/composables/useProjects'
 
 const { t } = useI18n()
 
-const { data: apiProjects } = await useAsyncData<any[]>('featured-projects', () => $fetch('/api/projects'))
+const { data: projects, status } = await useAsyncData(
+  'featured-projects:public',
+  fetchProjects,
+  { default: () => [] }
+)
 
 const featuredProjects = computed(() => {
-  return (apiProjects.value || []).map(dbProjectToProject).filter(p => p.featured)
+  return projects.value.filter(project => project.featured)
 })
+
+const isLoading = computed(() => status.value === 'idle' || status.value === 'pending')
 </script>

@@ -48,7 +48,19 @@
       </div>
 
       <!-- Project Cards Grid -->
-      <div v-if="filteredProjects.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div v-if="isLoading" class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" aria-live="polite">
+        <div v-for="index in 6" :key="index" class="aspect-[4/3] animate-pulse rounded-2xl bg-light-elevated dark:bg-dark-surface" />
+      </div>
+
+      <div v-else-if="error" class="rounded-xl border border-rose-200 bg-rose-50 p-8 text-center dark:border-rose-900/40 dark:bg-rose-950/20" role="alert">
+        <AlertCircle class="mx-auto mb-3 h-10 w-10 text-rose-500" />
+        <h3 class="text-base font-bold text-neutral-800 dark:text-neutral-200">{{ t('projects.loadError') }}</h3>
+        <button class="mt-4 rounded-lg bg-brand-accent px-4 py-2 text-xs font-semibold text-white" @click="refresh()">
+          {{ t('projects.tryAgain') }}
+        </button>
+      </div>
+
+      <div v-else-if="filteredProjects.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
           v-for="project in filteredProjects"
           :key="project.slug"
@@ -75,12 +87,12 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { Layers, Search, FolderOpen } from 'lucide-vue-next'
+import { Layers, Search, FolderOpen, AlertCircle } from 'lucide-vue-next'
 import { useI18n } from '~/composables/useI18n'
 import SectionHeading from '~/components/ui/SectionHeading.vue'
 import SpotlightCard from '~/components/ui/SpotlightCard.vue'
 import ProjectCard from '~/components/project/ProjectCard.vue'
-import { dbProjectToProject } from '~/utils/cmsMappers'
+import { fetchProjects } from '~/composables/useProjects'
 
 const { locale, t } = useI18n()
 
@@ -108,11 +120,13 @@ const categories = computed(() => [
 
 const filterKeys = ['all', 'backend systems', 'robotics research', 'uav systems', 'full-stack', 'ai research', 'cloud native', 'computer vision', 'legacy / archive']
 
-const { data: apiProjects } = await useAsyncData<any[]>('projects-list', () => $fetch('/api/projects'))
+const { data: projects, status, error, refresh } = await useAsyncData(
+  'projects-list:public',
+  fetchProjects,
+  { default: () => [] }
+)
 
-const projects = computed(() => {
-  return (apiProjects.value || []).map(dbProjectToProject)
-})
+const isLoading = computed(() => status.value === 'idle' || status.value === 'pending')
 
 const filteredProjects = computed(() => {
   return projects.value.filter(project => {

@@ -48,6 +48,9 @@
     highlights: '已實作範圍',
     challenges: '面對的技術挑戰',
     results: '目前成果',
+    loadError: '無法載入專案',
+    loadErrorDesc: '專案請求未能完成；遠端來源無法使用時，系統仍會嘗試本機作品集資料。',
+    tryAgain: '再試一次',
     notFound: '未找到該專案',
     notFoundDesc: '您所請求的專案路徑不存在於目前的作品集庫中。',
     returnToProjects: '返回專案歸檔頁'
