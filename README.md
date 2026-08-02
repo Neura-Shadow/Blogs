@@ -6,9 +6,9 @@ Neura-Shadow Portfolio CMS is a Nuxt 3 personal portfolio, engineering blog, pro
 
 It is built around the English positioning **Embedded Linux & Distributed Real-Time Systems Developer** and the Traditional Chinese positioning **Embedded Linux 與分散式即時系統開發者**.
 
-The capability line is **High-Concurrency Go Backend · Cloud-Native Architecture · Nuxt Full-Stack · NVIDIA Jetson / Edge AI · ROS 2 · UAV Systems · Computer Vision**. The portfolio connects high-concurrency distributed and real-time systems, Nuxt interfaces, Embedded Linux edge devices, ROS 2 communication, and AI inference pipelines in a warm, readable, bilingual experience.
+The concise capability line is **High-Concurrency Go · Cloud-Native Systems · Jetson Edge AI · ROS 2 · UAV Integration · Nuxt**. The Hero summarizes the work in one sentence: building high-concurrency backends and distributed real-time systems that connect Go services, Nuxt interfaces, edge AI, ROS 2, and UAV telemetry.
 
-Implementation-oriented NSTC applied R&D is presented as system-integration work performed within an assigned scope: architecture development across heterogeneous UAV, USV, and UGV platforms, operator interfaces, telemetry backends, MAVLink–MQTT communication, WebRTC video paths, and containerized services. Separately, independent image-processing and computer-vision research has been submitted to IEEE Transactions on Multimedia. This independent research is not derived from, and is not presented as a deliverable or outcome of, the NSTC projects.
+Two compact Hero callouts distinguish assigned-scope NSTC system architecture and integration from independent computer-vision research submitted to IEEE Transactions on Multimedia. Detailed implementation technologies, evidence statuses, ROS 2 responsibilities, QoS examples, and profiling scope remain on the About page.
 
 The application keeps a safe local Mock Mode for development and a Supabase Production Mode path for live Auth, PostgreSQL CRUD, and Storage-backed media management.
 
@@ -28,7 +28,7 @@ The application keeps a safe local Mock Mode for development and a Supabase Prod
 - Supabase migrations for PostgreSQL tables, grants, and RLS policies.
 - Blog cover images served from `public/images/blog`.
 - Three.js interactive hero and profile visuals.
-- Evidence-based capability statuses instead of seniority or mastery scores.
+- Four concise homepage capability groups with the evidence-based detailed inventory retained on the About page.
 - A bilingual Current Engineering Focus for Embedded Linux, NVIDIA Jetson, ROS 2, ONNX, TensorRT, GStreamer, V4L2, and Edge AI deployment.
 - Explicit visual and semantic separation between NSTC applied R&D system integration and independent IEEE TMM image-processing research.
 - 3D tilt cards, animated backgrounds, and Inspira-style UI components.
@@ -347,7 +347,7 @@ Implemented:
 - Guarded Supabase project sync tooling
 - Blog cover images
 - Three.js hero and profile components
-- Six-group capability matrix with evidence-based status labels
+- Four homepage Core Capabilities with a six-domain evidence inventory on About
 - Bilingual Embedded Linux, Edge AI, and ROS 2 reference architecture
 - Supabase-ready Admin CMS
 - Mock Mode fallback

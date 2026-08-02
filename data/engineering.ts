@@ -1,11 +1,51 @@
 import type {
   ArchitectureStep,
   CapabilityStatus,
+  CoreCapability,
   Multilingual,
   ProjectFilter,
   QosExample,
   RosResponsibility
 } from '~/types/project'
+
+export const coreCapabilities: CoreCapability[] = [
+  {
+    id: 'distributed-backend',
+    titleKey: 'skills.groups.distributedBackend.title',
+    descriptionKey: 'skills.groups.distributedBackend.description',
+    icon: 'server',
+    skills: ['Go', 'PostgreSQL', 'Redis', 'Event-Driven', 'Docker / Kubernetes', 'CI/CD'],
+    sourceGroupIds: ['backend-cloud'],
+    href: '/about#capabilities'
+  },
+  {
+    id: 'embedded-edge-ai',
+    titleKey: 'skills.groups.embeddedEdge.title',
+    descriptionKey: 'skills.groups.embeddedEdge.description',
+    icon: 'cpu',
+    skills: ['NVIDIA Jetson', 'V4L2 / GStreamer', 'OpenCV', 'ONNX / TensorRT', 'Multithreading', 'Runtime Profiling'],
+    sourceGroupIds: ['embedded-edge', 'edge-ai-vision'],
+    href: '/about#capabilities'
+  },
+  {
+    id: 'ros2-autonomy',
+    titleKey: 'skills.groups.rosAutonomy.title',
+    descriptionKey: 'skills.groups.rosAutonomy.description',
+    icon: 'network',
+    skills: ['ROS 2', 'DDS / QoS', 'MAVLink / PX4', 'Digital Twin', 'World Models', 'Multi-Agent Systems'],
+    sourceGroupIds: ['ros2-middleware', 'autonomous-research'],
+    href: '/about#capabilities'
+  },
+  {
+    id: 'full-stack-realtime',
+    titleKey: 'skills.groups.fullStackRealtime.title',
+    descriptionKey: 'skills.groups.fullStackRealtime.description',
+    icon: 'layout-dashboard',
+    skills: ['Nuxt 3 / Vue 3', 'TypeScript', 'Supabase', 'MQTT', 'WebRTC / WebSocket', 'Dashboard UI'],
+    sourceGroupIds: ['full-stack-realtime'],
+    href: '/about#capabilities'
+  }
+]
 
 export const capabilityStatusLabels: Record<CapabilityStatus, Multilingual> = {
   'project-applied': { en: 'Project Applied', 'zh-TW': '專案應用' },

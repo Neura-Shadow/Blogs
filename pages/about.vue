@@ -105,10 +105,10 @@
         </div>
       </section>
 
-      <section data-about-section="capability-matrix" class="mb-16" aria-labelledby="about-capability-heading">
+      <section id="capabilities" data-about-section="capabilities" class="mb-16 scroll-mt-24" aria-labelledby="about-capability-heading">
         <div class="mb-7 max-w-3xl">
-          <h2 id="about-capability-heading" class="font-display text-3xl font-bold text-[#1F1E1B] dark:text-white">{{ t('skills.title') }}</h2>
-          <p class="mt-3 text-base leading-7 text-neutral-600 dark:text-neutral-400">{{ t('skills.description') }}</p>
+          <h2 id="about-capability-heading" class="font-display text-3xl font-bold text-[#1F1E1B] dark:text-white">{{ t('about.capabilitiesTitle') }}</h2>
+          <p class="mt-3 text-base leading-7 text-neutral-600 dark:text-neutral-400">{{ t('about.capabilitiesDescription') }}</p>
         </div>
         <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           <article v-for="group in profile.skills" :key="group.category.en" class="rounded-2xl border border-light-border bg-white p-5 dark:border-dark-border dark:bg-dark-surface/30">
@@ -246,7 +246,7 @@ import ThreeProfileOrb from '~/components/three/ThreeProfileOrb.vue'
 
 const { locale, t } = useI18n()
 
-const profileSummaryParagraphs = computed(() => profile.summary[locale.value].split('\n\n'))
+const profileSummaryParagraphs = computed(() => profile.aboutSummary[locale.value].split('\n\n'))
 
 const architectureLanes = {
   input: edgeArchitectureSteps.filter(step => step.lane === 'input'),

@@ -55,9 +55,20 @@ export interface SkillItem {
 }
 
 export interface SkillGroup {
+  id: string
   category: Multilingual
   icon?: string
   skills: SkillItem[]
+}
+
+export interface CoreCapability {
+  id: string
+  titleKey: string
+  descriptionKey: string
+  icon: string
+  skills: string[]
+  sourceGroupIds: string[]
+  href?: string
 }
 
 export interface ResearchHighlight {
@@ -75,6 +86,7 @@ export interface Profile {
   title: Multilingual
   capabilityLine: Multilingual
   summary: Multilingual
+  aboutSummary: Multilingual
   email: string
   phone?: string | null
   location: string

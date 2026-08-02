@@ -2,7 +2,8 @@
   <div
     ref="hostRef"
     data-testid="three-hero-scene"
-    class="relative h-[390px] w-full max-w-[500px] overflow-hidden rounded-2xl border border-light-border bg-[#F6F1E8]/90 shadow-[0_28px_90px_rgba(31,30,27,0.10)] dark:border-dark-border dark:bg-dark-surface/55 sm:h-[480px]"
+    :data-pointer-active="pointerActive ? 'true' : 'false'"
+    class="relative h-[390px] w-full max-w-[500px] overflow-hidden rounded-2xl border border-light-border bg-[#F6F1E8]/90 shadow-[0_28px_90px_rgba(31,30,27,0.10)] dark:border-dark-border dark:bg-dark-surface/55 sm:h-[480px] lg:h-[590px]"
     @pointermove="handlePointerMove"
     @pointerleave="resetPointer"
   >
@@ -60,6 +61,7 @@ const { locale, t } = useI18n()
 const hostRef = ref<HTMLElement | null>(null)
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 const showFallback = ref(true)
+const pointerActive = ref(false)
 
 const lanes = computed(() => [
   { id: 'input', label: t('three.input'), steps: edgeArchitectureSteps.filter(step => step.lane === 'input') },
@@ -284,6 +286,7 @@ const handleScroll = () => {
 
 const handlePointerMove = (event: PointerEvent) => {
   if (!hostRef.value || isReducedMotion) return
+  pointerActive.value = true
   const rect = hostRef.value.getBoundingClientRect()
   pointer.x = ((event.clientX - rect.left) / rect.width - 0.5) * 2
   pointer.y = ((event.clientY - rect.top) / rect.height - 0.5) * 2
@@ -296,6 +299,7 @@ const handlePointerMove = (event: PointerEvent) => {
 }
 
 const resetPointer = () => {
+  pointerActive.value = false
   pointer.x = 0
   pointer.y = 0
   hoveredNode = null

@@ -8,10 +8,14 @@ export const profileData: Profile = {
     'zh-TW': 'Embedded Linux 與分散式即時系統開發者'
   },
   capabilityLine: {
-    en: 'High-Concurrency Go Backend · Cloud-Native Architecture · Nuxt Full-Stack · NVIDIA Jetson / Edge AI · ROS 2 · UAV Systems · Computer Vision',
-    'zh-TW': '高併發 Go 後端 · 雲原生架構 · Nuxt 全端 · NVIDIA Jetson / Edge AI · ROS 2 · 無人載具系統 · 電腦視覺'
+    en: 'High-Concurrency Go · Cloud-Native Systems · Jetson Edge AI · ROS 2 · UAV Integration · Nuxt',
+    'zh-TW': '高併發 Go · 雲原生系統 · Jetson 邊緣 AI · ROS 2 · 無人載具整合 · Nuxt'
   },
   summary: {
+    en: 'I build high-concurrency backends and distributed real-time systems, integrating Go services, Nuxt interfaces, Embedded Linux / Jetson edge AI, ROS 2, and UAV telemetry.',
+    'zh-TW': '我建構高併發後端與分散式即時系統，整合 Go 服務、Nuxt 介面、Embedded Linux／Jetson 邊緣 AI、ROS 2 與無人載具遙測。'
+  },
+  aboutSummary: {
     en: 'I build high-concurrency distributed and real-time systems that connect Go backend services, Nuxt full-stack interfaces, Embedded Linux edge devices, ROS 2 communication, and AI inference pipelines.\n\nIn implementation-oriented NSTC applied R&D projects, I have been responsible, within my assigned scope, for architecture development and system integration across heterogeneous UAV, USV, and UGV platforms. My work includes operator interfaces, telemetry backends, MAVLink–MQTT communication, WebRTC video paths, and containerized services.\n\nMy current engineering focus includes camera ingestion with V4L2 and GStreamer, OpenCV processing, PyTorch-to-ONNX conversion, TensorRT edge inference, ROS 2 node-based pipelines, and MQTT or socket telemetry integration.\n\nSeparately from these NSTC projects, I have conducted independent image-processing and computer-vision research, with related work submitted to IEEE Transactions on Multimedia.',
     'zh-TW': '我專注於建構高併發、分散式與即時系統，整合 Go 後端服務、Nuxt 全端介面、Embedded Linux 邊緣裝置、ROS 2 通訊與 AI 推論管線。\n\n在偏實作與系統整合的國科會應用型研發計畫中，我在所負責的範圍內承擔異質 UAV、USV 與 UGV 系統的架構開發與整合，涵蓋操作介面、遙測後端、MAVLink–MQTT 通訊、WebRTC 視訊流程與容器化服務。\n\n目前的工程方向包含 V4L2 與 GStreamer 相機擷取、OpenCV 影像處理、PyTorch 轉 ONNX、TensorRT 邊緣推論、ROS 2 節點化管線，以及 MQTT 或 Socket 遙測整合。\n\n此外，我另有獨立於上述國科會計畫的影像處理與電腦視覺研究，相關成果已投稿至 IEEE Transactions on Multimedia。'
   },
@@ -31,6 +35,7 @@ export const profileData: Profile = {
   ],
   skills: [
     {
+      id: 'backend-cloud',
       category: { en: 'Cloud Native & Backend', 'zh-TW': '雲原生與後端' },
       icon: 'server',
       skills: [
@@ -45,6 +50,7 @@ export const profileData: Profile = {
       ]
     },
     {
+      id: 'full-stack-realtime',
       category: { en: 'Full-Stack & Real-Time Systems', 'zh-TW': '全端與即時系統' },
       icon: 'layout-dashboard',
       skills: [
@@ -59,6 +65,7 @@ export const profileData: Profile = {
       ]
     },
     {
+      id: 'embedded-edge',
       category: { en: 'Embedded Linux & Edge AI', 'zh-TW': 'Embedded Linux 與邊緣 AI' },
       icon: 'cpu',
       skills: [
@@ -73,6 +80,7 @@ export const profileData: Profile = {
       ]
     },
     {
+      id: 'ros2-middleware',
       category: { en: 'ROS 2 & Robotics Middleware', 'zh-TW': 'ROS 2 與機器人中介軟體' },
       icon: 'network',
       skills: [
@@ -87,6 +95,7 @@ export const profileData: Profile = {
       ]
     },
     {
+      id: 'edge-ai-vision',
       category: { en: 'Edge AI Deployment & Computer Vision', 'zh-TW': '邊緣 AI 部署與電腦視覺' },
       icon: 'scan-eye',
       skills: [
@@ -101,6 +110,7 @@ export const profileData: Profile = {
       ]
     },
     {
+      id: 'autonomous-research',
       category: { en: 'UAV, Autonomous Systems & Research', 'zh-TW': '無人載具、自主系統與研究' },
       icon: 'route',
       skills: [

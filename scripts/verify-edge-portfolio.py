@@ -11,24 +11,53 @@ SCREENSHOT = Path(__file__).resolve().parents[1] / "public" / "images" / "screen
 HERO = {
     "en": {
         "title": "Embedded Linux & Distributed Real-Time Systems Developer",
-        "capability": "High-Concurrency Go Backend · Cloud-Native Architecture · Nuxt Full-Stack · NVIDIA Jetson / Edge AI · ROS 2 · UAV Systems · Computer Vision",
-        "paragraphs": [
-            "I build high-concurrency distributed and real-time systems that connect Go backend services, Nuxt full-stack interfaces, Embedded Linux edge devices, ROS 2 communication, and AI inference pipelines.",
-            "In implementation-oriented NSTC applied R&D projects, I have been responsible, within my assigned scope, for architecture development and system integration across heterogeneous UAV, USV, and UGV platforms. My work includes operator interfaces, telemetry backends, MAVLink–MQTT communication, WebRTC video paths, and containerized services.",
-            "My current engineering focus includes camera ingestion with V4L2 and GStreamer, OpenCV processing, PyTorch-to-ONNX conversion, TensorRT edge inference, ROS 2 node-based pipelines, and MQTT or socket telemetry integration.",
-            "Separately from these NSTC projects, I have conducted independent image-processing and computer-vision research, with related work submitted to IEEE Transactions on Multimedia.",
-        ],
+        "capability": "High-Concurrency Go · Cloud-Native Systems · Jetson Edge AI · ROS 2 · UAV Integration · Nuxt",
+        "summary": "I build high-concurrency backends and distributed real-time systems, integrating Go services, Nuxt interfaces, Embedded Linux / Jetson edge AI, ROS 2, and UAV telemetry.",
+        "nstc_label": "NSTC Applied R&D",
+        "nstc_text": "Responsible, within my assigned scope, for overall system architecture development and integration across heterogeneous UAV, USV, and UGV platforms.",
+        "research_label": "Independent Computer Vision Research",
+        "research_text": "Image-processing research conducted separately from the NSTC projects; related work has been submitted to IEEE Transactions on Multimedia.",
     },
     "zh-TW": {
         "title": "Embedded Linux 與分散式即時系統開發者",
-        "capability": "高併發 Go 後端 · 雲原生架構 · Nuxt 全端 · NVIDIA Jetson / Edge AI · ROS 2 · 無人載具系統 · 電腦視覺",
-        "paragraphs": [
-            "我專注於建構高併發、分散式與即時系統，整合 Go 後端服務、Nuxt 全端介面、Embedded Linux 邊緣裝置、ROS 2 通訊與 AI 推論管線。",
-            "在偏實作與系統整合的國科會應用型研發計畫中，我在所負責的範圍內承擔異質 UAV、USV 與 UGV 系統的架構開發與整合，涵蓋操作介面、遙測後端、MAVLink–MQTT 通訊、WebRTC 視訊流程與容器化服務。",
-            "目前的工程方向包含 V4L2 與 GStreamer 相機擷取、OpenCV 影像處理、PyTorch 轉 ONNX、TensorRT 邊緣推論、ROS 2 節點化管線，以及 MQTT 或 Socket 遙測整合。",
-            "此外，我另有獨立於上述國科會計畫的影像處理與電腦視覺研究，相關成果已投稿至 IEEE Transactions on Multimedia。",
-        ],
+        "capability": "高併發 Go · 雲原生系統 · Jetson 邊緣 AI · ROS 2 · 無人載具整合 · Nuxt",
+        "summary": "我建構高併發後端與分散式即時系統，整合 Go 服務、Nuxt 介面、Embedded Linux／Jetson 邊緣 AI、ROS 2 與無人載具遙測。",
+        "nstc_label": "國科會應用型研發",
+        "nstc_text": "在所負責範圍內，負責異質 UAV／USV／UGV 平台的整體系統架構開發與整合。",
+        "research_label": "獨立電腦視覺研究",
+        "research_text": "此影像處理研究獨立於國科會計畫，相關成果已投稿至 IEEE Transactions on Multimedia。",
     },
+}
+
+CORE_CAPABILITIES = {
+    "en": [
+        (
+            "Distributed Backend & Cloud Systems",
+            "High-concurrency services, transactional workflows, event processing, and containerized delivery.",
+            ["Go", "PostgreSQL", "Redis", "Event-Driven", "Docker / Kubernetes", "CI/CD"],
+        ),
+        (
+            "Embedded Linux & Edge AI",
+            "Camera ingestion, image processing, model conversion, and edge-runtime integration.",
+            ["NVIDIA Jetson", "V4L2 / GStreamer", "OpenCV", "ONNX / TensorRT", "Multithreading", "Runtime Profiling"],
+        ),
+        (
+            "ROS 2 & Autonomous Systems",
+            "Distributed robotics communication, simulation, vehicle telemetry, and safety-gated navigation.",
+            ["ROS 2", "DDS / QoS", "MAVLink / PX4", "Digital Twin", "World Models", "Multi-Agent Systems"],
+        ),
+        (
+            "Full-Stack & Real-Time Interfaces",
+            "Bilingual web interfaces, dashboards, telemetry visualization, and real-time communication.",
+            ["Nuxt 3 / Vue 3", "TypeScript", "Supabase", "MQTT", "WebRTC / WebSocket", "Dashboard UI"],
+        ),
+    ],
+    "zh-TW": [
+        ("分散式後端與雲端系統", "高併發服務、交易流程、事件處理與容器化交付。", ["Go", "PostgreSQL", "Redis", "Event-Driven", "Docker / Kubernetes", "CI/CD"]),
+        ("Embedded Linux 與邊緣 AI", "相機擷取、影像處理、模型轉換與邊緣執行環境整合。", ["NVIDIA Jetson", "V4L2 / GStreamer", "OpenCV", "ONNX / TensorRT", "Multithreading", "Runtime Profiling"]),
+        ("ROS 2 與自主系統", "分散式機器人通訊、模擬、載具遙測與安全閘門導航。", ["ROS 2", "DDS / QoS", "MAVLink / PX4", "Digital Twin", "World Models", "Multi-Agent Systems"]),
+        ("全端與即時介面", "雙語網頁介面、儀表板、遙測視覺化與即時通訊。", ["Nuxt 3 / Vue 3", "TypeScript", "Supabase", "MQTT", "WebRTC / WebSocket", "Dashboard UI"]),
+    ],
 }
 
 
@@ -70,9 +99,15 @@ def grid_columns(locator) -> int:
 def assert_hero_content(page: Page, locale: str) -> None:
     copy = HERO[locale]
     expect(page.get_by_role("heading", name=copy["title"], exact=True)).to_be_visible()
-    expect(page.get_by_text(copy["capability"], exact=True)).to_be_visible()
-    for paragraph in copy["paragraphs"]:
-        expect(page.get_by_text(paragraph, exact=True)).to_be_visible()
+    capability = page.locator('[data-testid="hero-capability-line"]:visible')
+    expect(capability).to_be_visible()
+    assert capability.get_attribute("aria-label") == copy["capability"]
+    expect(page.get_by_text(copy["summary"], exact=True)).to_be_visible()
+    expect(page.get_by_role("heading", name=copy["nstc_label"], exact=True)).to_be_visible()
+    expect(page.get_by_text(copy["nstc_text"], exact=True)).to_be_visible()
+    expect(page.get_by_role("heading", name=copy["research_label"], exact=True)).to_be_visible()
+    expect(page.get_by_text(copy["research_text"], exact=True)).to_be_visible()
+    expect(page.locator('[data-testid="hero-summary"]')).to_have_count(1)
     expect(page.get_by_role("link", name="View Projects" if locale == "en" else "瀏覽作品集", exact=True)).to_be_visible()
 
 
@@ -88,6 +123,33 @@ def assert_hero_visual_does_not_overlap(page: Page) -> None:
         """
     )
     assert separated, "Three.js Hero visual overlaps the Hero copy"
+
+
+def assert_core_capabilities(page: Page, locale: str, expected_columns: int) -> None:
+    heading_text = "Core Capabilities" if locale == "en" else "核心能力"
+    heading = page.get_by_role("heading", name=heading_text, exact=True)
+    heading.scroll_into_view_if_needed()
+    section = heading.locator("xpath=ancestor::section")
+    grid = section.locator('[data-testid="core-capabilities-grid"]')
+    cards = section.locator('[data-testid="core-capability-card"]')
+    expect(cards).to_have_count(4)
+    assert grid_columns(grid) == expected_columns, f"Core Capabilities must render {expected_columns} columns"
+    expect(section.locator('[data-testid="core-capability-description"]')).to_have_count(4)
+    for title, description, chips in CORE_CAPABILITIES[locale]:
+        expect(section.get_by_role("heading", name=title, exact=True)).to_be_visible()
+        expect(section.get_by_text(description, exact=True)).to_be_visible()
+        for chip in chips:
+            expect(section.get_by_text(chip, exact=True)).to_be_visible()
+    for forbidden in ("Project Applied", "Research Applied", "Current Focus", "Planned Extension"):
+        expect(section.get_by_text(forbidden, exact=True)).to_have_count(0)
+    clipping = cards.evaluate_all("elements => elements.map(element => ({ horizontal: element.scrollWidth > element.clientWidth, vertical: element.scrollHeight > element.clientHeight }))")
+    assert not any(state["horizontal"] or state["vertical"] for state in clipping), f"Core capability text is clipped: {clipping}"
+    boxes = cards.evaluate_all("elements => elements.map(element => { const box = element.getBoundingClientRect(); return { top: box.top, bottom: box.bottom, height: box.height }; })")
+    assert all(box["height"] <= 360 for box in boxes), f"Core capability card exceeds 360px: {boxes}"
+    if expected_columns == 2:
+        assert all(boxes[index]["bottom"] <= boxes[index + 2]["top"] for index in range(2)), f"Core capability rows overlap: {boxes}"
+    else:
+        assert all(boxes[index]["bottom"] <= boxes[index + 1]["top"] for index in range(3)), f"Core capability cards overlap: {boxes}"
 
 
 def main() -> None:
@@ -112,21 +174,24 @@ def main() -> None:
 
         assert_hero_content(desktop, "en")
         assert_hero_visual_does_not_overlap(desktop)
+        callout_lines = desktop.locator('[data-testid="hero-callout-text"]').evaluate_all("elements => elements.map(element => Math.round(element.getBoundingClientRect().height / parseFloat(getComputedStyle(element).lineHeight)))")
+        assert all(lines <= 3 for lines in callout_lines), f"Desktop Hero callout exceeds three lines: {callout_lines}"
+        hero_copy_height, hero_visual_height = desktop.locator('[data-testid="hero-copy"], [data-testid="hero-visual"]').evaluate_all("elements => elements.map(element => element.getBoundingClientRect().height)")
+        assert hero_copy_height <= hero_visual_height + 24, f"Hero copy is materially taller than the Three.js visual: copy={hero_copy_height}, visual={hero_visual_height}"
+        assert desktop.get_by_role("link", name="View Projects", exact=True).bounding_box()["y"] < 1000, "Hero CTA is below the desktop fold"
         expect(desktop.locator('[data-testid="three-hero-scene"] canvas')).to_be_visible()
         expect(desktop.locator('[data-testid="three-hero-scene"] .static-pipeline')).to_have_count(0, timeout=15_000)
+        hero_canvas = desktop.locator('[data-testid="three-hero-scene"] canvas')
+        hero_canvas.hover(position={"x": 80, "y": 120})
+        expect(desktop.locator('[data-testid="three-hero-scene"]')).to_have_attribute("data-pointer-active", "true")
+        desktop.mouse.move(20, 80)
+        expect(desktop.locator('[data-testid="three-hero-scene"]')).to_have_attribute("data-pointer-active", "false")
         expect(desktop.get_by_text("ROS 2 topics · QoS-aware paths", exact=True)).to_be_visible()
         expect(desktop.get_by_text("Dashboard", exact=True)).to_be_visible()
         expect(desktop.get_by_role("link", name="View Projects", exact=True)).to_be_visible()
         assert desktop.locator("html").get_attribute("lang") == "en"
 
-        skill_heading = desktop.get_by_role("heading", name="Capability Matrix", exact=True)
-        skill_heading.scroll_into_view_if_needed()
-        skill_section = skill_heading.locator("xpath=ancestor::section")
-        skill_grid = skill_section.locator("article").first.locator("xpath=parent::*")
-        expect(skill_section.locator("article")).to_have_count(6)
-        assert grid_columns(skill_grid) == 3, "Capability Matrix must render three columns on desktop"
-        expect(skill_section.get_by_text("Expert", exact=True)).to_have_count(0)
-        expect(skill_section.get_by_text("Current Focus", exact=True).first).to_be_visible()
+        assert_core_capabilities(desktop, "en", 2)
 
         desktop.evaluate("window.scrollTo(0, 0)")
         desktop.wait_for_timeout(350)
@@ -135,7 +200,7 @@ def main() -> None:
 
         desktop.get_by_role("button", name="Toggle Language", exact=True).click()
         assert_hero_content(desktop, "zh-TW")
-        expect(desktop.get_by_text("儀表板整合", exact=True).first).to_be_visible()
+        assert_core_capabilities(desktop, "zh-TW", 2)
         expect(desktop.get_by_text("分散式邊緣管線", exact=True)).to_be_visible()
         assert desktop.locator("html").get_attribute("lang") == "zh-TW"
         assert_no_raw_keys(desktop)
@@ -149,7 +214,7 @@ def main() -> None:
         expect(desktop.locator('[data-research-kind="applied-rd"]')).to_have_count(1)
         expect(desktop.locator('[data-research-kind="independent-research"]')).to_have_count(1)
         expect(desktop.get_by_role("heading", name="Edge vision reference pipeline", exact=True)).to_be_visible()
-        expect(desktop.get_by_role("heading", name="Capability Matrix", exact=True)).to_be_visible()
+        expect(desktop.get_by_role("heading", name="Detailed Capability Inventory", exact=True)).to_be_visible()
         expect(desktop.get_by_text("GStreamer / V4L2 Capture", exact=True)).to_be_visible()
         expect(desktop.get_by_text("ONNX / TensorRT Inference Node", exact=True)).to_be_visible()
         expect(desktop.get_by_role("heading", name="ROS 2 responsibility map", exact=True)).to_be_visible()
@@ -160,7 +225,7 @@ def main() -> None:
         expect(desktop.get_by_role("heading", name="Performance profiling capability", exact=True)).to_be_visible()
         expect(desktop.get_by_text("No benchmark values are claimed without measured evidence.", exact=True)).to_be_visible()
         about_order = desktop.locator("[data-about-section]").evaluate_all("elements => elements.map(element => element.dataset.aboutSection)")
-        assert about_order == ["positioning", "nstc", "independent-research", "architecture", "capability-matrix", "profiling"], f"Unexpected About section order: {about_order}"
+        assert about_order == ["positioning", "nstc", "independent-research", "architecture", "capabilities", "profiling"], f"Unexpected About section order: {about_order}"
         assert_no_raw_keys(desktop)
 
         desktop.get_by_role("button", name="Toggle Language", exact=True).click()
@@ -191,10 +256,7 @@ def main() -> None:
         compact_desktop.goto(BASE_URL, wait_until="domcontentloaded")
         assert_hero_content(compact_desktop, "en")
         assert_hero_visual_does_not_overlap(compact_desktop)
-        compact_heading = compact_desktop.get_by_role("heading", name="Capability Matrix", exact=True)
-        compact_heading.scroll_into_view_if_needed()
-        compact_grid = compact_heading.locator("xpath=ancestor::section").locator("article").first.locator("xpath=parent::*")
-        assert grid_columns(compact_grid) == 3, "Capability Matrix must render three columns on compact desktop"
+        assert_core_capabilities(compact_desktop, "en", 2)
         compact_desktop_context.close()
 
         tablet_context = browser.new_context(viewport={"width": 900, "height": 1000})
@@ -203,10 +265,7 @@ def main() -> None:
         tablet.goto(BASE_URL, wait_until="domcontentloaded")
         assert_hero_content(tablet, "en")
         assert_hero_visual_does_not_overlap(tablet)
-        tablet_skill_heading = tablet.get_by_role("heading", name="Capability Matrix", exact=True)
-        tablet_skill_heading.scroll_into_view_if_needed()
-        tablet_grid = tablet_skill_heading.locator("xpath=ancestor::section").locator("article").first.locator("xpath=parent::*")
-        assert grid_columns(tablet_grid) == 2, "Capability Matrix must render two columns on tablet"
+        assert_core_capabilities(tablet, "en", 2)
         tablet_context.close()
 
         mobile_context = browser.new_context(viewport={"width": 390, "height": 844})
@@ -215,10 +274,18 @@ def main() -> None:
         mobile.goto(BASE_URL, wait_until="domcontentloaded")
         assert_hero_content(mobile, "en")
         assert_hero_visual_does_not_overlap(mobile)
-        mobile_skill_heading = mobile.get_by_role("heading", name="Capability Matrix", exact=True)
-        mobile_skill_heading.scroll_into_view_if_needed()
-        mobile_grid = mobile_skill_heading.locator("xpath=ancestor::section").locator("article").first.locator("xpath=parent::*")
-        assert grid_columns(mobile_grid) == 1, "Capability Matrix must render one column on mobile"
+        assert_core_capabilities(mobile, "en", 1)
+        project_cta = mobile.get_by_role("link", name="View Projects", exact=True)
+        resume_cta = mobile.get_by_role("link", name="Download Resume", exact=True)
+        expect(project_cta).to_be_visible()
+        expect(resume_cta).to_be_visible()
+        project_box = project_cta.bounding_box()
+        resume_box = resume_cta.bounding_box()
+        assert project_box and resume_box and project_box["x"] + project_box["width"] <= resume_box["x"], "Mobile Hero CTAs overlap or clip"
+        assert resume_cta.get_attribute("href") == "/resume.pdf"
+        with mobile.expect_download() as download_info:
+            resume_cta.click()
+        assert download_info.value.suggested_filename, "Resume CTA did not initiate a download"
         assert not mobile.evaluate("document.documentElement.scrollWidth > document.documentElement.clientWidth"), "Home has horizontal overflow at 390px"
         assert_no_raw_keys(mobile)
         mobile_context.close()
@@ -307,9 +374,9 @@ def main() -> None:
         raise AssertionError("\n".join(failures))
 
     print(
-        "Edge portfolio browser verification passed: desktop/tablet/mobile Hero and matrix, live Three.js, "
-        "reduced-motion, no-WebGL, and renderer-failure fallbacks, EN/ZH scene labels and capabilities, separated NSTC/IEEE research, About architecture/matrix/ROS 2/QoS/profiling, "
-        "Edge AI filtering, CTA stacking, no raw keys, no overflow, no console/page/request/HTTP errors, "
+        "Edge portfolio browser verification passed: concise desktop/tablet/mobile Hero and four-card Core Capabilities, live Three.js, "
+        "reduced-motion, no-WebGL, and renderer-failure fallbacks, EN/ZH scene labels and capabilities, separated NSTC/IEEE research, About architecture/detailed capabilities/ROS 2/QoS/profiling, "
+        "Edge AI filtering, project and resume CTAs, no raw keys, clipping, overflow, console/page/request/HTTP errors, "
         f"and clean Hero screenshot at {SCREENSHOT}."
     )
 

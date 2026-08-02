@@ -12,6 +12,11 @@
     chineseName: "呂宗昕",
     viewProjects: 'View Projects',
     downloadResume: 'Download Resume',
+    calloutsLabel: 'Experience and research highlights',
+    nstcLabel: 'NSTC Applied R&D',
+    nstcText: 'Responsible, within my assigned scope, for overall system architecture development and integration across heterogeneous UAV, USV, and UGV platforms.',
+    researchLabel: 'Independent Computer Vision Research',
+    researchText: 'Image-processing research conducted separately from the NSTC projects; related work has been submitted to IEEE Transactions on Multimedia.',
     evidence: {
       label: 'Evidence status',
       project: 'Project-applied systems',
@@ -61,8 +66,27 @@
     returnToProjects: 'Return to projects'
   },
   skills: {
-    title: 'Capability Matrix',
-    description: 'Six evidence-based domains spanning backend systems, real-time interfaces, Embedded Linux, ROS 2, edge deployment, and autonomous-systems research.'
+    title: 'Core Capabilities',
+    description: 'Four connected domains spanning distributed backend systems, edge AI, robotics middleware, and real-time interfaces.',
+    viewDetailed: 'View detailed stack',
+    groups: {
+      distributedBackend: {
+        title: 'Distributed Backend & Cloud Systems',
+        description: 'High-concurrency services, transactional workflows, event processing, and containerized delivery.'
+      },
+      embeddedEdge: {
+        title: 'Embedded Linux & Edge AI',
+        description: 'Camera ingestion, image processing, model conversion, and edge-runtime integration.'
+      },
+      rosAutonomy: {
+        title: 'ROS 2 & Autonomous Systems',
+        description: 'Distributed robotics communication, simulation, vehicle telemetry, and safety-gated navigation.'
+      },
+      fullStackRealtime: {
+        title: 'Full-Stack & Real-Time Interfaces',
+        description: 'Bilingual web interfaces, dashboards, telemetry visualization, and real-time communication.'
+      }
+    }
   },
   research: {
     title: 'Research & Academic Highlights',
@@ -97,6 +121,8 @@
     education: 'Education Background',
     researchInterests: 'Research Interests',
     technicalMap: 'Technical Map',
+    capabilitiesTitle: 'Detailed Capability Inventory',
+    capabilitiesDescription: 'The complete six-domain view retains evidence status, implementation context, and current or planned engineering scope.',
     edgeSystemsTitle: 'Embedded Linux & Distributed Real-Time Systems',
     evidenceBoundaryTitle: 'Evidence boundary',
     evidenceBoundaryDescription: 'This architecture is a current engineering focus. A dedicated Jetson project will be added only after source and runtime evidence are available.',

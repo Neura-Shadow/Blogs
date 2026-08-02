@@ -12,6 +12,11 @@
     chineseName: 'Lu Tsung-Hsin',
     viewProjects: '瀏覽作品集',
     downloadResume: '下載履歷檔案',
+    calloutsLabel: '經驗與研究重點',
+    nstcLabel: '國科會應用型研發',
+    nstcText: '在所負責範圍內，負責異質 UAV／USV／UGV 平台的整體系統架構開發與整合。',
+    researchLabel: '獨立電腦視覺研究',
+    researchText: '此影像處理研究獨立於國科會計畫，相關成果已投稿至 IEEE Transactions on Multimedia。',
     evidence: {
       label: '證據狀態',
       project: '專案應用系統',
@@ -61,8 +66,27 @@
     returnToProjects: '返回專案歸檔頁'
   },
   skills: {
-    title: '核心能力矩陣',
-    description: '以六個 evidence-based 領域整理後端系統、即時介面、Embedded Linux、ROS 2、邊緣部署與自主系統研究。'
+    title: '核心能力',
+    description: '四個相互連結的核心領域，涵蓋分散式後端、邊緣 AI、機器人中介層與即時介面。',
+    viewDetailed: '查看完整技術能力',
+    groups: {
+      distributedBackend: {
+        title: '分散式後端與雲端系統',
+        description: '高併發服務、交易流程、事件處理與容器化交付。'
+      },
+      embeddedEdge: {
+        title: 'Embedded Linux 與邊緣 AI',
+        description: '相機擷取、影像處理、模型轉換與邊緣執行環境整合。'
+      },
+      rosAutonomy: {
+        title: 'ROS 2 與自主系統',
+        description: '分散式機器人通訊、模擬、載具遙測與安全閘門導航。'
+      },
+      fullStackRealtime: {
+        title: '全端與即時介面',
+        description: '雙語網頁介面、儀表板、遙測視覺化與即時通訊。'
+      }
+    }
   },
   research: {
     title: '研究與學術成果',
@@ -97,6 +121,8 @@
     education: '教育背景學歷',
     researchInterests: '主要研究興趣',
     technicalMap: '技術星圖',
+    capabilitiesTitle: '完整能力與證據清單',
+    capabilitiesDescription: '保留六個領域的完整技術、證據狀態、實作脈絡，以及目前或規劃中的工程範圍。',
     edgeSystemsTitle: 'Embedded Linux 與分散式即時系統',
     evidenceBoundaryTitle: '證據邊界',
     evidenceBoundaryDescription: '此架構屬於目前工程方向；具 source 與 runtime 證據後，才會新增專屬 Jetson 專案。',

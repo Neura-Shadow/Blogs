@@ -41,7 +41,9 @@ Primary positioning: Embedded Linux & Distributed Real-Time Systems Developer.
 
 Traditional Chinese positioning: Embedded Linux 與分散式即時系統開發者.
 
-Supporting capability line: High-Concurrency Go Backend, Cloud-Native Architecture, Nuxt Full-Stack, NVIDIA Jetson / Edge AI, ROS 2, UAV Systems, and Computer Vision.
+Supporting capability line: High-Concurrency Go, Cloud-Native Systems, Jetson Edge AI, ROS 2, UAV Integration, and Nuxt.
+
+The homepage is intentionally compressed: one summary sentence, two compact and visually distinct research or experience callouts, and four core-capability groups. Detailed technical inventory, evidence status, architecture, ROS 2 responsibilities, QoS, and profiling belong on the About page.
 
 Implementation-oriented NSTC applied R&D covers architecture development and system integration within assigned scope across heterogeneous UAV, USV, and UGV platforms. Independent image-processing and computer-vision research submitted to IEEE Transactions on Multimedia is a separate body of work and must never be presented as an NSTC outcome or deliverable.
 
