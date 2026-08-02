@@ -10,10 +10,14 @@
     hello: '你好，我是',
     name: '呂宗昕',
     chineseName: 'Lu Tsung-Hsin',
-    tagline: '雲原生後端工程師 · 全端開發者 · AI 研究工程師 · 無人機群組系統架構師',
-    description: '我的工作涵蓋 Go 後端系統、Nuxt 全端應用，以及具明確防護與驗證邊界的 AI／機器人研究框架。',
     viewProjects: '瀏覽作品集',
     downloadResume: '下載履歷檔案',
+    evidence: {
+      label: '證據狀態',
+      project: '專案應用系統',
+      research: '研究應用管線',
+      focus: '邊緣 AI／ROS 2 目前方向'
+    },
     stats: {
       experience: '後端系統',
       projects: '全端作品集',
@@ -28,6 +32,7 @@
     searchPlaceholder: '輸入標籤或名稱搜尋專案...',
     allCategories: '全部',
     categoryBackend: '後端系統',
+    categoryEdgeAI: '邊緣 AI',
     categoryRobotics: '機器人研究',
     categoryUAV: '無人載具系統',
     categoryAI: 'AI 演算法研究',
@@ -57,12 +62,14 @@
   },
   skills: {
     title: '核心能力矩陣',
-    description: '涵蓋雲原生後端、全端開發、即時通訊遙測、深度強化學習與無人載具控制系統的技術堆疊。'
+    description: '以六個 evidence-based 領域整理後端系統、即時介面、Embedded Linux、ROS 2、邊緣部署與自主系統研究。'
   },
   research: {
     title: '研究與學術成果',
-    description: '研究與工程方向包含視訊建模、機器人導航、simulation 與系統整合，並明確區分各類 evidence boundary。',
-    statusSubmitted: '投稿中 / 審查中'
+    description: '以不同項目分別呈現偏實作的國科會應用型研發，以及獨立進行的影像處理研究。',
+    appliedLabel: '應用型研發',
+    independentLabel: '獨立研究',
+    statusSubmitted: '已投稿'
   },
   blog: {
     title: '技術紀錄與文章',
@@ -84,11 +91,39 @@
   },
   about: {
     title: '關於我',
+    metaTitle: '關於我 · Embedded Linux 與分散式即時系統',
+    metaDescription: 'Embedded Linux、分散式即時系統、國科會應用型研發、獨立電腦視覺研究、Edge AI、ROS 2 與證據導向能力。',
     downloadCV: '下載完整履歷 (PDF)',
     education: '教育背景學歷',
     researchInterests: '主要研究興趣',
+    technicalMap: '技術星圖',
+    edgeSystemsTitle: 'Embedded Linux 與分散式即時系統',
+    evidenceBoundaryTitle: '證據邊界',
+    evidenceBoundaryDescription: '此架構屬於目前工程方向；具 source 與 runtime 證據後，才會新增專屬 Jetson 專案。',
+    researchBoundaryEyebrow: '兩類清楚分流的工作',
+    researchBoundaryTitle: '應用型系統整合與獨立研究',
+    researchBoundaryDescription: '偏實作的國科會計畫與 IEEE TMM 影像處理投稿，在範圍、狀態與視覺呈現上均明確分開。',
+    independentResearchClarification: '此影像處理研究為獨立研究，並非上述國科會計畫的衍生成果。',
+    architectureTitle: '邊緣視覺參考管線',
+    architectureDescription: '從相機擷取，經 ROS 2 訊息邊界與邊緣推論，延伸至控制、視覺化與雲端遙測的模組化路徑。',
+    referenceArchitecture: '參考架構',
+    rosResponsibilitiesTitle: 'ROS 2 職責對照',
+    rosResponsibilitiesDescription: '依介面劃分職責並標示目前證據狀態；規劃項目不描述為已完成實作。',
+    component: '元件',
+    purpose: '用途',
+    capabilityStatus: '目前狀態',
+    qosTitle: '典型 QoS 設定範例',
+    qosDescription: '以下是不同訊息路徑的實用起點，不是通用規則；仍需依實際網路、感測速率與安全邊界驗證。',
+    qos: {
+      reliability: '可靠性',
+      history: '歷史策略',
+      depth: '佇列深度'
+    },
+    profilingTitle: '效能剖析能力',
+    profilingDescription: '量測規劃涵蓋管線、裝置與 ROS 2 傳輸行為；只有在可重現執行後才顯示數值。',
+    noBenchmarks: '沒有量測證據時，不宣稱任何 benchmark 數值。',
     collaborations: '學術與產業合作洽談',
-    collabDesc: '我熱切尋求與雲原生開發、高併發後端整合、深度學習演算法以及無人機群控制相關的研究或專案合作機會。',
+    collabDesc: '歡迎針對後端系統、邊緣 AI 部署、ROS 2 整合、電腦視覺與自主系統研究進行 evidence-driven 合作。',
     navContact: '前往聯絡我頁面'
   },
   contact: {
@@ -108,8 +143,21 @@
     offlineAlert: '（Phase 1 靜態展示階段表單未連接資料庫。請直接透過上方 Email 郵件聯絡我。）'
   },
   footer: {
-    subtitle: '雲原生後端工程師 · 全端開發者 · AI 研究工程師',
     rights: '保留所有權利。',
     poweredBy: '基於 Nuxt 3 & Inspira UI 技術開發'
+  },
+  three: {
+    pipelineKicker: '分散式邊緣管線',
+    pipelineTitle: '從感測到決策的系統',
+    currentFocus: '目前方向',
+    input: '輸入',
+    processing: '處理',
+    output: '輸出',
+    messageFlow: 'ROS 2 topics · QoS-aware 路徑',
+    profileCore: '系統能力核心',
+    profileCoreDescription: '雲端服務、邊緣推論與機器人整合',
+    profileBackend: '後端系統',
+    profileEdgeAi: '邊緣 AI',
+    profileRobotics: 'ROS 2／無人載具'
   }
 }

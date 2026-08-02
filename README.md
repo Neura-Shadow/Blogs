@@ -4,7 +4,11 @@
 
 Neura-Shadow Portfolio CMS is a Nuxt 3 personal portfolio, engineering blog, project showcase, and Supabase-ready content management system.
 
-It is built to present cloud-native backend work, full-stack development, AI engineering, UAV and robotics research engineering projects, and long-form technical writing in a warm, readable, bilingual portfolio experience.
+It is built around the English positioning **Embedded Linux & Distributed Real-Time Systems Developer** and the Traditional Chinese positioning **Embedded Linux 與分散式即時系統開發者**.
+
+The capability line is **High-Concurrency Go Backend · Cloud-Native Architecture · Nuxt Full-Stack · NVIDIA Jetson / Edge AI · ROS 2 · UAV Systems · Computer Vision**. The portfolio connects high-concurrency distributed and real-time systems, Nuxt interfaces, Embedded Linux edge devices, ROS 2 communication, and AI inference pipelines in a warm, readable, bilingual experience.
+
+Implementation-oriented NSTC applied R&D is presented as system-integration work performed within an assigned scope: architecture development across heterogeneous UAV, USV, and UGV platforms, operator interfaces, telemetry backends, MAVLink–MQTT communication, WebRTC video paths, and containerized services. Separately, independent image-processing and computer-vision research has been submitted to IEEE Transactions on Multimedia. This independent research is not derived from, and is not presented as a deliverable or outcome of, the NSTC projects.
 
 The application keeps a safe local Mock Mode for development and a Supabase Production Mode path for live Auth, PostgreSQL CRUD, and Storage-backed media management.
 
@@ -24,6 +28,9 @@ The application keeps a safe local Mock Mode for development and a Supabase Prod
 - Supabase migrations for PostgreSQL tables, grants, and RLS policies.
 - Blog cover images served from `public/images/blog`.
 - Three.js interactive hero and profile visuals.
+- Evidence-based capability statuses instead of seniority or mastery scores.
+- A bilingual Current Engineering Focus for Embedded Linux, NVIDIA Jetson, ROS 2, ONNX, TensorRT, GStreamer, V4L2, and Edge AI deployment.
+- Explicit visual and semantic separation between NSTC applied R&D system integration and independent IEEE TMM image-processing research.
 - 3D tilt cards, animated backgrounds, and Inspira-style UI components.
 - SEO metadata configured through Nuxt app head.
 - i18n fallback behavior for bilingual content fields.
@@ -34,10 +41,12 @@ The application keeps a safe local Mock Mode for development and a Supabase Prod
 | Project | Current portfolio scope | Evidence boundary |
 | --- | --- | --- |
 | Scalable Railway Ticketing Platform | Go, PostgreSQL, Redis, metrics, workers, segment inventory, waiting-room admission, fencing, and fixed physical shards | Single-region pilot; no national-scale capacity, autoscaling, multi-region, payment, zero-downtime, or production-SLO claim |
-| GWM-UAV Navigation | Mock-first guarded research framework with graph world models, replay/readiness, planning, and optional simulator boundaries | No real-flight, certified-safety, production-UTM, or benchmark claim |
+| GWM-UAV Navigation | Mock-first guarded research framework with graph world models, ROS 2-style interface adapters, OpenUSD descriptors, replay/readiness, planning, and optional simulator or PX4 SITL boundaries | No live ROS 2 runtime, real-flight, certified-safety, production-UTM, or benchmark claim |
 | Scalable E-Commerce Platform | Single-region Go `v1.0.0` backend with transactional ordering, Redis, JWT, migrations, outbox/consumer foundations, observability, and CI gates | Downstream payment/email/fulfillment/analytics handlers and production capacity are not claimed |
 
 Private work is represented only through sanitized summaries with repository links set to `null`. Legacy prototypes are labeled separately from current systems.
+
+No dedicated Jetson / ROS 2 project is listed yet because the current workspace does not contain sufficient source and runtime evidence. The About page presents the proposed camera-to-telemetry architecture as a **Current Engineering Focus**, and `data/projects.ts` records the evidence required before promoting it into the project catalog.
 
 ## Tech Stack
 
@@ -68,11 +77,25 @@ Private work is represented only through sanitized summaries with repository lin
 - Email allowlist based admin authorization
 - Mock Mode fallback when Supabase env vars are missing
 
+### Embedded Linux, Edge AI & Robotics Focus
+
+- Embedded Linux and Ubuntu / JetPack runtime concepts
+- NVIDIA Jetson-class edge deployment path
+- V4L2 and GStreamer camera-ingestion path
+- OpenCV preprocessing
+- PyTorch to ONNX model-export path
+- TensorRT and FP16 optimization focus
+- ROS 2 nodes, topics, services, DDS, QoS, and launch concepts
+- Planned extensions for actions, lifecycle nodes, rosbag2, cv_bridge, `sensor_msgs/Image`, and `image_transport`
+- MQTT or socket telemetry gateway to dashboard and cloud services
+
+These items are individually labeled as Project Applied, Research Applied, Prototype, Working Knowledge, Current Focus, or Planned Extension. The portfolio does not claim a production Jetson deployment, completed INT8 acceleration, certified ROS 2 safety, deterministic latency, or unmeasured FPS, power, and thermal results.
+
 ### UI / Interaction
 
 - Inspira-style animated grid and particles
-- Three.js hero architecture map
-- Three.js profile orb and technical constellation
+- Three.js sensor-to-decision Edge AI / ROS 2 pipeline map
+- Three.js profile visual
 - 3D tilt cards
 - Warm light design system with teal accents
 
@@ -186,7 +209,7 @@ Copy `.env.example` to `.env` and fill in your own Supabase values when you want
 NUXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
 NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-or-anon-key
 NUXT_CMS_MODE=auto
-SUPABASE_SECRET_KEY=your-service-role-or-secret-key
+SUPABASE_SECRET_KEY=
 NUXT_ADMIN_EMAILS=admin@example.com
 ```
 
@@ -324,6 +347,8 @@ Implemented:
 - Guarded Supabase project sync tooling
 - Blog cover images
 - Three.js hero and profile components
+- Six-group capability matrix with evidence-based status labels
+- Bilingual Embedded Linux, Edge AI, and ROS 2 reference architecture
 - Supabase-ready Admin CMS
 - Mock Mode fallback
 - Supabase Auth and CRUD production path

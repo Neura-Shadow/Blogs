@@ -1,6 +1,7 @@
 import type { Project } from '~/types/project'
 import { projectsData } from '~/data/projects'
 import { dbProjectToProject } from '~/utils/cmsMappers'
+import { mergeReviewedCatalogRecord } from '~/utils/reviewedCatalogMerge'
 
 export type ProjectDataSource = 'auto' | 'local' | 'supabase'
 export type ProjectLocale = 'en' | 'zh-TW'
@@ -81,32 +82,11 @@ export function normalizeProject(record: unknown): Project {
 
 function mergeProject(localProject: Project, remoteProject: Project): Project {
   const merged: Project = {
-    ...localProject,
-    ...remoteProject,
+    ...mergeReviewedCatalogRecord(localProject, remoteProject),
     slug: localProject.slug,
     title: localProject.title,
-    subtitle: remoteProject.subtitle?.en || remoteProject.subtitle?.['zh-TW']
-      ? { ...localProject.subtitle, ...remoteProject.subtitle }
-      : localProject.subtitle,
-    role: { ...localProject.role, ...remoteProject.role },
-    status: { ...localProject.status, ...remoteProject.status },
-    description: { ...localProject.description, ...remoteProject.description },
-    longDescription: remoteProject.longDescription?.en || remoteProject.longDescription?.['zh-TW']
-      ? { ...localProject.longDescription, ...remoteProject.longDescription }
-      : localProject.longDescription,
-    tags: remoteProject.tags.length ? remoteProject.tags : localProject.tags,
-    stack: remoteProject.stack.length ? remoteProject.stack : localProject.stack,
-    links: { ...localProject.links, ...remoteProject.links },
-    cover: normalizeProjectCover(remoteProject.cover) || normalizeProjectCover(localProject.cover),
-    highlights: remoteProject.highlights?.en?.length || remoteProject.highlights?.['zh-TW']?.length
-      ? remoteProject.highlights
-      : localProject.highlights,
-    challenges: remoteProject.challenges?.en?.length || remoteProject.challenges?.['zh-TW']?.length
-      ? remoteProject.challenges
-      : localProject.challenges,
-    results: remoteProject.results?.en?.length || remoteProject.results?.['zh-TW']?.length
-      ? remoteProject.results
-      : localProject.results
+    cover: normalizeProjectCover(localProject.cover),
+    links: { ...localProject.links }
   }
 
   return sanitizePrivateLinks(merged)

@@ -169,10 +169,14 @@ def main() -> None:
         arm_not_found_observer(page)
         page.evaluate(
             """
-            const app = document.querySelector('#__nuxt')?.__vue_app__;
-            const router = app?.config?.globalProperties?.$router;
-            if (!router) throw new Error('Nuxt router is unavailable');
-            void router.push('/projects/thesis-code');
+            const target = '/projects/thesis-code';
+            const router = window.$nuxt?.$router;
+            if (router) {
+              void router.push(target);
+            } else {
+              history.pushState({}, '', target);
+              window.dispatchEvent(new PopStateEvent('popstate'));
+            }
             """
         )
         page.wait_for_url("**/projects/thesis-code")

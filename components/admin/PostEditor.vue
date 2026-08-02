@@ -283,6 +283,7 @@
 </template>
 
 <script setup lang="ts">
+import { hasPublicationWordingViolation, publicationWordingGuidance } from '~/utils/publicationWording'
 import { ref, reactive, watch, onMounted } from 'vue'
 import { useSupabaseCms } from '~/composables/useSupabaseCms'
 import { useAdminAuth } from '~/composables/useAdminAuth'
@@ -371,12 +372,8 @@ const renderMarkdown = (md: string) => {
   if (!md) return '<p class="text-[#6B665F] italic">No content written yet.</p>'
 
   // Wording guard check for preview safety
-  if (
-    /published\s+in\s+IEEE/i.test(md) ||
-    /published\s/i.test(md) && /IEEE/i.test(md) ||
-    /\u767c\u8868\u65bc\s*IEEE/i.test(md)
-  ) {
-    return '<div class="p-3 bg-red-50 text-red-800 border border-red-200 rounded text-xs"><strong>[IEEE TMM Wording Policy Violation]:</strong> Use "Research submitted to IEEE Transactions on Multimedia" / "研究成果投稿於 IEEE Transactions on Multimedia".</div>'
+  if (hasPublicationWordingViolation(md)) {
+    return `<div class="p-3 bg-red-50 text-red-800 border border-red-200 rounded text-xs"><strong>[IEEE TMM Wording Policy Violation]:</strong> ${publicationWordingGuidance}</div>`
   }
 
   let html = md
@@ -398,17 +395,9 @@ const renderMarkdown = (md: string) => {
 
 const handleSubmit = async () => {
   // Front-end security check: wording guard check
-  const hasWordingViolation = (text: string) => {
-    return (
-      /published\s+in\s+IEEE/i.test(text) ||
-      /\u767c\u8868\u65bc\s*IEEE/i.test(text) ||
-      /\u767c\u8868\u65bc/i.test(text)
-    )
-  }
-
-  if (hasWordingViolation(form.title_en) || hasWordingViolation(form.title_zh) ||
-      hasWordingViolation(form.content_en) || hasWordingViolation(form.content_zh)) {
-    alert('[Wording Security Block]: Use "Research submitted to IEEE Transactions on Multimedia" / "研究成果投稿於 IEEE Transactions on Multimedia".')
+  if (hasPublicationWordingViolation(form.title_en) || hasPublicationWordingViolation(form.title_zh) ||
+      hasPublicationWordingViolation(form.content_en) || hasPublicationWordingViolation(form.content_zh)) {
+    alert(`[Wording Security Block]: ${publicationWordingGuidance}`)
     return
   }
 

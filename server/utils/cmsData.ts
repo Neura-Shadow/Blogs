@@ -1,6 +1,7 @@
 ﻿import fs from 'fs'
 import path from 'path'
 import { projectsData } from '~/data/projects'
+import { mergeReviewedCatalogRecord } from '~/utils/reviewedCatalogMerge'
 
 const BLOG_COVER_PLACEHOLDER = '/images/blog/placeholder.jpg'
 
@@ -206,13 +207,12 @@ export const mergePublicProjectRow = (localProject: any, remoteProject?: any) =>
     Object.entries(remoteProject).filter(([, value]) => value !== null && value !== undefined && value !== '')
   )
   const merged = {
-    ...localProject,
-    ...remoteValues,
+    ...mergeReviewedCatalogRecord(localProject, remoteValues),
     id: remoteProject.id || localProject.id,
     slug: localProject.slug,
     title_en: localProject.title_en,
     title_zh: localProject.title_zh,
-    cover_url: remoteProject.cover_url || localProject.cover_url
+    cover_url: localProject.cover_url
   }
 
   if ((localProject.tags || []).includes('Private-Sanitized')) {

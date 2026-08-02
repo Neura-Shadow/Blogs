@@ -100,7 +100,7 @@
               <span class="text-xs text-neutral-500 dark:text-neutral-400">呂宗昕</span>
             </div>
             <p class="text-xs text-neutral-500 dark:text-neutral-400 text-center md:text-left leading-relaxed">
-              {{ t('footer.subtitle') }}
+              {{ profile.title[locale] }}
             </p>
           </div>
 
@@ -166,6 +166,10 @@ import { profileData as profile } from '~/data/profile'
 
 const route = useRoute()
 const { locale, t, toggleLocale } = useI18n()
+
+useHead(() => ({
+  htmlAttrs: { lang: locale.value }
+}))
 
 const isDark = useDark({
   selector: 'html',

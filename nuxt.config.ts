@@ -40,12 +40,12 @@ export default defineNuxtConfig({
       titleTemplate: '%s - Lu Tsung-Hsin (呂宗昕) | Portfolio',
       title: 'Lu Tsung-Hsin (呂宗昕)',
       htmlAttrs: {
-        lang: 'zh-TW'
+        lang: 'en'
       },
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'Lu Tsung-Hsin (呂宗昕) - Cloud Native Backend Engineer · Full-stack Developer · AI Research Engineer · UAV Swarm System Architect' },
+        { name: 'description', content: 'Bilingual engineering portfolio for Lu Tsung-Hsin (呂宗昕)' },
         { name: 'format-detection', content: 'telephone=no' },
         // Open Graph
         { property: 'og:title', content: 'Lu Tsung-Hsin (呂宗昕) | Portfolio' },

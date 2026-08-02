@@ -20,15 +20,17 @@
         <!-- Filter Tabs -->
         <div class="flex items-center gap-1.5 overflow-x-auto pb-2 md:pb-0 scrollbar-none -mx-4 px-4 md:mx-0 md:px-0 md:flex-1 md:flex-wrap md:overflow-visible">
           <button
-            v-for="(catName, idx) in categories"
-            :key="idx"
-            @click="activeCategoryIndex = idx"
+            v-for="filter in categories"
+            :key="filter.id"
+            :aria-pressed="activeFilterId === filter.id"
+            @click="activeFilterId = filter.id"
             class="whitespace-nowrap px-4 py-2 rounded-lg text-xs font-semibold border transition-all duration-200"
-            :class="activeCategoryIndex === idx
+            :class="activeFilterId === filter.id
               ? 'bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 border-neutral-900 dark:border-white shadow-sm'
               : 'bg-white dark:bg-dark-surface text-neutral-600 dark:text-neutral-400 border-light-border dark:border-dark-border hover:bg-light-elevated dark:hover:bg-dark-elevated'"
           >
-            {{ catName }}
+            {{ filter.label }}
+            <span class="ml-1 font-mono text-[11px] opacity-65" aria-hidden="true">{{ filter.count }}</span>
           </button>
         </div>
 
@@ -93,6 +95,7 @@ import SectionHeading from '~/components/ui/SectionHeading.vue'
 import SpotlightCard from '~/components/ui/SpotlightCard.vue'
 import ProjectCard from '~/components/project/ProjectCard.vue'
 import { fetchProjects } from '~/composables/useProjects'
+import { projectFilters } from '~/data/engineering'
 
 const { locale, t } = useI18n()
 
@@ -104,21 +107,7 @@ useHead({
 })
 
 const searchQuery = ref('')
-const activeCategoryIndex = ref(0)
-
-const categories = computed(() => [
-  t('projects.allCategories'),
-  t('projects.categoryBackend'),
-  t('projects.categoryRobotics'),
-  t('projects.categoryUAV'),
-  t('projects.categoryFullStack'),
-  t('projects.categoryAI'),
-  t('projects.categoryCloud'),
-  t('projects.categoryVision'),
-  t('projects.categoryLegacy')
-])
-
-const filterKeys = ['all', 'backend systems', 'robotics research', 'uav systems', 'full-stack', 'ai research', 'cloud native', 'computer vision', 'legacy / archive']
+const activeFilterId = ref('all')
 
 const { data: projects, status, error, refresh } = await useAsyncData(
   'projects-list:public',
@@ -128,18 +117,29 @@ const { data: projects, status, error, refresh } = await useAsyncData(
 
 const isLoading = computed(() => status.value === 'idle' || status.value === 'pending')
 
+const matchesFilter = (project: (typeof projects.value)[number], filterId: string) => {
+  const filter = projectFilters.find(item => item.id === filterId) || projectFilters[0]
+  if (!filter.matchTerms.length) return true
+  const searchable = [project.category, ...project.tags, ...project.stack].join(' ').toLowerCase()
+  return filter.matchTerms.some(term => searchable.includes(term.toLowerCase()))
+}
+
+const categories = computed(() => projectFilters.map(filter => ({
+  id: filter.id,
+  label: filter.label[locale.value],
+  count: projects.value.filter(project => matchesFilter(project, filter.id)).length
+})))
+
 const filteredProjects = computed(() => {
   return projects.value.filter(project => {
-    // Category match
-    const selectedKey = filterKeys[activeCategoryIndex.value]
-    const searchableCategories = [project.category, ...project.tags].join(' ').toLowerCase()
-    const categoryMatches = selectedKey === 'all' || searchableCategories.includes(selectedKey)
+    const categoryMatches = matchesFilter(project, activeFilterId.value)
 
     // Search query match
     const query = searchQuery.value.toLowerCase().trim()
     const searchMatches = !query ||
       project.title[locale.value].toLowerCase().includes(query) ||
       (project.subtitle && project.subtitle[locale.value].toLowerCase().includes(query)) ||
+      project.description[locale.value].toLowerCase().includes(query) ||
       project.tags.some(tag => tag.toLowerCase().includes(query)) ||
       project.stack.some(s => s.toLowerCase().includes(query))
 

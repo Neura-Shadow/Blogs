@@ -94,14 +94,14 @@ export const projectsData: Project[] = [
       'zh-TW': '已封存 v1.0.0 框架，另含可選 post-v1 C2 延伸'
     },
     description: {
-      en: 'A mock-first research engineering framework for sparse-reward UAV, UGV, and AMR navigation using latent world models, generated future rollouts, digital-twin descriptors, and guarded simulator and SITL paths.',
-      'zh-TW': '面向 UAV、UGV 與 AMR 稀疏獎勵導航的 mock-first 研究工程框架，結合 latent world model、generated future rollout、數位孿生描述，以及受控的模擬器與 SITL 路徑。'
+      en: 'A mock-first research framework connecting latent world models, digital-twin descriptors, ROS 2-style adapter boundaries, and guarded simulator and PX4 SITL paths for UAV, UGV, and AMR navigation.',
+      'zh-TW': '面向 UAV、UGV 與 AMR 導航的 mock-first 研究框架，串接 latent world model、數位孿生描述、ROS 2-style adapter 邊界，以及受控的模擬器與 PX4 SITL 路徑。'
     },
     longDescription: {
       en: 'The repository connects world-model training, Real2Sim2Real scenario generation, OpenUSD-style descriptors, ROS2-style adapters, multi-agent coordination, and a CBF-style runtime filter. Normal tests run without GPU, ROS2, Isaac Sim, PX4, MAVSDK, Cosys-AirSim, or hardware. Optional integrations require explicit gates. The archived v1.0.0 artifact and the later C2 replay and planning extension remain simulation, SITL, replay, and readiness oriented; they do not establish real-flight validation, production readiness, or certified safety.',
       'zh-TW': '此 repository 串接 world-model 訓練、Real2Sim2Real 情境生成、OpenUSD-style 描述、ROS2-style adapter、多載具協調與 CBF-style runtime filter。一般測試不需要 GPU、ROS2、Isaac Sim、PX4、MAVSDK、Cosys-AirSim 或硬體；可選整合必須經明確 gate 才能啟用。封存的 v1.0.0 artifact 與後續 C2 replay / planning 延伸仍以模擬、SITL、replay 與 readiness 為定位，不能視為真實飛行驗證、production readiness 或安全認證。'
     },
-    tags: ['Robotics Research', 'AI Research', 'Sparse Rewards', 'World Model', 'Digital Twin', 'Multi-agent'],
+    tags: ['Robotics Research', 'AI Research', 'ROS 2', 'Sparse Rewards', 'World Model', 'Digital Twin', 'Multi-agent'],
     stack: ['Python', 'PyTorch', 'ROS2 Interfaces', 'OpenUSD Descriptors', 'Isaac Sim (Guarded)', 'PX4 SITL', 'MAVSDK (Guarded)', 'Cosys-AirSim (Optional)'],
     links: {
       demo: null,
@@ -111,12 +111,12 @@ export const projectsData: Project[] = [
     cover: '/images/projects/gwm-uav-navigation-sparse-rewards.webp',
     highlights: {
       en: [
-        'Keeps normal development mock-first while isolating optional ROS2, simulator, SITL, and command paths behind explicit runtime gates.',
+        'Keeps normal development mock-first while isolating ROS 2-style interface adapters, simulator transport, SITL, and command paths behind explicit runtime gates.',
         'Combines generated future observations, Real2Sim2Real scenarios, digital-twin descriptors, shared world state, and safety-filtered command proposals.',
         'Adds an optional post-v1 C2 layer for mission data, replay, defensive risk mapping, route scoring, metrics, and benchmark readiness.'
       ],
       'zh-TW': [
-        '一般開發維持 mock-first，並將 ROS2、模擬器、SITL 與指令路徑隔離於明確 runtime gate 後方。',
+        '一般開發維持 mock-first，並將 ROS 2-style interface adapter、模擬傳輸、SITL 與指令路徑隔離於明確 runtime gate 後方。',
         '整合 generated future observation、Real2Sim2Real 情境、數位孿生描述、shared world state 與安全過濾後的指令提案。',
         '以可選 post-v1 C2 層補充任務資料、replay、防禦性風險映射、路徑評分、metrics 與 benchmark readiness。'
       ]
@@ -240,14 +240,14 @@ export const projectsData: Project[] = [
       'zh-TW': 'Private repository / 僅公開去敏摘要'
     },
     description: {
-      en: 'Research-system integration for coordinating aerial, surface, and ground vehicles, with public portfolio coverage limited to operator UI, telemetry, and system-boundary work.',
-      'zh-TW': '陸海空異質載具協同的研究系統整合；公開作品集僅描述 operator UI、telemetry 與系統邊界工作。'
+      en: 'Within my assigned scope, I contributed architecture development and system integration for heterogeneous UAV, USV, and UGV platforms through MQTT, MAVLink, WebRTC, telemetry backends, operator interfaces, and containerized-service boundaries, with an explicitly planned edge-compute integration path.',
+      'zh-TW': '在所負責的範圍內，我參與異質 UAV、USV 與 UGV 平台的架構開發與系統整合，涵蓋 MQTT、MAVLink、WebRTC、遙測後端、操作介面與容器化服務邊界，並明確標示規劃中的邊緣運算整合方向。'
     },
     longDescription: {
-      en: 'This entry consolidates the former control-panel card into the broader heterogeneous swarm project. The source repository is private, so the public summary intentionally omits clone URLs, branches, source details, private assets, credentials, and unverified runtime metrics.',
-      'zh-TW': '此 entry 將舊 control-panel card 合併至較完整的異質載具系統專案。由於 source repository 為 private，公開摘要刻意省略 clone URL、branch、source detail、private asset、credential 與未驗證 runtime metric。'
+      en: 'This entry consolidates the former control-panel card into the broader heterogeneous swarm project. The current public scope covers MQTT and MAVLink telemetry, WebRTC media, command-and-control UI, and heterogeneous coordination boundaries. Edge-compute nodes remain an integration path rather than a verified Jetson implementation. The private source, links, assets, credentials, and unverified runtime metrics remain excluded.',
+      'zh-TW': '此 entry 將舊 control-panel card 合併至較完整的異質載具系統專案。目前公開範圍涵蓋 MQTT／MAVLink 遙測、WebRTC 媒體、指揮控制介面與異質協作邊界；邊緣運算節點仍是整合方向，不代表已驗證 Jetson 實作。Private source、link、asset、credential 與未驗證 runtime metric 均不公開。'
     },
-    tags: ['UAV Systems', 'System Integration', 'Telemetry', 'Operator UI', 'Private-Sanitized'],
+    tags: ['UAV Systems', 'Full-Stack', 'System Integration', 'Telemetry', 'Operator UI', 'Edge Compute Integration Path', 'Private-Sanitized'],
     stack: ['Python', 'Flask', 'Nuxt.js', 'MQTT', 'MAVLink', 'WebRTC', 'Docker'],
     links: {
       demo: null,
@@ -258,11 +258,13 @@ export const projectsData: Project[] = [
     highlights: {
       en: [
         'Defines integration boundaries across heterogeneous vehicle telemetry and operator workflows.',
-        'Keeps the private repository and all private implementation links out of the public portfolio.'
+        'Keeps the private repository and all private implementation links out of the public portfolio.',
+        'Documents an edge-compute integration path without claiming a Jetson or ROS 2 onboard implementation.'
       ],
       'zh-TW': [
         '整理異質載具 telemetry 與 operator workflow 之間的整合邊界。',
-        '公開作品集中不包含 private repository 或任何 private implementation link。'
+        '公開作品集中不包含 private repository 或任何 private implementation link。',
+        '記錄邊緣運算整合方向，但不宣稱已實作 Jetson 或 ROS 2 onboard node。'
       ]
     },
     challenges: {
@@ -305,10 +307,10 @@ export const projectsData: Project[] = [
       'zh-TW': '用於視訊異常偵測與時空表徵實驗的 private research codebase；此處僅使用既有公開論文與作品集資訊。'
     },
     longDescription: {
-      en: 'The public summary covers the research topic and Diffusion Transformer experimentation without reproducing private source, branch names, assets, credentials, benchmark tables, or repository links. Research submitted to IEEE Transactions on Multimedia.',
-      'zh-TW': '公開摘要僅說明研究主題與 Diffusion Transformer 實驗，不複製 private source、branch name、asset、credential、benchmark table 或 repository link。研究成果投稿於 IEEE Transactions on Multimedia。'
+      en: 'This independent image-processing and computer-vision research was conducted separately from the NSTC projects. The public summary covers the research topic and Diffusion Transformer experimentation without reproducing private source, branch names, assets, credentials, benchmark tables, or repository links. The PyTorch research pipeline offers a future deployment path through ONNX and TensorRT for edge inference; that path is not presented as implemented. Research submitted to IEEE Transactions on Multimedia.',
+      'zh-TW': '此影像處理與電腦視覺研究獨立於國科會計畫進行。公開摘要僅說明研究主題與 Diffusion Transformer 實驗，不複製 private source、branch name、asset、credential、benchmark table 或 repository link。PyTorch 研究管線可延伸至 ONNX 與 TensorRT 的邊緣推論部署流程，但此路徑不描述為已完成。研究成果已投稿至 IEEE Transactions on Multimedia。'
     },
-    tags: ['AI Research', 'Computer Vision', 'Video Anomaly Detection', 'Diffusion Transformer', 'Private-Sanitized'],
+    tags: ['AI Research', 'Computer Vision', 'Video Anomaly Detection', 'Diffusion Transformer', 'Edge AI Deployment Path', 'Private-Sanitized'],
     stack: ['Python', 'PyTorch', 'OpenCV', 'Transformer'],
     links: {
       demo: null,
@@ -319,11 +321,13 @@ export const projectsData: Project[] = [
     highlights: {
       en: [
         'Explores temporal representation and anomaly-scoring pipelines for video sequences.',
-        'Keeps publication status explicitly at submitted, not accepted or published.'
+        'Keeps publication status explicitly at submitted without upgrading the claim.',
+        'Frames ONNX and TensorRT as a future edge-deployment path rather than a completed result.'
       ],
       'zh-TW': [
         '探索視訊序列的時序表徵與 anomaly-scoring pipeline。',
-        '論文狀態明確維持為已投稿，不宣稱已接受或已刊登。'
+        '論文狀態明確維持為已投稿，不升級投稿宣稱。',
+        '將 ONNX 與 TensorRT 明確定位為未來邊緣部署路徑，而非已完成成果。'
       ]
     },
     challenges: {
@@ -338,7 +342,7 @@ export const projectsData: Project[] = [
     },
     results: {
       en: ['Research submitted to IEEE Transactions on Multimedia.'],
-      'zh-TW': ['研究成果投稿於 IEEE Transactions on Multimedia。']
+      'zh-TW': ['研究成果已投稿至 IEEE Transactions on Multimedia。']
     },
     featured: false
   },
@@ -415,10 +419,10 @@ export const projectsData: Project[] = [
       'zh-TW': 'Python webcam prototype，使用 OpenCV 與 face_recognition 進行人臉比對，並整合 Firebase Realtime Database、Storage 與實驗性 SMTP alert path。'
     },
     longDescription: {
-      en: 'The public repository contains a small 2023 script-based prototype for webcam face matching, Firebase-backed records, and email alerts.',
-      'zh-TW': '公開 repository 是 2023 年的小型 script-based prototype，涵蓋 webcam face matching、Firebase-backed records 與 email alerts。'
+      en: 'The public repository contains a small 2023 script-based prototype for webcam face matching, Firebase-backed records, and email alerts. Potential modernization path: Jetson, GStreamer, ROS 2 image transport, and TensorRT. These technologies are not implemented by the legacy repository.',
+      'zh-TW': '公開 repository 是 2023 年的小型 script-based prototype，涵蓋 webcam face matching、Firebase-backed records 與 email alerts。可延伸方向：Jetson、GStreamer、ROS 2 image transport 與 TensorRT；舊 repository 並未實作這些技術。'
     },
-    tags: ['Legacy / Archive', 'Computer Vision', 'Face Recognition', 'Firebase', 'Python'],
+    tags: ['Legacy / Archive', 'Computer Vision', 'Face Recognition', 'Firebase', 'Python', 'Edge AI Modernization Path'],
     stack: ['Python', 'OpenCV', 'face_recognition', 'Firebase Realtime Database', 'Firebase Storage', 'SMTP'],
     links: {
       demo: null,
@@ -435,9 +439,17 @@ export const projectsData: Project[] = [
       'zh-TW': ['若要擴大使用，prototype 仍需 configuration hardening、packaging、test 與明確 privacy control。']
     },
     results: {
-      en: ['Retained as a legacy learning prototype without performance or deployment claims.'],
-      'zh-TW': ['保留為 legacy 學習 prototype，不包含效能或部署宣稱。']
+      en: ['Retained as a legacy learning prototype with a clearly separated modernization path and no performance or deployment claims.'],
+      'zh-TW': ['保留為 legacy 學習 prototype，將現代化方向清楚分離，且不包含效能或部署宣稱。']
     },
     featured: false
   }
 ]
+
+// TODO: promote this planned entry only after a real source directory, implemented
+// technology inventory, runtime evidence, sanitized cover, and any claimed measurements
+// are available. Until then, it remains an About-page Current Engineering Focus.
+export const plannedProjectTodo = {
+  slug: 'jetson-edge-ai-ros2-vision-system',
+  requiredEvidence: ['source directory', 'implemented technology inventory', 'runtime evidence', 'sanitized cover', 'measured results']
+}

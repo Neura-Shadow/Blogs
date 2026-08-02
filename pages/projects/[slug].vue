@@ -23,7 +23,7 @@
       <div class="p-8 sm:p-10 rounded-2xl border border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-surface/40 mb-10 text-left">
         <div class="flex flex-wrap gap-2.5 mb-4">
           <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-brand-accent/10 border border-brand-accent/20 text-brand-accent">
-            {{ project.category }}
+            {{ projectCategoryLabels[project.category]?.[locale] || project.category }}
           </span>
           <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-brand-linear/10 border border-brand-linear/20 text-brand-linear">
             {{ project.status[locale] }}
@@ -161,6 +161,7 @@ import { useI18n } from '~/composables/useI18n'
 import TechBadge from '~/components/ui/TechBadge.vue'
 import ProjectCover from '~/components/project/ProjectCover.vue'
 import { fetchProjectBySlug } from '~/composables/useProjects'
+import { projectCategoryLabels } from '~/data/engineering'
 
 const route = useRoute()
 const { locale, t } = useI18n()

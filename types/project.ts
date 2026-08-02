@@ -8,6 +8,14 @@ export type MultilingualArray = {
   'zh-TW': string[]
 }
 
+export type CapabilityStatus =
+  | 'project-applied'
+  | 'research-applied'
+  | 'prototype'
+  | 'working-knowledge'
+  | 'current-focus'
+  | 'planned-extension'
+
 export interface ProjectLinks {
   demo?: string | null
   repo?: string | null
@@ -41,8 +49,8 @@ export interface Education {
 }
 
 export interface SkillItem {
-  name: string
-  level?: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert' | string
+  name: Multilingual
+  status: CapabilityStatus
   description?: Multilingual
 }
 
@@ -53,16 +61,19 @@ export interface SkillGroup {
 }
 
 export interface ResearchHighlight {
+  kind: 'applied-rd' | 'independent-research'
   title: Multilingual
   description: Multilingual
   link?: string | null
   tags?: string[]
+  status?: Multilingual | null
 }
 
 export interface Profile {
   name: string
   chineseName: string
   title: Multilingual
+  capabilityLine: Multilingual
   summary: Multilingual
   email: string
   phone?: string | null
@@ -73,4 +84,36 @@ export interface Profile {
   education: Education[]
   skills: SkillGroup[]
   research: ResearchHighlight[]
+}
+
+export interface LocalizedLabelItem {
+  id: string
+  label: Multilingual
+  description?: Multilingual
+}
+
+export interface ArchitectureStep extends LocalizedLabelItem {
+  shortLabel: Multilingual
+  lane: 'input' | 'processing' | 'output'
+}
+
+export interface RosResponsibility extends LocalizedLabelItem {
+  component: string
+  status: CapabilityStatus
+}
+
+export interface QosExample {
+  id: string
+  title: Multilingual
+  description: Multilingual
+  settings: Array<{
+    key: 'reliability' | 'history' | 'depth'
+    value: Multilingual
+  }>
+}
+
+export interface ProjectFilter {
+  id: string
+  label: Multilingual
+  matchTerms: string[]
 }

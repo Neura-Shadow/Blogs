@@ -10,10 +10,14 @@
     hello: "Hello, I'm",
     name: "Lu Tsung-Hsin",
     chineseName: "呂宗昕",
-    tagline: "Cloud Native Backend Engineer · Full-stack Developer · AI Research Engineer · UAV Swarm System Architect",
-    description: "I work on Go backend systems, Nuxt full-stack applications, and guarded AI and robotics research frameworks.",
     viewProjects: 'View Projects',
     downloadResume: 'Download Resume',
+    evidence: {
+      label: 'Evidence status',
+      project: 'Project-applied systems',
+      research: 'Research-applied pipelines',
+      focus: 'Edge AI / ROS 2 current focus'
+    },
     stats: {
       experience: 'Backend Systems',
       projects: 'Full-stack Portfolio',
@@ -28,6 +32,7 @@
     searchPlaceholder: 'Search projects by tag or name...',
     allCategories: 'All',
     categoryBackend: 'Backend Systems',
+    categoryEdgeAI: 'Edge AI',
     categoryRobotics: 'Robotics Research',
     categoryUAV: 'UAV Systems',
     categoryAI: 'AI Research',
@@ -57,12 +62,14 @@
   },
   skills: {
     title: 'Capability Matrix',
-    description: 'Comprehensive technical toolkit spanning cloud infrastructure, full-stack systems, deep reinforcement learning, and unmanned systems engineering.'
+    description: 'Six evidence-based domains spanning backend systems, real-time interfaces, Embedded Linux, ROS 2, edge deployment, and autonomous-systems research.'
   },
   research: {
     title: 'Research & Academic Highlights',
-    description: 'Research and engineering work in video modeling, robotic navigation, simulation, and system integration, with evidence boundaries stated explicitly.',
-    statusSubmitted: 'Submitted / Under Review'
+    description: 'Implementation-oriented NSTC applied R&D and independent image-processing research are presented as separate bodies of work.',
+    appliedLabel: 'Applied R&D',
+    independentLabel: 'Independent research',
+    statusSubmitted: 'Submitted'
   },
   blog: {
     title: 'Technical Log & Articles',
@@ -84,11 +91,39 @@
   },
   about: {
     title: 'About Me',
+    metaTitle: 'About · Embedded Linux and Distributed Real-Time Systems',
+    metaDescription: 'Embedded Linux, distributed real-time systems, NSTC applied R&D, independent computer-vision research, Edge AI, ROS 2, and evidence-based capabilities.',
     downloadCV: 'Download Full CV (PDF)',
     education: 'Education Background',
     researchInterests: 'Research Interests',
+    technicalMap: 'Technical Map',
+    edgeSystemsTitle: 'Embedded Linux & Distributed Real-Time Systems',
+    evidenceBoundaryTitle: 'Evidence boundary',
+    evidenceBoundaryDescription: 'This architecture is a current engineering focus. A dedicated Jetson project will be added only after source and runtime evidence are available.',
+    researchBoundaryEyebrow: 'Two distinct bodies of work',
+    researchBoundaryTitle: 'Applied system integration and independent research',
+    researchBoundaryDescription: 'The implementation-oriented NSTC projects and the IEEE TMM image-processing submission are intentionally separated in scope, status, and presentation.',
+    independentResearchClarification: 'This image-processing research was conducted independently and is not derived from the NSTC projects described above.',
+    architectureTitle: 'Edge vision reference pipeline',
+    architectureDescription: 'A modular path from camera capture through ROS 2 message boundaries and edge inference to control, visualization, and cloud-facing telemetry.',
+    referenceArchitecture: 'Reference architecture',
+    rosResponsibilitiesTitle: 'ROS 2 responsibility map',
+    rosResponsibilitiesDescription: 'Responsibilities are separated by interface and labeled with their present evidence status. Planned items are not presented as completed implementation.',
+    component: 'Component',
+    purpose: 'Purpose',
+    capabilityStatus: 'Current status',
+    qosTitle: 'Typical QoS configuration examples',
+    qosDescription: 'These are practical starting points for different message paths, not universal rules. They must be validated against the actual network, sensor rate, and safety boundary.',
+    qos: {
+      reliability: 'Reliability',
+      history: 'History',
+      depth: 'Depth'
+    },
+    profilingTitle: 'Performance profiling capability',
+    profilingDescription: 'The measurement plan covers pipeline, device, and ROS 2 transport behavior. Values are shown only after a repeatable run exists.',
+    noBenchmarks: 'No benchmark values are claimed without measured evidence.',
     collaborations: 'Collaborations & Inquiries',
-    collabDesc: 'I am eager to contribute to forward-looking industrial-academic projects, Kubernetes native developments, and robotic swarm designs.',
+    collabDesc: 'Open to evidence-driven collaboration across backend systems, Edge AI deployment, ROS 2 integration, computer vision, and autonomous-systems research.',
     navContact: 'Navigate to Contact Page'
   },
   contact: {
@@ -108,8 +143,21 @@
     offlineAlert: '(Form submission is currently offline. Please contact me directly via email.)'
   },
   footer: {
-    subtitle: 'Cloud Native Backend Engineer · Full-stack Developer · AI Research Engineer',
     rights: 'All rights reserved.',
     poweredBy: 'Powered by Nuxt 3 & Inspira UI'
+  },
+  three: {
+    pipelineKicker: 'Distributed edge pipeline',
+    pipelineTitle: 'Sensor to decision system',
+    currentFocus: 'Current Focus',
+    input: 'Input',
+    processing: 'Processing',
+    output: 'Output',
+    messageFlow: 'ROS 2 topics · QoS-aware paths',
+    profileCore: 'Systems Profile',
+    profileCoreDescription: 'Cloud services, edge inference, and robotics integration',
+    profileBackend: 'Backend Systems',
+    profileEdgeAi: 'Edge AI',
+    profileRobotics: 'ROS 2 / UAV'
   }
 }

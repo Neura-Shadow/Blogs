@@ -418,6 +418,7 @@
 </template>
 
 <script setup lang="ts">
+import { hasPublicationWordingViolation, publicationWordingGuidance } from '~/utils/publicationWording'
 import { ref, reactive, watch, onMounted } from 'vue'
 import { useSupabaseCms } from '~/composables/useSupabaseCms'
 import { useAdminAuth } from '~/composables/useAdminAuth'
@@ -564,22 +565,14 @@ watch(resultsZhText, (val) => {
 
 const handleSubmit = async () => {
   // Front-end security check: wording guard check
-  const hasWordingViolation = (text: string) => {
-    return (
-      /published\s+in\s+IEEE/i.test(text) ||
-      /\u767c\u8868\u65bc\s*IEEE/i.test(text) ||
-      /\u767c\u8868\u65bc/i.test(text)
-    )
-  }
-
   if (
-    hasWordingViolation(form.title_en) || hasWordingViolation(form.title_zh) ||
-    hasWordingViolation(form.subtitle_en) || hasWordingViolation(form.subtitle_zh) ||
-    hasWordingViolation(form.description_en) || hasWordingViolation(form.description_zh) ||
-    hasWordingViolation(form.long_description_en) || hasWordingViolation(form.long_description_zh) ||
-    form.highlights_en.some(hasWordingViolation) || form.highlights_zh.some(hasWordingViolation)
+    hasPublicationWordingViolation(form.title_en) || hasPublicationWordingViolation(form.title_zh) ||
+    hasPublicationWordingViolation(form.subtitle_en) || hasPublicationWordingViolation(form.subtitle_zh) ||
+    hasPublicationWordingViolation(form.description_en) || hasPublicationWordingViolation(form.description_zh) ||
+    hasPublicationWordingViolation(form.long_description_en) || hasPublicationWordingViolation(form.long_description_zh) ||
+    form.highlights_en.some(hasPublicationWordingViolation) || form.highlights_zh.some(hasPublicationWordingViolation)
   ) {
-    alert('[Wording Security Block]: Use "Research submitted to IEEE Transactions on Multimedia" / "研究成果投稿於 IEEE Transactions on Multimedia".')
+    alert(`[Wording Security Block]: ${publicationWordingGuidance}`)
     return
   }
 

@@ -52,13 +52,12 @@ import FeaturedProjects from '~/components/sections/FeaturedProjects.vue'
 import SkillMatrix from '~/components/sections/SkillMatrix.vue'
 import ResearchHighlights from '~/components/sections/ResearchHighlights.vue'
 import LatestArticles from '~/components/sections/LatestArticles.vue'
+import { profileData as profile } from '~/data/profile'
 
-const { t } = useI18n()
+const { locale, t } = useI18n()
 
-useHead({
-  title: 'Home',
-  meta: [
-    { name: 'description', content: 'Lu Tsung-Hsin (呂宗昕) - Cloud Native Backend Engineer · Full-stack Developer · AI Research Engineer · UAV Swarm System Architect' }
-  ]
-})
+useHead(() => ({
+  title: profile.title[locale.value],
+  meta: [{ name: 'description', content: profile.summary[locale.value].split('\n\n')[0] }]
+}))
 </script>
