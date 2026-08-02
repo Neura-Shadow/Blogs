@@ -2,7 +2,7 @@
   <ThreeDTiltCard :max-tilt="8" class="h-full" :class="themeClasses">
     <NuxtLink
       :to="{ name: 'projects-slug', params: { slug: project.slug } }"
-      class="group flex h-full flex-col justify-between p-6 text-left sm:p-8"
+      class="group flex h-full flex-col justify-between p-6 text-left"
     >
       <div>
         <ProjectCover
@@ -23,16 +23,16 @@
         </div>
 
         <!-- Project Title -->
-        <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-[#1F1E1B] dark:text-white group-hover:text-brand-accent transition-colors duration-300">
+        <h3 data-testid="project-card-title" class="text-card-title line-clamp-3 font-bold tracking-tight text-[#1F1E1B] transition-colors duration-300 group-hover:text-brand-accent dark:text-white">
           {{ project.title[locale] }}
         </h3>
 
-        <p v-if="project.subtitle" class="text-xs text-brand-accent font-semibold mt-1">
+        <p v-if="project.subtitle" data-testid="project-card-subtitle" class="mt-2 line-clamp-2 text-public-body-sm font-semibold text-brand-accent">
           {{ project.subtitle[locale] }}
         </p>
 
         <!-- Project Description -->
-        <p class="mt-3.5 text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed line-clamp-3">
+        <p data-testid="project-card-description" class="text-card-body mt-3.5 line-clamp-4 text-neutral-500 dark:text-neutral-400">
           {{ project.description[locale] }}
         </p>
       </div>
@@ -47,7 +47,7 @@
           >
             {{ tag }}
           </TechBadge>
-          <span v-if="project.tags.length > 4" class="text-[10px] text-neutral-400 dark:text-neutral-500 flex items-center self-center px-1 font-mono">
+          <span v-if="project.tags.length > 4" class="text-public-micro flex items-center self-center px-1 font-mono text-neutral-400 dark:text-neutral-500">
             +{{ project.tags.length - 4 }}
           </span>
         </div>

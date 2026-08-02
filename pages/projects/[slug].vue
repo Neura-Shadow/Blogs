@@ -14,7 +14,7 @@
     <div class="max-w-6xl mx-auto px-4">
       <NuxtLink
         to="/projects"
-        class="inline-flex items-center gap-1 text-xs font-semibold text-neutral-500 hover:text-brand-accent transition-colors mb-8"
+        class="text-button mb-8 inline-flex min-h-10 items-center gap-1 font-semibold text-neutral-500 transition-colors hover:text-brand-accent"
       >
         <ArrowLeft class="w-3.5 h-3.5" />
         <span>{{ t('projects.backToProjects') }}</span>
@@ -22,19 +22,19 @@
 
       <div class="p-8 sm:p-10 rounded-2xl border border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-surface/40 mb-10 text-left">
         <div class="flex flex-wrap gap-2.5 mb-4">
-          <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-brand-accent/10 border border-brand-accent/20 text-brand-accent">
+          <span class="text-public-micro rounded border border-brand-accent/20 bg-brand-accent/10 px-2.5 py-1 font-bold uppercase text-brand-accent">
             {{ projectCategoryLabels[project.category]?.[locale] || project.category }}
           </span>
-          <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-brand-linear/10 border border-brand-linear/20 text-brand-linear">
+          <span class="text-public-micro rounded border border-brand-linear/20 bg-brand-linear/10 px-2.5 py-1 font-bold uppercase text-brand-linear">
             {{ project.status[locale] }}
           </span>
         </div>
 
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold tracking-tight text-[#1F1E1B] dark:text-white leading-tight">
+        <h1 class="text-page-title font-display font-extrabold tracking-tight text-[#1F1E1B] dark:text-white">
           {{ project.title[locale] }}
         </h1>
 
-        <p v-if="project.subtitle" class="mt-2 text-base sm:text-lg text-neutral-500 dark:text-neutral-400">
+        <p v-if="project.subtitle" class="text-public-lead mt-3 max-w-[72ch] text-neutral-500 dark:text-neutral-400">
           {{ project.subtitle[locale] }}
         </p>
 
@@ -45,21 +45,21 @@
         <div class="lg:col-span-4 order-last lg:order-first">
           <div class="sticky top-24 space-y-6">
             <div class="p-6 rounded-xl border border-light-border dark:border-dark-border bg-white dark:bg-dark-surface/30 text-left">
-              <h3 class="text-sm font-bold text-neutral-800 dark:text-neutral-200 pb-3 border-b border-light-border dark:border-dark-border mb-4">
+              <h3 class="text-public-body-sm mb-4 border-b border-light-border pb-3 font-bold text-neutral-800 dark:border-dark-border dark:text-neutral-200">
                 {{ t('projects.matrixTitle') }}
               </h3>
 
-              <ul class="space-y-4 text-xs">
+              <ul class="space-y-4">
                 <li>
-                  <span class="block text-[10px] text-neutral-400 uppercase tracking-wider">{{ t('projects.role') }}</span>
-                  <span class="font-semibold text-neutral-800 dark:text-neutral-200 mt-0.5 block leading-relaxed">{{ project.role[locale] }}</span>
+                  <span class="text-public-micro block uppercase tracking-wider text-neutral-500">{{ t('projects.role') }}</span>
+                  <span class="text-public-body-sm mt-1 block font-semibold text-neutral-800 dark:text-neutral-200">{{ project.role[locale] }}</span>
                 </li>
                 <li>
-                  <span class="block text-[10px] text-neutral-400 uppercase tracking-wider">{{ t('projects.status') }}</span>
-                  <span class="font-semibold text-neutral-800 dark:text-neutral-200 mt-0.5 block leading-relaxed">{{ project.status[locale] }}</span>
+                  <span class="text-public-micro block uppercase tracking-wider text-neutral-500">{{ t('projects.status') }}</span>
+                  <span class="text-public-body-sm mt-1 block font-semibold text-neutral-800 dark:text-neutral-200">{{ project.status[locale] }}</span>
                 </li>
                 <li v-if="project.stack && project.stack.length > 0">
-                  <span class="block text-[10px] text-neutral-400 uppercase tracking-wider mb-2">{{ t('projects.stack') }}</span>
+                  <span class="text-public-micro mb-2 block uppercase tracking-wider text-neutral-500">{{ t('projects.stack') }}</span>
                   <div class="flex flex-wrap gap-1.5">
                     <TechBadge v-for="item in project.stack" :key="item" variant="neutral">
                       {{ item }}
@@ -73,18 +73,18 @@
               v-if="project.links.repo || project.links.demo || project.links.paper"
               class="p-6 rounded-xl border border-light-border dark:border-dark-border bg-white dark:bg-dark-surface/30 space-y-3 text-left"
             >
-              <h3 class="text-sm font-bold text-neutral-800 dark:text-neutral-200 pb-2 mb-2">
+              <h3 class="text-public-body-sm mb-2 pb-2 font-bold text-neutral-800 dark:text-neutral-200">
                 {{ t('projects.resources') }}
               </h3>
-              <a v-if="project.links.repo" :href="project.links.repo" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between w-full p-2.5 rounded-lg border border-light-border dark:border-dark-border hover:bg-light-elevated dark:hover:bg-dark-elevated text-xs font-semibold transition-colors">
+              <a v-if="project.links.repo" :href="project.links.repo" target="_blank" rel="noopener noreferrer" class="text-public-caption flex min-h-11 w-full items-center justify-between rounded-lg border border-light-border p-2.5 font-semibold transition-colors hover:bg-light-elevated dark:border-dark-border dark:hover:bg-dark-elevated">
                 <span class="flex items-center gap-2"><Github class="w-4 h-4 text-neutral-500" /><span>{{ t('projects.codeRepo') }}</span></span>
                 <ArrowUpRight class="w-3.5 h-3.5 text-neutral-400" />
               </a>
-              <a v-if="project.links.demo" :href="project.links.demo" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between w-full p-2.5 rounded-lg border border-light-border dark:border-dark-border hover:bg-light-elevated dark:hover:bg-dark-elevated text-xs font-semibold transition-colors">
+              <a v-if="project.links.demo" :href="project.links.demo" target="_blank" rel="noopener noreferrer" class="text-public-caption flex min-h-11 w-full items-center justify-between rounded-lg border border-light-border p-2.5 font-semibold transition-colors hover:bg-light-elevated dark:border-dark-border dark:hover:bg-dark-elevated">
                 <span class="flex items-center gap-2"><Globe class="w-4 h-4 text-neutral-500" /><span>{{ t('projects.liveDemo') }}</span></span>
                 <ArrowUpRight class="w-3.5 h-3.5 text-neutral-400" />
               </a>
-              <a v-if="project.links.paper" :href="project.links.paper" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between w-full p-2.5 rounded-lg border border-light-border dark:border-dark-border hover:bg-light-elevated dark:hover:bg-dark-elevated text-xs font-semibold transition-colors">
+              <a v-if="project.links.paper" :href="project.links.paper" target="_blank" rel="noopener noreferrer" class="text-public-caption flex min-h-11 w-full items-center justify-between rounded-lg border border-light-border p-2.5 font-semibold transition-colors hover:bg-light-elevated dark:border-dark-border dark:hover:bg-dark-elevated">
                 <span class="flex items-center gap-2"><BookOpen class="w-4 h-4 text-neutral-500" /><span>{{ t('projects.researchPaper') }}</span></span>
                 <ArrowUpRight class="w-3.5 h-3.5 text-neutral-400" />
               </a>
@@ -94,16 +94,16 @@
 
         <div class="lg:col-span-8 space-y-10 text-left">
           <div class="prose prose-neutral dark:prose-invert max-w-none">
-            <h2 class="text-xl font-bold text-[#1F1E1B] dark:text-white mb-3">{{ t('projects.overview') }}</h2>
-            <p class="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            <h2 class="text-content-heading mb-3 font-bold text-[#1F1E1B] dark:text-white">{{ t('projects.overview') }}</h2>
+            <p data-testid="project-detail-body" class="text-article-body text-neutral-600 dark:text-neutral-400">
               {{ project.longDescription ? project.longDescription[locale] : project.description[locale] }}
             </p>
           </div>
 
           <div v-if="project.highlights && project.highlights[locale] && project.highlights[locale].length > 0">
-            <h2 class="text-xl font-bold text-[#1F1E1B] dark:text-white mb-4">{{ t('projects.highlights') }}</h2>
+            <h2 class="text-content-heading mb-4 font-bold text-[#1F1E1B] dark:text-white">{{ t('projects.highlights') }}</h2>
             <ul class="space-y-3">
-              <li v-for="(item, idx) in project.highlights[locale]" :key="idx" class="flex items-start gap-2 text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              <li v-for="(item, idx) in project.highlights[locale]" :key="idx" class="text-public-body flex items-start gap-2 text-neutral-600 dark:text-neutral-400">
                 <CheckCircle2 class="w-5 h-5 text-brand-accent shrink-0 mt-0.5" />
                 <span>{{ item }}</span>
               </li>
@@ -111,9 +111,9 @@
           </div>
 
           <div v-if="project.challenges && project.challenges[locale] && project.challenges[locale].length > 0">
-            <h2 class="text-xl font-bold text-[#1F1E1B] dark:text-white mb-4">{{ t('projects.challenges') }}</h2>
+            <h2 class="text-content-heading mb-4 font-bold text-[#1F1E1B] dark:text-white">{{ t('projects.challenges') }}</h2>
             <ul class="space-y-3">
-              <li v-for="(item, idx) in project.challenges[locale]" :key="idx" class="flex items-start gap-2.5 text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              <li v-for="(item, idx) in project.challenges[locale]" :key="idx" class="text-public-body flex items-start gap-2.5 text-neutral-600 dark:text-neutral-400">
                 <AlertCircle class="w-5 h-5 text-rose-500 shrink-0 mt-0.5" />
                 <span>{{ item }}</span>
               </li>
@@ -121,9 +121,9 @@
           </div>
 
           <div v-if="project.results && project.results[locale] && project.results[locale].length > 0">
-            <h2 class="text-xl font-bold text-[#1F1E1B] dark:text-white mb-4">{{ t('projects.results') }}</h2>
+            <h2 class="text-content-heading mb-4 font-bold text-[#1F1E1B] dark:text-white">{{ t('projects.results') }}</h2>
             <ul class="space-y-3">
-              <li v-for="(item, idx) in project.results[locale]" :key="idx" class="flex items-start gap-2.5 text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              <li v-for="(item, idx) in project.results[locale]" :key="idx" class="text-public-body flex items-start gap-2.5 text-neutral-600 dark:text-neutral-400">
                 <Activity class="w-5 h-5 text-brand-linear shrink-0 mt-0.5" />
                 <span>{{ item }}</span>
               </li>
@@ -136,18 +136,18 @@
 
   <div v-else-if="error" class="min-h-[60dvh] bg-light-bg px-4 py-24 text-center dark:bg-dark-bg" role="alert">
     <AlertCircle class="mx-auto mb-4 h-16 w-16 text-rose-500" />
-    <h1 class="text-xl font-bold text-neutral-800 dark:text-neutral-200">{{ t('projects.loadError') }}</h1>
-    <p class="mx-auto mt-2 max-w-md text-sm text-neutral-500">{{ t('projects.loadErrorDesc') }}</p>
-    <button class="mt-6 rounded-lg bg-brand-accent px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-accentHover" @click="refresh()">
+    <h1 class="text-content-heading font-bold text-neutral-800 dark:text-neutral-200">{{ t('projects.loadError') }}</h1>
+    <p class="text-public-body mx-auto mt-2 max-w-md text-neutral-500">{{ t('projects.loadErrorDesc') }}</p>
+    <button class="text-button mt-6 min-h-11 rounded-lg bg-brand-accent px-5 py-2.5 font-semibold text-white hover:bg-brand-accentHover" @click="refresh()">
       {{ t('projects.tryAgain') }}
     </button>
   </div>
 
   <div v-else-if="isNotFound" class="py-24 text-center bg-light-bg dark:bg-dark-bg transition-colors duration-300">
     <FolderOpen class="w-16 h-16 text-neutral-300 dark:text-neutral-800 mx-auto mb-4" />
-    <h1 class="text-xl font-bold text-neutral-800 dark:text-neutral-200">{{ t('projects.notFound') }}</h1>
-    <p class="text-sm text-neutral-500 mt-1 mb-8">{{ t('projects.notFoundDesc') }}</p>
-    <NuxtLink to="/projects" class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-brand-accent hover:bg-brand-accentHover">
+    <h1 class="text-content-heading font-bold text-neutral-800 dark:text-neutral-200">{{ t('projects.notFound') }}</h1>
+    <p class="text-public-body mb-8 mt-2 text-neutral-500">{{ t('projects.notFoundDesc') }}</p>
+    <NuxtLink to="/projects" class="text-button inline-flex min-h-11 items-center rounded-lg bg-brand-accent px-5 py-2.5 font-semibold text-white hover:bg-brand-accentHover">
       {{ t('projects.returnToProjects') }}
     </NuxtLink>
   </div>

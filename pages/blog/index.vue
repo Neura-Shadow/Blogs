@@ -22,7 +22,7 @@
             v-for="(cat, idx) in categories"
             :key="idx"
             @click="activeCategoryIndex = idx"
-            class="whitespace-nowrap px-3.5 py-1.5 rounded-lg text-xs font-semibold border transition-all duration-200"
+            class="text-public-caption min-h-11 whitespace-nowrap rounded-lg border px-3.5 py-2 font-semibold transition-all duration-200"
             :class="activeCategoryIndex === idx
               ? 'bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 border-neutral-900 dark:border-white shadow-sm'
               : 'bg-white dark:bg-dark-surface text-neutral-600 dark:text-neutral-400 border-light-border dark:border-dark-border hover:bg-light-elevated dark:hover:bg-dark-elevated'"
@@ -40,7 +40,7 @@
             v-model="searchQuery"
             type="text"
             :placeholder="t('blog.searchPlaceholder')"
-            class="w-full pl-9 pr-4 py-2 rounded-lg border border-light-border dark:border-dark-border bg-white dark:bg-dark-surface text-neutral-850 dark:text-neutral-100 text-xs focus:ring-1 focus:ring-brand-accent focus:border-brand-accent outline-none transition-colors"
+            class="text-public-body-sm min-h-11 w-full rounded-lg border border-light-border bg-white py-2 pl-9 pr-4 text-neutral-850 outline-none transition-colors focus:border-brand-accent focus:ring-1 focus:ring-brand-accent dark:border-dark-border dark:bg-dark-surface dark:text-neutral-100"
           />
         </div>
       </div>
@@ -54,10 +54,10 @@
         >
           <!-- Date / Tag Column -->
           <div class="md:w-32 shrink-0 text-left">
-            <span class="block text-xs font-mono text-neutral-400 dark:text-neutral-500">
+            <span class="text-public-caption block font-mono text-neutral-500 dark:text-neutral-400">
               {{ formatDate(post.date) }}
             </span>
-            <span class="inline-flex mt-2 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-brand-accent/5 border border-brand-accent/20 text-brand-accent">
+            <span class="text-public-micro mt-2 inline-flex rounded border border-brand-accent/20 bg-brand-accent/5 px-2.5 py-1 font-bold uppercase tracking-wider text-brand-accent">
               {{ post.category }}
             </span>
           </div>
@@ -79,24 +79,24 @@
 
           <!-- Main Details -->
           <div class="flex-grow text-left">
-            <h3 class="text-lg font-bold text-neutral-900 dark:text-white group-hover:text-brand-accent transition-colors duration-200 leading-tight">
+            <h3 class="text-card-title font-bold text-neutral-900 transition-colors duration-200 group-hover:text-brand-accent dark:text-white">
               <NuxtLink :to="post._path || `/blog/${post.slug}`">
                 {{ post.title }}
               </NuxtLink>
             </h3>
 
-            <p class="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-2 leading-relaxed line-clamp-3">
+            <p class="text-card-body mt-2 line-clamp-4 text-neutral-500 dark:text-neutral-400">
               {{ post.description }}
             </p>
 
             <div class="mt-4 flex items-center justify-between">
-              <span class="text-xs text-neutral-400 dark:text-neutral-500 font-mono">
+              <span class="text-public-caption font-mono text-neutral-500 dark:text-neutral-400">
                 {{ post.readingTime || '5' }} {{ t('blog.readTime') }}
               </span>
 
               <NuxtLink
                 :to="post._path || `/blog/${post.slug}`"
-                class="inline-flex items-center gap-1 text-xs font-semibold text-brand-accent hover:text-brand-accentHover"
+                class="text-button inline-flex min-h-10 items-center gap-1 font-semibold text-brand-accent hover:text-brand-accentHover"
               >
                 <span>{{ t('blog.readFull') }}</span>
                 <ArrowRight class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
@@ -109,8 +109,8 @@
       <!-- Empty State -->
       <div v-else class="text-center py-20 border border-dashed border-light-border dark:border-dark-border rounded-xl">
         <BookOpen class="w-12 h-12 text-neutral-300 dark:text-neutral-700 mx-auto mb-4" />
-        <h3 class="text-base font-bold text-neutral-800 dark:text-neutral-200">{{ t('blog.notFound') }}</h3>
-        <p class="text-xs text-neutral-400 dark:text-neutral-500 mt-1 max-w-xs mx-auto">
+        <h3 class="text-content-subheading font-bold text-neutral-800 dark:text-neutral-200">{{ t('blog.notFound') }}</h3>
+        <p class="text-public-body-sm mx-auto mt-2 max-w-sm text-neutral-500 dark:text-neutral-400">
           {{ t('blog.notFoundDesc') }}
         </p>
       </div>

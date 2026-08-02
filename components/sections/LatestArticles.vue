@@ -20,7 +20,7 @@
 
         <NuxtLink
           to="/blog"
-          class="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-brand-accent hover:text-brand-accentHover transition-colors group"
+          class="text-button hidden min-h-10 items-center gap-1 font-semibold text-brand-accent transition-colors hover:text-brand-accentHover sm:inline-flex"
         >
           <span>{{ t('projects.viewAll') }}</span>
           <ArrowRight class="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -52,7 +52,7 @@
           <div class="p-6 flex flex-col justify-between flex-grow text-left">
             <div>
               <!-- Meta Info -->
-              <div class="flex items-center gap-2 text-xs text-neutral-400 dark:text-neutral-500 mb-3 font-mono">
+              <div class="text-public-caption mb-3 flex items-center gap-2 font-mono text-neutral-500 dark:text-neutral-400">
                 <time>{{ formatDate(post.date) }}</time>
                 <span>•</span>
                 <span>{{ post.category }}</span>
@@ -61,14 +61,14 @@
               </div>
 
               <!-- Title -->
-              <h3 class="text-lg font-bold text-[#1F1E1B] dark:text-white group-hover:text-brand-accent transition-colors duration-200 line-clamp-2">
+              <h3 class="text-card-title line-clamp-3 font-bold text-[#1F1E1B] transition-colors duration-200 group-hover:text-brand-accent dark:text-white">
                 <NuxtLink :to="post._path || `/blog/${post.slug}`">
                   {{ post.title }}
                 </NuxtLink>
               </h3>
 
               <!-- Description -->
-              <p class="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-2 line-clamp-3 leading-relaxed">
+              <p class="text-card-body mt-2 line-clamp-4 text-neutral-500 dark:text-neutral-400">
                 {{ post.description }}
               </p>
             </div>
@@ -77,7 +77,7 @@
             <div class="mt-6 pt-4 border-t border-light-border dark:border-dark-border">
               <NuxtLink
                 :to="post._path || `/blog/${post.slug}`"
-                class="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-accent hover:text-brand-accentHover"
+                class="text-button inline-flex min-h-10 items-center gap-1.5 font-semibold text-brand-accent hover:text-brand-accentHover"
               >
                 <span>{{ t('blog.readFull') }}</span>
                 <ArrowRight class="w-3.5 h-3.5 group-hover/btn:translate-x-1" />
@@ -91,7 +91,7 @@
       <div class="mt-8 text-center sm:hidden">
         <NuxtLink
           to="/blog"
-          class="inline-flex items-center gap-1 text-sm font-semibold text-brand-accent"
+          class="text-button inline-flex min-h-10 items-center gap-1 font-semibold text-brand-accent"
         >
           <span>{{ t('projects.viewAll') }}</span>
           <ArrowRight class="w-4 h-4" />

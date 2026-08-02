@@ -3,6 +3,16 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --text-micro: 0.8125rem;
+    --text-caption: 0.875rem;
+    --text-control: 0.9375rem;
+    --text-body-sm: 1rem;
+    --text-body: 1.0625rem;
+    --text-body-lg: 1.1875rem;
+    --text-lead: 1.25rem;
+  }
+
   body {
     @apply font-sans bg-light-bg dark:bg-dark-bg text-[#1F1E1B] dark:text-[#EAE5DB] transition-colors duration-300 antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
@@ -10,6 +20,120 @@
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-semibold tracking-tight text-[#1F1E1B] dark:text-[#FFFFFF];
+  }
+}
+
+@layer components {
+  .text-public-micro {
+    font-size: var(--text-micro);
+    line-height: 1.45;
+  }
+
+  .text-public-caption {
+    font-size: var(--text-caption);
+    line-height: 1.5;
+  }
+
+  .text-public-control {
+    font-size: var(--text-control);
+    line-height: 1.5;
+  }
+
+  .text-public-body-sm {
+    font-size: var(--text-body-sm);
+    line-height: 1.65;
+  }
+
+  .text-public-body {
+    font-size: clamp(var(--text-body), 1.02rem + 0.2vw, var(--text-body-lg));
+    line-height: 1.7;
+  }
+
+  .text-public-lead {
+    font-size: clamp(var(--text-body), 0.98rem + 0.35vw, var(--text-lead));
+    line-height: 1.7;
+  }
+
+  .text-section-title {
+    font-size: clamp(2.25rem, 1.7rem + 2.25vw, 3.5rem);
+    line-height: 1.06;
+  }
+
+  .text-section-description {
+    max-width: 48rem;
+    font-size: clamp(var(--text-body), 1rem + 0.25vw, var(--text-lead));
+    line-height: 1.65;
+  }
+
+  .text-content-heading {
+    font-size: clamp(2rem, 1.7rem + 1.1vw, 2.75rem);
+    line-height: 1.12;
+  }
+
+  .text-content-subheading {
+    font-size: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
+    line-height: 1.2;
+  }
+
+  .text-page-title {
+    font-size: clamp(2.5rem, 1.9rem + 2.4vw, 4rem);
+    line-height: 1.08;
+  }
+
+  .text-hero-name {
+    font-size: clamp(3rem, 2.2rem + 3.25vw, 5.25rem);
+    line-height: 0.98;
+  }
+
+  .text-hero-title {
+    font-size: clamp(1.5rem, 1.2rem + 1.25vw, 2.5rem);
+    line-height: 1.14;
+  }
+
+  .text-hero-capability {
+    font-size: clamp(var(--text-body-sm), 0.93rem + 0.32vw, var(--text-lead));
+    line-height: 1.55;
+  }
+
+  .text-hero-summary {
+    font-size: clamp(var(--text-body), 0.99rem + 0.32vw, var(--text-lead));
+    line-height: 1.7;
+  }
+
+  .text-callout-label {
+    font-size: clamp(var(--text-caption), 0.85rem + 0.08vw, 0.9375rem);
+    line-height: 1.4;
+  }
+
+  .text-callout-body {
+    font-size: clamp(var(--text-body-sm), 0.97rem + 0.1vw, var(--text-body));
+    line-height: 1.6;
+  }
+
+  .text-card-title {
+    font-size: clamp(1.4375rem, 1.25rem + 0.65vw, 1.875rem);
+    line-height: 1.18;
+  }
+
+  .text-card-body {
+    font-size: clamp(var(--text-body-sm), 0.96rem + 0.2vw, 1.125rem);
+    line-height: 1.62;
+  }
+
+  .text-chip {
+    font-size: clamp(var(--text-caption), 0.84rem + 0.08vw, 0.9375rem);
+    line-height: 1.4;
+  }
+
+  .text-button {
+    font-size: clamp(0.96875rem, 0.93rem + 0.12vw, var(--text-body));
+    line-height: 1.4;
+  }
+
+  .text-article-body {
+    max-width: 48.75rem;
+    font-size: clamp(var(--text-body), 1.02rem + 0.2vw, var(--text-body-lg));
+    line-height: 1.78;
   }
 }
 

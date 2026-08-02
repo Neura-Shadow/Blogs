@@ -19,16 +19,16 @@
     <div class="max-w-5xl mx-auto px-4">
       <NuxtLink
         to="/blog"
-        class="inline-flex items-center gap-1 text-xs font-semibold text-neutral-500 hover:text-brand-accent transition-colors mb-8"
+        class="text-button mb-8 inline-flex min-h-10 items-center gap-1 font-semibold text-neutral-500 transition-colors hover:text-brand-accent"
       >
         <ArrowLeft class="w-3.5 h-3.5" />
         <span>{{ t('blog.backToArticles') }}</span>
       </NuxtLink>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-        <article class="lg:col-span-8 text-left">
+        <article class="text-left lg:col-span-9">
           <header class="mb-8 pb-6 border-b border-light-border dark:border-dark-border">
-            <div class="flex items-center gap-2.5 text-xs text-neutral-400 dark:text-neutral-500 mb-3 font-mono">
+            <div class="text-public-caption mb-3 flex flex-wrap items-center gap-2.5 font-mono text-neutral-500 dark:text-neutral-400">
               <time>{{ formatDate(postDate) }}</time>
               <span>/</span>
               <span class="text-brand-accent font-semibold">{{ category }}</span>
@@ -36,11 +36,11 @@
               <span>{{ readingTime }} {{ t('blog.readTime') }}</span>
             </div>
 
-            <h1 class="text-3xl sm:text-4xl font-display font-extrabold tracking-tight text-[#1F1E1B] dark:text-white leading-tight">
+            <h1 class="text-page-title font-display font-extrabold tracking-tight text-[#1F1E1B] dark:text-white">
               {{ title }}
             </h1>
 
-            <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-4 leading-relaxed italic">
+            <p class="text-public-lead mt-4 italic text-neutral-500 dark:text-neutral-400">
               {{ excerpt }}
             </p>
 
@@ -55,7 +55,7 @@
             </div>
           </header>
 
-          <div class="prose prose-neutral dark:prose-invert max-w-none prose-sm sm:prose-base leading-relaxed" v-html="contentHtml"></div>
+          <div data-testid="article-body" class="article-prose prose prose-neutral max-w-none dark:prose-invert" v-html="contentHtml"></div>
         </article>
       </div>
     </div>
@@ -63,11 +63,11 @@
 
   <div v-else class="py-24 text-center bg-light-bg dark:bg-dark-bg transition-colors duration-300">
     <BookOpen class="w-16 h-16 text-neutral-300 dark:text-neutral-800 mx-auto mb-4" />
-    <h1 class="text-xl font-bold text-neutral-800 dark:text-neutral-200">{{ t('blog.notFound') }}</h1>
-    <p class="text-sm text-neutral-500 mt-1 mb-8">{{ t('blog.notFoundDesc') }}</p>
+    <h1 class="text-content-heading font-bold text-neutral-800 dark:text-neutral-200">{{ t('blog.notFound') }}</h1>
+    <p class="text-public-body mb-8 mt-2 text-neutral-500">{{ t('blog.notFoundDesc') }}</p>
     <NuxtLink
       to="/blog"
-      class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-brand-accent hover:bg-brand-accentHover"
+      class="text-button inline-flex min-h-11 items-center rounded-lg bg-brand-accent px-5 py-2.5 font-semibold text-white hover:bg-brand-accentHover"
     >
       {{ t('blog.backToArticles') }}
     </NuxtLink>
@@ -149,50 +149,72 @@ const formatDate = (dateStr: string) => {
 </script>
 
 <style>
-.prose h1 {
-  @apply text-2xl font-bold text-[#1F1E1B] dark:text-white mt-8 mb-4 font-display bg-transparent;
+.article-prose {
+  max-width: 48.75rem;
+  font-size: clamp(var(--text-body), 1.02rem + 0.2vw, var(--text-body-lg));
+  line-height: 1.78;
 }
-.prose h2 {
-  @apply text-xl font-bold text-[#1F1E1B] dark:text-white mt-8 mb-4 font-display;
+.article-prose h1 {
+  @apply mt-10 mb-5 bg-transparent font-display font-bold text-[#1F1E1B] dark:text-white;
+  font-size: clamp(2.5rem, 1.9rem + 2.4vw, 4rem);
+  line-height: 1.08;
 }
-.prose h3 {
-  @apply text-lg font-bold text-[#1F1E1B] dark:text-white mt-6 mb-3 font-display;
+.article-prose h2 {
+  @apply mt-10 mb-5 font-display font-bold text-[#1F1E1B] dark:text-white;
+  font-size: clamp(1.875rem, 1.5rem + 1.3vw, 2.625rem);
+  line-height: 1.14;
 }
-.prose p {
-  @apply text-sm sm:text-base text-neutral-600 dark:text-neutral-400 mb-4 leading-relaxed;
+.article-prose h3 {
+  @apply mt-8 mb-4 font-display font-bold text-[#1F1E1B] dark:text-white;
+  font-size: clamp(1.4375rem, 1.2rem + 0.8vw, 1.875rem);
+  line-height: 1.2;
 }
-.prose code {
-  @apply font-mono text-xs px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-brand-accent;
+.article-prose p {
+  @apply mb-5 text-neutral-600 dark:text-neutral-400;
+  font-size: inherit;
+  line-height: inherit;
 }
-.prose pre {
+.article-prose code {
+  @apply rounded border border-neutral-200 bg-neutral-100 px-1.5 py-0.5 font-mono text-brand-accent dark:border-neutral-700 dark:bg-neutral-800;
+  font-size: clamp(0.875rem, 0.84rem + 0.1vw, 1rem);
+  line-height: 1.55;
+}
+.article-prose pre {
   @apply my-6 overflow-x-auto rounded-lg border border-light-border dark:border-dark-border bg-neutral-950 p-4 text-left shadow-sm;
 }
-.prose pre code {
-  @apply border-0 bg-transparent p-0 text-xs text-neutral-100;
+.article-prose pre code {
+  @apply border-0 bg-transparent p-0 text-neutral-100;
+  font-size: clamp(0.875rem, 0.85rem + 0.06vw, 0.9375rem);
 }
-.prose blockquote {
-  @apply my-6 border-l-4 border-brand-accent/60 bg-brand-accent/5 px-4 py-3 text-neutral-700 dark:text-neutral-300 rounded-r-lg;
+.article-prose blockquote {
+  @apply my-7 rounded-xl border border-brand-accent/25 bg-brand-accent/5 px-5 py-4 text-neutral-700 dark:text-neutral-300;
+  font-size: clamp(1.125rem, 1.05rem + 0.25vw, 1.3125rem);
+  line-height: 1.7;
 }
-.prose blockquote p {
+.article-prose blockquote p {
   @apply mb-0;
 }
-.prose ul {
-  @apply my-4 list-disc pl-5 text-sm sm:text-base text-neutral-600 dark:text-neutral-400 space-y-2;
+.article-prose ul {
+  @apply my-5 list-disc space-y-2 pl-6 text-neutral-600 dark:text-neutral-400;
+  font-size: inherit;
 }
-.prose ol {
-  @apply my-4 list-decimal pl-5 text-sm sm:text-base text-neutral-600 dark:text-neutral-400 space-y-2;
+.article-prose ol {
+  @apply my-5 list-decimal space-y-2 pl-6 text-neutral-600 dark:text-neutral-400;
+  font-size: inherit;
 }
-.prose li {
-  @apply leading-relaxed;
+.article-prose li {
+  line-height: inherit;
 }
-.prose a {
+.article-prose a {
   @apply font-semibold text-brand-accent hover:text-brand-accentHover underline underline-offset-4;
 }
 .article-table-wrap {
   @apply my-6 overflow-x-auto rounded-lg border border-light-border dark:border-dark-border;
 }
 .article-table-wrap table {
-  @apply min-w-full border-collapse text-left text-sm;
+  @apply min-w-full border-collapse text-left;
+  font-size: clamp(0.9375rem, 0.9rem + 0.12vw, 1.0625rem);
+  line-height: 1.6;
 }
 .article-table-wrap th {
   @apply bg-light-elevated dark:bg-neutral-900 px-4 py-3 font-semibold text-neutral-800 dark:text-neutral-100 border-b border-light-border dark:border-dark-border;

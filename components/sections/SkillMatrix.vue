@@ -19,10 +19,10 @@
               <component :is="getCategoryIcon(capability.icon)" class="h-5 w-5" aria-hidden="true" />
             </span>
             <div>
-              <h3 class="font-display text-[22px] font-bold leading-tight text-[#1F1E1B] dark:text-white sm:text-2xl">
+              <h3 class="text-card-title font-display font-bold text-[#1F1E1B] dark:text-white">
                 {{ t(capability.titleKey) }}
               </h3>
-              <p data-testid="core-capability-description" class="mt-2 text-[15px] leading-6 text-neutral-550 dark:text-neutral-400 sm:text-base">
+              <p data-testid="core-capability-description" class="text-card-body mt-2 text-neutral-550 dark:text-neutral-400">
                 {{ t(capability.descriptionKey) }}
               </p>
             </div>
@@ -32,7 +32,7 @@
             <li
               v-for="skill in capability.skills"
               :key="skill"
-              class="rounded-md border border-light-border bg-light-elevated/70 px-2.5 py-1.5 text-[13px] font-medium leading-5 text-neutral-650 dark:border-dark-border dark:bg-dark-elevated/65 dark:text-neutral-300 sm:text-sm"
+              class="text-chip rounded-md border border-light-border bg-light-elevated/70 px-3 py-2 font-semibold text-neutral-650 dark:border-dark-border dark:bg-dark-elevated/65 dark:text-neutral-300"
             >
               {{ skill }}
             </li>
@@ -42,7 +42,7 @@
 
       <NuxtLink
         :to="detailedStackHref"
-        class="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-brand-accent transition-colors hover:text-brand-accentHover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-accent"
+        class="text-button mt-7 inline-flex min-h-10 items-center gap-2 font-semibold text-brand-accent transition-colors hover:text-brand-accentHover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-accent"
       >
         {{ t('skills.viewDetailed') }}
         <ArrowRight class="h-4 w-4" aria-hidden="true" />

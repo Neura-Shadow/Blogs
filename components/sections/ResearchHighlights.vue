@@ -35,11 +35,11 @@
               ? 'border-brand-accent/25 hover:border-brand-accent/45 dark:border-brand-accent/20'
               : 'border-amber-300/70 hover:border-amber-400 dark:border-amber-800/55'"
           >
-            <p class="mb-3 text-xs font-bold uppercase tracking-[0.14em]" :class="item.kind === 'applied-rd' ? 'text-brand-accent' : 'text-amber-700 dark:text-amber-300'">
+            <p class="text-public-micro mb-3 font-bold uppercase tracking-[0.14em]" :class="item.kind === 'applied-rd' ? 'text-brand-accent' : 'text-amber-700 dark:text-amber-300'">
               {{ t(item.kind === 'applied-rd' ? 'research.appliedLabel' : 'research.independentLabel') }}
             </p>
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <h3 class="text-lg font-bold text-[#1F1E1B] dark:text-white leading-tight font-display">
+              <h3 class="text-card-title font-display font-bold text-[#1F1E1B] dark:text-white">
                 {{ item.title[locale] }}
               </h3>
 
@@ -49,20 +49,20 @@
                 :href="item.link"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-accent hover:text-brand-accentHover self-start"
+                class="text-public-caption inline-flex min-h-10 items-center gap-1.5 self-start font-semibold text-brand-accent hover:text-brand-accentHover"
               >
                 <span>Read paper</span>
                 <ArrowUpRight class="w-3.5 h-3.5" />
               </a>
               <span
                 v-else-if="item.status"
-                class="self-start rounded-md border border-light-border bg-light-elevated px-2.5 py-1 text-xs font-semibold text-neutral-500 dark:border-dark-border dark:bg-dark-elevated dark:text-neutral-400"
+                class="text-public-caption self-start rounded-md border border-light-border bg-light-elevated px-3 py-1.5 font-semibold text-neutral-500 dark:border-dark-border dark:bg-dark-elevated dark:text-neutral-400"
               >
                 {{ item.status[locale] }}
               </span>
             </div>
 
-            <p class="mt-3 text-sm text-neutral-550 dark:text-neutral-400 leading-relaxed">
+            <p class="text-card-body mt-3 text-neutral-550 dark:text-neutral-400">
               {{ item.description[locale] }}
             </p>
 

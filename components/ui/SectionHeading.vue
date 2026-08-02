@@ -2,19 +2,19 @@
   <div class="mb-10 text-left" :class="alignClass">
     <div
       v-if="eyebrow"
-      class="inline-flex items-center gap-2 px-3 py-1 mb-3 rounded-full text-xs font-semibold tracking-wide uppercase bg-brand-accent/5 border border-brand-accent/20 text-brand-accent"
+      class="text-public-micro mb-3 inline-flex items-center gap-2 rounded-full border border-brand-accent/20 bg-brand-accent/5 px-3 py-1.5 font-semibold uppercase tracking-wide text-brand-accent"
     >
       <slot name="icon" />
       <span>{{ displayEyebrow }}</span>
     </div>
 
-    <h2 class="text-3xl sm:text-4xl font-display font-bold tracking-tight text-[#1F1E1B] dark:text-white">
+    <h2 class="text-section-title font-display font-bold tracking-tight text-[#1F1E1B] dark:text-white">
       <slot>{{ displayTitle }}</slot>
     </h2>
 
     <p
       v-if="description"
-      class="mt-4 text-base sm:text-lg text-neutral-500 dark:text-neutral-400 max-w-2xl"
+      class="text-section-description mt-4 text-neutral-500 dark:text-neutral-400"
       :class="{ 'mx-auto': align === 'center' }"
     >
       {{ displayDescription }}

@@ -28,8 +28,8 @@
               <Mail class="w-4 h-4" />
             </div>
             <div class="text-left">
-              <span class="block text-[10px] text-neutral-450 uppercase tracking-wider font-mono">{{ t('contact.emailMe') }}</span>
-              <span class="text-xs font-semibold text-neutral-700 dark:text-neutral-300 font-mono mt-0.5 block break-all">{{ profile.email }}</span>
+              <span class="text-public-micro block font-mono uppercase tracking-wider text-neutral-500">{{ t('contact.emailMe') }}</span>
+              <span class="text-public-body-sm mt-1 block break-all font-mono font-semibold text-neutral-700 dark:text-neutral-300">{{ profile.email }}</span>
             </div>
           </a>
 
@@ -44,8 +44,8 @@
               <Linkedin class="w-4 h-4" />
             </div>
             <div class="text-left">
-              <span class="block text-[10px] text-neutral-450 uppercase tracking-wider font-mono">{{ t('contact.linkedin') }}</span>
-              <span class="text-xs font-semibold text-neutral-700 dark:text-neutral-300 mt-0.5 block break-all">tsung-hsin-lu</span>
+              <span class="text-public-micro block font-mono uppercase tracking-wider text-neutral-500">{{ t('contact.linkedin') }}</span>
+              <span class="text-public-body-sm mt-1 block break-all font-semibold text-neutral-700 dark:text-neutral-300">tsung-hsin-lu</span>
             </div>
           </a>
 
@@ -60,8 +60,8 @@
               <Github class="w-4 h-4" />
             </div>
             <div class="text-left">
-              <span class="block text-[10px] text-neutral-450 uppercase tracking-wider font-mono">{{ t('contact.github') }}</span>
-              <span class="text-xs font-semibold text-neutral-700 dark:text-neutral-300 font-mono mt-0.5 block break-all">Neura-Shadow</span>
+              <span class="text-public-micro block font-mono uppercase tracking-wider text-neutral-500">{{ t('contact.github') }}</span>
+              <span class="text-public-body-sm mt-1 block break-all font-mono font-semibold text-neutral-700 dark:text-neutral-300">Neura-Shadow</span>
             </div>
           </a>
 
@@ -69,38 +69,38 @@
 
         <!-- Right: Message Form -->
         <div class="md:col-span-7 p-6 rounded-xl border border-light-border dark:border-dark-border bg-white dark:bg-dark-surface/10">
-          <h3 class="text-base font-bold text-neutral-850 dark:text-neutral-100 mb-4 text-left font-display">{{ t('contact.sendMessage') }}</h3>
+          <h3 class="text-content-subheading mb-4 text-left font-display font-bold text-neutral-850 dark:text-neutral-100">{{ t('contact.sendMessage') }}</h3>
 
           <form @submit.prevent="handleSubmit" class="space-y-4 text-left">
             <div>
-              <label class="block text-[10px] font-bold text-neutral-400 uppercase tracking-wider mb-1.5 font-mono">{{ t('contact.name') }}</label>
+              <label class="text-public-micro mb-1.5 block font-mono font-bold uppercase tracking-wider text-neutral-500">{{ t('contact.name') }}</label>
               <input
                 v-model="form.name"
                 type="text"
                 required
-                class="w-full px-3.5 py-2.5 rounded-lg border border-light-border dark:border-dark-border bg-light-bg/50 dark:bg-dark-surface/40 text-xs text-neutral-850 dark:text-neutral-100 outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-colors"
+                class="text-public-body-sm min-h-11 w-full rounded-lg border border-light-border bg-light-bg/50 px-3.5 py-2.5 text-neutral-850 outline-none transition-colors focus:border-brand-accent focus:ring-1 focus:ring-brand-accent dark:border-dark-border dark:bg-dark-surface/40 dark:text-neutral-100"
                 :placeholder="t('contact.namePlaceholder')"
               />
             </div>
 
             <div>
-              <label class="block text-[10px] font-bold text-neutral-400 uppercase tracking-wider mb-1.5 font-mono">{{ t('contact.email') }}</label>
+              <label class="text-public-micro mb-1.5 block font-mono font-bold uppercase tracking-wider text-neutral-500">{{ t('contact.email') }}</label>
               <input
                 v-model="form.email"
                 type="email"
                 required
-                class="w-full px-3.5 py-2.5 rounded-lg border border-light-border dark:border-dark-border bg-light-bg/50 dark:bg-dark-surface/40 text-xs text-neutral-850 dark:text-neutral-100 outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-colors"
+                class="text-public-body-sm min-h-11 w-full rounded-lg border border-light-border bg-light-bg/50 px-3.5 py-2.5 text-neutral-850 outline-none transition-colors focus:border-brand-accent focus:ring-1 focus:ring-brand-accent dark:border-dark-border dark:bg-dark-surface/40 dark:text-neutral-100"
                 :placeholder="t('contact.emailPlaceholder')"
               />
             </div>
 
             <div>
-              <label class="block text-[10px] font-bold text-neutral-400 uppercase tracking-wider mb-1.5 font-mono">{{ t('contact.message') }}</label>
+              <label class="text-public-micro mb-1.5 block font-mono font-bold uppercase tracking-wider text-neutral-500">{{ t('contact.message') }}</label>
               <textarea
                 v-model="form.message"
                 required
                 rows="4"
-                class="w-full px-3.5 py-2.5 rounded-lg border border-light-border dark:border-dark-border bg-light-bg/50 dark:bg-dark-surface/40 text-xs text-neutral-850 dark:text-neutral-100 outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-colors resize-none"
+                class="text-public-body-sm w-full resize-none rounded-lg border border-light-border bg-light-bg/50 px-3.5 py-2.5 text-neutral-850 outline-none transition-colors focus:border-brand-accent focus:ring-1 focus:ring-brand-accent dark:border-dark-border dark:bg-dark-surface/40 dark:text-neutral-100"
                 :placeholder="t('contact.messagePlaceholder')"
               />
             </div>
@@ -108,11 +108,11 @@
             <button
               type="submit"
               disabled="true"
-              class="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg text-xs font-semibold text-white bg-brand-accent hover:bg-brand-accentHover transition-colors cursor-not-allowed opacity-60"
+              class="text-button inline-flex min-h-11 w-full cursor-not-allowed items-center justify-center gap-2 rounded-lg bg-brand-accent px-5 py-3 font-semibold text-white opacity-60 transition-colors hover:bg-brand-accentHover"
             >
               <span>{{ t('contact.submitBtn') }}</span>
             </button>
-            <p class="text-[10px] text-neutral-400 dark:text-neutral-500 mt-2 text-center leading-normal">
+            <p class="text-public-micro mt-2 text-center text-neutral-500 dark:text-neutral-400">
               {{ t('contact.offlineAlert') }}
             </p>
           </form>

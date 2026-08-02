@@ -96,6 +96,21 @@ def grid_columns(locator) -> int:
     return len(value.split())
 
 
+def computed_font_size(locator) -> float:
+    return locator.first.evaluate("element => parseFloat(getComputedStyle(element).fontSize)")
+
+
+def assert_min_font_size(locator, minimum: float, label: str) -> None:
+    expect(locator.first).to_be_visible()
+    actual = computed_font_size(locator)
+    assert actual >= minimum, f"{label} is too small: {actual}px < {minimum}px"
+
+
+def assert_no_horizontal_overflow(page: Page, label: str) -> None:
+    overflow = page.evaluate("document.documentElement.scrollWidth > document.documentElement.clientWidth")
+    assert not overflow, f"{label} has horizontal overflow"
+
+
 def assert_hero_content(page: Page, locale: str) -> None:
     copy = HERO[locale]
     expect(page.get_by_role("heading", name=copy["title"], exact=True)).to_be_visible()
@@ -135,6 +150,9 @@ def assert_core_capabilities(page: Page, locale: str, expected_columns: int) -> 
     expect(cards).to_have_count(4)
     assert grid_columns(grid) == expected_columns, f"Core Capabilities must render {expected_columns} columns"
     expect(section.locator('[data-testid="core-capability-description"]')).to_have_count(4)
+    assert_min_font_size(cards.locator("h3"), 23, "Core Capability title")
+    assert_min_font_size(section.locator('[data-testid="core-capability-description"]'), 16, "Core Capability description")
+    assert_min_font_size(cards.locator("li"), 13.5, "Core Capability chip")
     for title, description, chips in CORE_CAPABILITIES[locale]:
         expect(section.get_by_role("heading", name=title, exact=True)).to_be_visible()
         expect(section.get_by_text(description, exact=True)).to_be_visible()
@@ -145,7 +163,7 @@ def assert_core_capabilities(page: Page, locale: str, expected_columns: int) -> 
     clipping = cards.evaluate_all("elements => elements.map(element => ({ horizontal: element.scrollWidth > element.clientWidth, vertical: element.scrollHeight > element.clientHeight }))")
     assert not any(state["horizontal"] or state["vertical"] for state in clipping), f"Core capability text is clipped: {clipping}"
     boxes = cards.evaluate_all("elements => elements.map(element => { const box = element.getBoundingClientRect(); return { top: box.top, bottom: box.bottom, height: box.height }; })")
-    assert all(box["height"] <= 360 for box in boxes), f"Core capability card exceeds 360px: {boxes}"
+    assert all(box["height"] <= 380 for box in boxes), f"Core capability card exceeds 380px: {boxes}"
     if expected_columns == 2:
         assert all(boxes[index]["bottom"] <= boxes[index + 2]["top"] for index in range(2)), f"Core capability rows overlap: {boxes}"
     else:
@@ -174,8 +192,14 @@ def main() -> None:
 
         assert_hero_content(desktop, "en")
         assert_hero_visual_does_not_overlap(desktop)
+        assert_min_font_size(desktop.locator('[data-testid="hero-summary"]'), 17, "Desktop Hero summary")
+        assert_min_font_size(desktop.locator('[data-testid="hero-callout-text"]'), 16, "Desktop Hero callout body")
+        assert_min_font_size(desktop.get_by_role("link", name="View Projects", exact=True), 15, "Desktop Hero CTA")
+        assert_min_font_size(desktop.locator("header nav a"), 16, "Desktop navigation")
+        assert_min_font_size(desktop.get_by_role("button", name="Toggle Language", exact=True), 15, "Locale control")
+        assert_min_font_size(desktop.locator("footer a"), 15, "Footer primary link")
         callout_lines = desktop.locator('[data-testid="hero-callout-text"]').evaluate_all("elements => elements.map(element => Math.round(element.getBoundingClientRect().height / parseFloat(getComputedStyle(element).lineHeight)))")
-        assert all(lines <= 3 for lines in callout_lines), f"Desktop Hero callout exceeds three lines: {callout_lines}"
+        assert all(lines <= 4 for lines in callout_lines), f"Desktop Hero callout exceeds four lines after the readability increase: {callout_lines}"
         hero_copy_height, hero_visual_height = desktop.locator('[data-testid="hero-copy"], [data-testid="hero-visual"]').evaluate_all("elements => elements.map(element => element.getBoundingClientRect().height)")
         assert hero_copy_height <= hero_visual_height + 24, f"Hero copy is materially taller than the Three.js visual: copy={hero_copy_height}, visual={hero_visual_height}"
         assert desktop.get_by_role("link", name="View Projects", exact=True).bounding_box()["y"] < 1000, "Hero CTA is below the desktop fold"
@@ -190,6 +214,7 @@ def main() -> None:
         expect(desktop.get_by_text("Dashboard", exact=True)).to_be_visible()
         expect(desktop.get_by_role("link", name="View Projects", exact=True)).to_be_visible()
         assert desktop.locator("html").get_attribute("lang") == "en"
+        assert_no_horizontal_overflow(desktop, "Desktop Home")
 
         assert_core_capabilities(desktop, "en", 2)
 
@@ -224,6 +249,9 @@ def main() -> None:
         expect(desktop.get_by_text("10", exact=True)).to_be_visible()
         expect(desktop.get_by_role("heading", name="Performance profiling capability", exact=True)).to_be_visible()
         expect(desktop.get_by_text("No benchmark values are claimed without measured evidence.", exact=True)).to_be_visible()
+        assert_min_font_size(desktop.locator('[data-testid="about-intro-body"] p'), 17, "About body")
+        assert_min_font_size(desktop.locator("table tbody td"), 15.5, "ROS 2 table body")
+        assert_no_horizontal_overflow(desktop, "Desktop About")
         about_order = desktop.locator("[data-about-section]").evaluate_all("elements => elements.map(element => element.dataset.aboutSection)")
         assert about_order == ["positioning", "nstc", "independent-research", "architecture", "capabilities", "profiling"], f"Unexpected About section order: {about_order}"
         assert_no_raw_keys(desktop)
@@ -248,7 +276,17 @@ def main() -> None:
         expect(desktop.get_by_role("heading", name="Diffusion Transformer Video Anomaly Detection", exact=True)).to_be_visible()
         expect(desktop.get_by_role("heading", name="Real-time Face Recognition Prototype", exact=True)).to_be_visible()
         expect(desktop.get_by_role("heading", name="Jetson Edge AI Vision & ROS 2 System", exact=True)).to_have_count(0)
+        assert_min_font_size(desktop.locator('[data-testid="project-card-title"]'), 23, "Project card title")
+        assert_min_font_size(desktop.locator('[data-testid="project-card-description"]'), 16, "Project card description")
+        assert_no_horizontal_overflow(desktop, "Desktop Projects")
         assert_no_raw_keys(desktop)
+
+        desktop.goto(f"{BASE_URL}/projects/scalable-railway-ticketing-platform", wait_until="domcontentloaded")
+        assert_min_font_size(desktop.locator('[data-testid="project-detail-body"]'), 17, "Project detail body")
+        assert_no_horizontal_overflow(desktop, "Desktop Project detail")
+        desktop.goto(f"{BASE_URL}/blog/designing-scalable-microservices-with-event-driven-architecture", wait_until="domcontentloaded")
+        assert_min_font_size(desktop.locator('[data-testid="article-body"] p'), 17, "Article body")
+        assert_no_horizontal_overflow(desktop, "Desktop Blog article")
 
         compact_desktop_context = browser.new_context(viewport={"width": 1100, "height": 1000})
         compact_desktop = compact_desktop_context.new_page()
@@ -266,6 +304,7 @@ def main() -> None:
         assert_hero_content(tablet, "en")
         assert_hero_visual_does_not_overlap(tablet)
         assert_core_capabilities(tablet, "en", 2)
+        assert_no_horizontal_overflow(tablet, "Tablet Home")
         tablet_context.close()
 
         mobile_context = browser.new_context(viewport={"width": 390, "height": 844})
@@ -274,6 +313,8 @@ def main() -> None:
         mobile.goto(BASE_URL, wait_until="domcontentloaded")
         assert_hero_content(mobile, "en")
         assert_hero_visual_does_not_overlap(mobile)
+        assert_min_font_size(mobile.locator('[data-testid="hero-summary"]'), 17, "Mobile Hero summary")
+        assert_min_font_size(mobile.locator('[data-testid="hero-callout-text"]'), 16, "Mobile Hero callout body")
         assert_core_capabilities(mobile, "en", 1)
         project_cta = mobile.get_by_role("link", name="View Projects", exact=True)
         resume_cta = mobile.get_by_role("link", name="Download Resume", exact=True)
@@ -286,9 +327,42 @@ def main() -> None:
         with mobile.expect_download() as download_info:
             resume_cta.click()
         assert download_info.value.suggested_filename, "Resume CTA did not initiate a download"
-        assert not mobile.evaluate("document.documentElement.scrollWidth > document.documentElement.clientWidth"), "Home has horizontal overflow at 390px"
+        assert_no_horizontal_overflow(mobile, "Mobile Home")
         assert_no_raw_keys(mobile)
+
+        mobile.goto(f"{BASE_URL}/about", wait_until="domcontentloaded")
+        assert_min_font_size(mobile.locator('[data-testid="about-intro-body"] p'), 17, "Mobile About body")
+        assert_no_horizontal_overflow(mobile, "Mobile About")
+        mobile.goto(f"{BASE_URL}/projects", wait_until="domcontentloaded")
+        assert_min_font_size(mobile.locator('[data-testid="project-card-description"]'), 16, "Mobile project card description")
+        assert_no_horizontal_overflow(mobile, "Mobile Projects")
+        mobile.goto(f"{BASE_URL}/projects/scalable-railway-ticketing-platform", wait_until="domcontentloaded")
+        assert_min_font_size(mobile.locator('[data-testid="project-detail-body"]'), 17, "Mobile project detail body")
+        assert_no_horizontal_overflow(mobile, "Mobile Project detail")
+        mobile.goto(f"{BASE_URL}/blog/designing-scalable-microservices-with-event-driven-architecture", wait_until="domcontentloaded")
+        assert_min_font_size(mobile.locator('[data-testid="article-body"] p'), 17, "Mobile article body")
+        assert_no_horizontal_overflow(mobile, "Mobile Blog article")
         mobile_context.close()
+
+        zoom_context = browser.new_context(viewport={"width": 1440, "height": 1000})
+        zoom = zoom_context.new_page()
+        monitor(zoom, errors)
+        zoom.goto(BASE_URL, wait_until="domcontentloaded")
+        zoom.evaluate(
+            """
+            () => {
+              const elements = [...document.querySelectorAll('body, body *')];
+              const sizes = elements.map((element) => [element, parseFloat(getComputedStyle(element).fontSize)]);
+              for (const [element, size] of sizes) {
+                if (Number.isFinite(size) && size > 0) element.style.fontSize = `${size * 2}px`;
+              }
+            }
+            """
+        )
+        expect(zoom.get_by_role("link", name="View Projects", exact=True)).to_be_visible()
+        expect(zoom.get_by_role("heading", name="Core Capabilities", exact=True)).to_be_visible()
+        assert_no_horizontal_overflow(zoom, "Home at 200% text zoom")
+        zoom_context.close()
 
         reduced_context = browser.new_context(viewport={"width": 1280, "height": 900}, reduced_motion="reduce")
         reduced = reduced_context.new_page()
@@ -374,9 +448,9 @@ def main() -> None:
         raise AssertionError("\n".join(failures))
 
     print(
-        "Edge portfolio browser verification passed: concise desktop/tablet/mobile Hero and four-card Core Capabilities, live Three.js, "
+        "Edge portfolio browser verification passed: readable desktop/tablet/mobile typography, concise Hero and four-card Core Capabilities, live Three.js, "
         "reduced-motion, no-WebGL, and renderer-failure fallbacks, EN/ZH scene labels and capabilities, separated NSTC/IEEE research, About architecture/detailed capabilities/ROS 2/QoS/profiling, "
-        "Edge AI filtering, project and resume CTAs, no raw keys, clipping, overflow, console/page/request/HTTP errors, "
+        "Edge AI filtering, project and resume CTAs, About/project/article font-size floors, 200% text zoom, no raw keys, clipping, overflow, console/page/request/HTTP errors, "
         f"and clean Hero screenshot at {SCREENSHOT}."
     )
 

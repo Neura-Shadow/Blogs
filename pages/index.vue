@@ -18,23 +18,23 @@
     <!-- Unified Contact Call to Action (CTA) Section -->
     <section class="py-16 md:py-24 bg-light-elevated dark:bg-dark-surface/10 border-t border-light-border dark:border-dark-border text-center select-none">
       <div class="max-w-4xl mx-auto px-4">
-        <h2 class="text-3xl font-display font-bold text-[#1F1E1B] dark:text-white">
+        <h2 class="text-section-title font-display font-bold text-[#1F1E1B] dark:text-white">
           {{ t('contact.title') }}
         </h2>
-        <p class="mt-4 text-sm sm:text-base text-neutral-500 dark:text-neutral-400 max-w-xl mx-auto leading-relaxed">
+        <p class="text-section-description mx-auto mt-4 text-neutral-500 dark:text-neutral-400">
           {{ t('about.collaborations') }} — {{ t('about.collabDesc') }}
         </p>
         <div class="mt-8 flex justify-center gap-4">
           <NuxtLink
             to="/contact"
-            class="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold text-white bg-brand-accent hover:bg-brand-accentHover transition-colors shadow-md shadow-brand-accent/15"
+            class="text-button inline-flex min-h-11 items-center gap-2 rounded-lg bg-brand-accent px-6 py-3 font-semibold text-white shadow-md shadow-brand-accent/15 transition-colors hover:bg-brand-accentHover"
           >
             <Mail class="w-4 h-4" />
             <span>{{ t('contact.sendMessage') }}</span>
           </NuxtLink>
           <NuxtLink
             to="/about"
-            class="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold text-neutral-700 dark:text-neutral-200 border border-light-border dark:border-dark-border bg-white dark:bg-dark-surface hover:bg-light-elevated dark:hover:bg-dark-elevated transition-colors"
+            class="text-button inline-flex min-h-11 items-center gap-2 rounded-lg border border-light-border bg-white px-6 py-3 font-semibold text-neutral-700 transition-colors hover:bg-light-elevated dark:border-dark-border dark:bg-dark-surface dark:text-neutral-200 dark:hover:bg-dark-elevated"
           >
             <span>{{ t('about.navContact') }}</span>
           </NuxtLink>

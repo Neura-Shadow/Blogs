@@ -3,7 +3,7 @@
     ref="hostRef"
     data-testid="three-hero-scene"
     :data-pointer-active="pointerActive ? 'true' : 'false'"
-    class="relative h-[390px] w-full max-w-[500px] overflow-hidden rounded-2xl border border-light-border bg-[#F6F1E8]/90 shadow-[0_28px_90px_rgba(31,30,27,0.10)] dark:border-dark-border dark:bg-dark-surface/55 sm:h-[480px] lg:h-[590px]"
+    class="relative h-[390px] w-full max-w-[500px] overflow-hidden rounded-2xl border border-light-border bg-[#F6F1E8]/90 shadow-[0_28px_90px_rgba(31,30,27,0.10)] dark:border-dark-border dark:bg-dark-surface/55 sm:h-[480px] lg:h-[500px] xl:h-[660px]"
     @pointermove="handlePointerMove"
     @pointerleave="resetPointer"
   >

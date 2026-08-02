@@ -11,21 +11,21 @@
       <!-- Heading Row -->
       <div class="flex items-end justify-between mb-12">
         <div class="text-left">
-          <div class="inline-flex items-center gap-1.5 px-3 py-1 mb-3 rounded-full text-xs font-semibold bg-brand-accent/10 border border-brand-accent/20 text-brand-accent">
+          <div class="text-public-micro mb-3 inline-flex items-center gap-1.5 rounded-full border border-brand-accent/20 bg-brand-accent/10 px-3 py-1.5 font-semibold text-brand-accent">
             <Star class="w-3.5 h-3.5 fill-brand-accent" />
             <span>Showcase</span>
           </div>
-          <h2 class="text-3xl sm:text-4xl font-display font-bold tracking-tight text-[#1F1E1B] dark:text-white">
+          <h2 class="text-section-title font-display font-bold tracking-tight text-[#1F1E1B] dark:text-white">
             {{ t('projects.title') }}
           </h2>
-          <p class="mt-2 text-sm sm:text-base text-neutral-500 dark:text-neutral-400 max-w-xl">
+          <p class="text-section-description mt-3 text-neutral-500 dark:text-neutral-400">
             {{ t('projects.description') }}
           </p>
         </div>
 
         <NuxtLink
           to="/projects"
-          class="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-brand-accent hover:text-brand-accentHover transition-colors group"
+          class="text-button hidden min-h-10 items-center gap-1 font-semibold text-brand-accent transition-colors hover:text-brand-accentHover sm:inline-flex"
         >
           <span>{{ t('projects.viewAll') }}</span>
           <ArrowRight class="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -53,7 +53,7 @@
       <div class="mt-8 text-center sm:hidden">
         <NuxtLink
           to="/projects"
-          class="inline-flex items-center gap-1 text-sm font-semibold text-brand-accent"
+          class="text-button inline-flex min-h-10 items-center gap-1 font-semibold text-brand-accent"
         >
           <span>{{ t('projects.viewAll') }}</span>
           <ArrowRight class="w-4 h-4" />
